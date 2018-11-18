@@ -1,0 +1,108 @@
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 255px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: rgb(65,65,65);
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.sidebar.active {
+    width: 55px;
+    overflow:hidden;
+}
+
+
+.sidebar .sidebar-body .sidebar-logo  {
+  background-color: rgba(0,0,0,0.2);
+  border-bottom: 1.5px solid grey;
+  padding:  10px 0 0 5px;
+  align-items: center!important;
+  justify-content: center!important;
+  transition: all 0.3s;
+}
+.sidebar .sidebar-body .sidebar-logo:hover  {
+  background-color: none;
+}
+
+
+.sidebar .sidebar-body li  {
+  width: 100%;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 ;
+}
+
+.sidebar .sidebar-body .sidebar-item:hover{
+  background-color:rgba(0,0,0,0.2) !important;
+}
+.sidebar .sidebar-body .sidebar-item div {
+  background-color:transparent!important;
+  color: white!important;
+  padding: 0 15px;
+  border-bottom: none;
+  align-items: center;
+}
+
+.material-tooltip{
+  background-color: rgb(245,245,245);
+  box-shadow:  0 0 3px grey;
+  color: black;
+  border-radius: 3px;
+}
+
+.hide{
+  display: none;
+}
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: calc(100% - 255px);/*Normal*/
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#content.active {
+    width: calc(100% - 50px);
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .sidebar {
+        margin-left: -255px;
+    }
+    .sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        width: 100%;
+    }
+    #content.active {
+        width: calc(100% - 55px);
+    }
+    .sidebarCollapse span {
+        display: none;
+    }
+}
