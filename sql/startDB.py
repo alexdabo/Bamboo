@@ -52,7 +52,7 @@ def main(argv):
     host = 'localhost'
     port = '5432'
     user = 'postgres'
-    dbname = 'senagua'
+    dbname = 'bamboo'
     password = ''
     test = ''
     try:
