@@ -1,0 +1,16 @@
+
+# build files
+src/main/webapp/
+target/
+simbawater.iml
+
+
+
+# Editor directories and files
+.idea/
+.settings/
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
