@@ -3,34 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.test.unit;
+package com.bamboo.data;
 
-import com.bamboo.model.entity.AnotherService;
-import com.bamboo.model.method.AnotherServiceImpl;
+import com.bamboo.model.entity.independent.AnotherService;
+import com.bamboo.model.method.independent.AnotherServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 /**
  *
  * @author alexander
  */
-public class AnotherServiceTest {
+public final class AnotherServiceData {
 
     private final AnotherServiceImpl serviceImpl = new AnotherServiceImpl();
     private final AnotherService service = new AnotherService(1000, "Cambio de medidor", 20);
-
-    @Test
-    public void run() {
-        printTitle("Another Service Test");
-        assertTrue(save());
-        assertTrue(find());
-        assertTrue(findById());
-        assertTrue(update());
-        assertTrue(delete());
-        System.out.println("\n\n");
-    }
 
     public boolean save() {
         boolean saved = false;
@@ -45,13 +32,11 @@ public class AnotherServiceTest {
         return saved;
     }
 
-    public boolean find() {
-        boolean found = false;
+    public List<AnotherService> find() {
         List<AnotherService> list = new ArrayList<>();
         try {
             list = serviceImpl.find();
             if (list.size() > 0) {
-                found = true;
                 System.out.println("Found: ");
                 for (int i = 0; i < list.size(); i++) {
                     System.out.println("\t " + list.get(i));
@@ -59,21 +44,19 @@ public class AnotherServiceTest {
             }
         } catch (Exception e) {
         }
-        return found;
+        return list;
     }
 
-    public boolean findById() {
-        boolean found = false;
-        AnotherService service1;
+    public AnotherService findById() {
+        AnotherService service1 = null;
         try {
             service1 = serviceImpl.findById(service.getId());
             if (service1 != null) {
-                found = true;
                 System.out.println("By Id:   " + service1);
             }
         } catch (Exception e) {
         }
-        return found;
+        return service1;
     }
 
     public boolean update() {
@@ -105,10 +88,4 @@ public class AnotherServiceTest {
 
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m----------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>----------------------------\033[0m\n");
-
-    }
 }

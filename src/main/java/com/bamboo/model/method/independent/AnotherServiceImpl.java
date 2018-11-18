@@ -1,9 +1,9 @@
-package com.bamboo.model.method;
+package com.bamboo.model.method.independent;
 
 import com.bamboo.connection.DBConnection;
 import com.bamboo.connection.DBObject;
-import com.bamboo.model.contrat.AnotherServiceInterface;
-import com.bamboo.model.entity.AnotherService;
+import com.bamboo.model.contrat.independent.AnotherServiceInterface;
+import com.bamboo.model.entity.independent.AnotherService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
