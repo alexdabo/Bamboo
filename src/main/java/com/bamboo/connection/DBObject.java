@@ -7,28 +7,28 @@ package com.bamboo.connection;
 
 public class DBObject {
 
-    private int posicion;
-    private Object valor;
+    private int position;
+    private Object value;
 
-    public DBObject(int posicion, Object valor) {
-        this.posicion = posicion;
-        this.valor = valor;
+    public DBObject(int position, Object value) {
+        this.position = position;
+        this.value = value;
     }
 
     public Object getValor() {
-        return valor;
+        return value;
     }
 
-    public void setValor(Object valor) {
-        this.valor = valor;
+    public void setValor(Object value) {
+        this.value = value;
     }
 
     public int getPosicion() {
-        return posicion;
+        return position;
     }
 
-    public void setPosicion(int posicion) {
-        this.posicion = posicion;
+    public void setPosicion(int position) {
+        this.position = position;
     }
 
 }
