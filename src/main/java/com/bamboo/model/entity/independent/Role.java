@@ -31,7 +31,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Status{" +
+        return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
