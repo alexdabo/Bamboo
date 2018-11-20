@@ -4,7 +4,6 @@ import com.bamboo.connection.DBConnection;
 import com.bamboo.connection.DBObject;
 import com.bamboo.model.contrat.independent.SapInterface;
 import com.bamboo.model.entity.independent.Sap;
-import com.bamboo.model.entity.independent.Village;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,12 +17,15 @@ public class SapImpl implements SapInterface {
     @Override
     public boolean save(Sap sap) throws Exception {
         boolean affected = false;
-        String sql = "insert into public.sap(name) values(?)";
+        String sql = "insert into public.sap(name, basevolume, baseprice, extraprice) values(?, ?, ?, ?)";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, sap.getName()));
+        dbos.add(new DBObject(2, sap.getBaseVolume()));
+        dbos.add(new DBObject(3, sap.getBasePrice()));
+        dbos.add(new DBObject(4, sap.getExtraPrice()));
         if (sap.getId() != 0) {
-            sql = "insert into public.sap(name,id) values(?, ?)";
-            dbos.add(new DBObject(2, sap.getId()));
+            sql = "insert into public.sap(name, basevolume, baseprice, extraprice, id) values(?, ?, ?, ?, ?)";
+            dbos.add(new DBObject(5, sap.getId()));
         }
         try {
             if (DBC.querySet(sql, dbos)) {
@@ -39,7 +41,7 @@ public class SapImpl implements SapInterface {
     @Override
     public Sap findById(int id) throws Exception {
         Sap sap = new Sap();
-        String sql = "SELECT id, name	FROM public.sap where id = ?;";
+        String sql = "SELECT id, name, basevolume, baseprice, extraprice FROM public.sap where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
         try {
@@ -48,6 +50,9 @@ public class SapImpl implements SapInterface {
                 sap = new Sap();
                 sap.setId(result.getInt("id"));
                 sap.setName(result.getString("name"));
+                sap.setBaseVolume(result.getInt("basevolume"));
+                sap.setBasePrice(result.getDouble("baseprice"));
+                sap.setExtraPrice(result.getDouble("extraprice"));
             }
         } catch (Exception e) {
             throw e;
@@ -58,13 +63,16 @@ public class SapImpl implements SapInterface {
     @Override
     public List<Sap> find() throws Exception {
         List<Sap> list = new ArrayList<>();
-        String sql = "SELECT id, name	FROM public.sap order by name asc;";
+        String sql = "SELECT id, name, basevolume, baseprice, extraprice FROM public.sap order by name asc;";
         try {
             ResultSet result = DBC.queryGet(sql);
             while (result.next()) {
                 Sap sap = new Sap();
                 sap.setId(result.getInt("id"));
                 sap.setName(result.getString("name"));
+                sap.setBaseVolume(result.getInt("basevolume"));
+                sap.setBasePrice(result.getDouble("baseprice"));
+                sap.setExtraPrice(result.getDouble("extraprice"));
                 list.add(sap);
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -76,10 +84,13 @@ public class SapImpl implements SapInterface {
     @Override
     public boolean update(Sap sap) throws Exception {
         boolean affected = false;
-        String sql = "update public.sap set name=? where id=?;";
+        String sql = "update public.sap set name=?,basevolume=?, baseprice=?, extraprice=? where id=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, sap.getName()));
-        dbos.add(new DBObject(2, sap.getId()));
+        dbos.add(new DBObject(2, sap.getBaseVolume()));
+        dbos.add(new DBObject(3, sap.getBasePrice()));
+        dbos.add(new DBObject(4, sap.getExtraPrice()));
+        dbos.add(new DBObject(5, sap.getId()));
         try {
             if (DBC.querySet(sql, dbos)) {
                 affected = true;
