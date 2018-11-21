@@ -6,7 +6,7 @@
 package com.bamboo.data;
 
 import com.bamboo.model.entity.dependent.Measurer;
-import com.bamboo.model.entity.independent.Role;
+import com.bamboo.model.entity.independent.Status;
 import com.bamboo.model.method.dependent.MeasurerImpl;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public final class MeasurerData {
 
     public boolean update() {
         boolean updated = false;
-        measurer.setNumber(measurer.getId() + "");
+        measurer.getStatus().setId(1);
         try {
             updated = measurerImpl.update(measurer);
             if (updated) {
