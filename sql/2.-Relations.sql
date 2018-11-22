@@ -27,12 +27,12 @@ alter table assigned
 
 
 alter table sapdetail
-  add constraint fk_sapdetail_invoice foreign key(invoiceid) references invoice(number),
+  add constraint fk_sapdetail_invoice foreign key(invoiceid) references invoice(id),
   add constraint fk_sapdetail_uptake foreign key(uptakeid) references uptake(id),
   add constraint pk_sapdetail primary key(invoiceid,uptakeid);
 
 
 alter table anotherservicedetail
-  add constraint fk_anotherservicedetail_invoice foreign key(invoiceid) references invoice(number),
+  add constraint fk_anotherservicedetail_invoice foreign key(invoiceid) references invoice(id),
   add constraint fk_anotherservicedetail_service foreign key(anotherserviceid) references anotherservice(id),
   add constraint pk_anotherservicedetail primary key(invoiceid,anotherserviceid);
