@@ -27,11 +27,9 @@ public final class AssignedData {
 
     public AssignedData() {
         beneficiaryData.save();
-        sapData.save();
-        statusData.save();
         this.assigned = new Assigned();
         assigned.setBeneficiary(beneficiaryData.findById());
-        assigned.setMeasurer(new Measurer(1000, "", new Date(), sapData.findById(), statusData.findById()));
+        assigned.setMeasurer(new Measurer(1000000, "", new Date(), sapData.findById(), statusData.findById()));
         assigned.setAssignmentDate(new Date());
     }
 

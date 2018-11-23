@@ -15,11 +15,13 @@ import org.junit.Test;
  */
 public class SapTest {
 
-    private final SapData sapData = new SapData();
-
     @Test
     public void run() {
-        printTitle("SAP");
+        Message msg = new Message();
+        msg.printTitle("SAP");
+        SapData sapData = new SapData();
+        msg.printImplementation();
+
         assertTrue(sapData.save());
         assertTrue(sapData.find().size() > 0);
         assertTrue(sapData.findById() != null);
@@ -28,10 +30,4 @@ public class SapTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m------------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>------------------------------------\033[0m\n");
-
-    }
 }

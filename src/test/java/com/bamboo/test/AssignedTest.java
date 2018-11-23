@@ -9,18 +9,23 @@ import com.bamboo.data.AssignedData;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
+
 /**
  *
  * @author alexander
  */
 public class AssignedTest {
 
-    private final AssignedData assignedData = new AssignedData();
+    
 
     @Test
     public void run() {
-        printTitle("Assigned");
-
+        Message msg = new Message();
+        msg.printTitle("Assigned");
+        msg.printDependency();
+        AssignedData assignedData = new AssignedData();
+        msg.printImplementation();
+        
         assertTrue(assignedData.save() != null);
         assertTrue(assignedData.find().size() > 0);
         assertTrue(assignedData.update());
@@ -28,10 +33,4 @@ public class AssignedTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m----------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>----------------------------------\033[0m\n");
-
-    }
 }

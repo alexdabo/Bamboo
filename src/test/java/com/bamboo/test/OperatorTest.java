@@ -15,27 +15,20 @@ import org.junit.Test;
  */
 public class OperatorTest {
 
-    private final OperatorData operatorData = new OperatorData();
-
     @Test
     public void run() {
-        printTitle("Oeperator");
+        Message msg = new Message();
+        msg.printTitle("Operator");
+        msg.printDependency();
+        OperatorData operatorData = new OperatorData();
+        msg.printImplementation();
+
         assertTrue(operatorData.save());
-        System.out.println("");
         assertTrue(operatorData.find().size() > 0);
-        System.out.println("");
         assertTrue(operatorData.findById() != null);
-        System.out.println("");
         assertTrue(operatorData.update());
-        System.out.println("");
         assertTrue(operatorData.delete());
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m------------------------------------< \033[0m");
-        System.out.print("\033[36m" + title +" \033[0m");
-        System.out.println("\033[1m >------------------------------------\033[0m\n");
-
-    }
 }

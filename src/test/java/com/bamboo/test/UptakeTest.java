@@ -15,11 +15,14 @@ import org.junit.Test;
  */
 public class UptakeTest {
 
-    private final UptakeData uptakeData = new UptakeData();
-
     @Test
     public void run() {
-        printTitle("Uptake");
+        Message msg = new Message();
+        msg.printTitle("Uptake");
+        msg.printDependency();
+        UptakeData uptakeData = new UptakeData();
+        msg.printImplementation();
+
         assertTrue(uptakeData.save());
         assertTrue(uptakeData.find().size() > 0);
         assertTrue(uptakeData.findNotBilled().size() > 0);
@@ -29,10 +32,4 @@ public class UptakeTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m-----------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>-----------------------------------\033[0m\n");
-
-    }
 }

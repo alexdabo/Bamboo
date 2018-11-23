@@ -15,23 +15,18 @@ import org.junit.Test;
  */
 public class VillageTest {
 
-    private final VillageData villageData = new VillageData();
-
     @Test
     public void run() {
-        printTitle("Village");
+        Message msg = new Message();
+        msg.printTitle("Village");
+        VillageData villageData = new VillageData();
+        msg.printImplementation();
+
         assertTrue(villageData.save());
         assertTrue(villageData.find().size() > 0);
         assertTrue(villageData.findById() != null);
         assertTrue(villageData.update());
         assertTrue(villageData.delete());
         System.out.println("\n\n");
-    }
-
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m-----------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>-----------------------------------\033[0m\n");
-
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 public final class SapData {
 
     private final SapImpl sapImpl = new SapImpl();
-    private final Sap sap = new Sap(1000, "SAP Empresarial", 10, 10.0, 0.15);
+    private final Sap sap = new Sap(1000000, "SAP Empresarial", 10, 10.0, 0.15);
 
     public boolean save() {
         boolean saved = false;

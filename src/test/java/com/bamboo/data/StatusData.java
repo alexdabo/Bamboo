@@ -17,7 +17,7 @@ import java.util.List;
 public final class StatusData {
 
     private final StatusImpl statusImpl = new StatusImpl();
-    private final Status status = new Status(1000, "Perdido");
+    private final Status status = new Status(1000000, "Perdido");
 
     public boolean save() {
         boolean saved = false;

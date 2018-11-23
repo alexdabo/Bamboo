@@ -15,11 +15,13 @@ import org.junit.Test;
  */
 public class AnotherServiceTest {
 
-    private final AnotherServiceData serviceData = new AnotherServiceData();
-
     @Test
     public void run() {
-        printTitle("Another Service Test");
+        Message msg = new Message();
+        msg.printTitle("Another service");
+        AnotherServiceData serviceData = new AnotherServiceData();
+        msg.printImplementation();
+
         assertTrue(serviceData.save());
         assertTrue(serviceData.find().size() > 0);
         assertTrue(serviceData.findById() != null);
@@ -28,10 +30,4 @@ public class AnotherServiceTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m----------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>----------------------------\033[0m\n");
-
-    }
 }

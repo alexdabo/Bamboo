@@ -17,7 +17,7 @@ import java.util.List;
 public final class VillageData {
 
     private final VillageImpl villageImpl = new VillageImpl();
-    private final Village village = new Village(1000, "San Miguel");
+    private final Village village = new Village(1000000, "San Miguel");
 
     public boolean save() {
         boolean saved = false;

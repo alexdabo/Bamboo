@@ -15,11 +15,13 @@ import org.junit.Test;
  */
 public class StatusTest {
 
-    private final StatusData statusData = new StatusData();
-
     @Test
     public void run() {
-        printTitle("Status");
+        Message msg = new Message();
+        msg.printTitle("Status");
+        StatusData statusData = new StatusData();
+        msg.printImplementation();
+
         assertTrue(statusData.save());
         assertTrue(statusData.find().size() > 0);
         assertTrue(statusData.findById() != null);
@@ -28,10 +30,4 @@ public class StatusTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m-----------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>-----------------------------------\033[0m\n");
-
-    }
 }

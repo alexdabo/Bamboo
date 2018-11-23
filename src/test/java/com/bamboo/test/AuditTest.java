@@ -7,7 +7,7 @@ package com.bamboo.test;
 
 import com.bamboo.data.OperatorData;
 import com.bamboo.model.entity.Audit;
-import org.junit.Test;
+
 
 import com.bamboo.model.method.AuditImpl;
 import com.bamboo.model.entity.Beneficiary;
@@ -24,14 +24,15 @@ public class AuditTest {
     private final Operator operator;
 
     public AuditTest() {
+        Message msg = new Message();
+        msg.printTitle("Audit");
         operatorData.save();
         operator = operatorData.findById();
 
     }
 
-    @Test
+//    @Test
     public void run() {
-        printTitle("Audit");
 
         audit.save(new Audit(operator, "description"));
         System.out.println("");
@@ -44,10 +45,4 @@ public class AuditTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m-----------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>-----------------------------------\033[0m\n");
-
-    }
 }

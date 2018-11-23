@@ -15,11 +15,14 @@ import org.junit.Test;
  */
 public class InvoiceTest {
 
-    private final InvoiceData invoiceData = new InvoiceData();
-
     @Test
     public void run() {
-        printTitle("Invoice");
+        Message msg = new Message();
+        msg.printTitle("Invoice");
+        msg.printDependency();
+        InvoiceData invoiceData = new InvoiceData();
+        msg.printImplementation();
+
         assertTrue(invoiceData.save() != null);
         assertTrue(invoiceData.update());
         assertTrue(invoiceData.find().size() > 0);
@@ -30,10 +33,4 @@ public class InvoiceTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m----------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>----------------------------------\033[0m\n");
-
-    }
 }

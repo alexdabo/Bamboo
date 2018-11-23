@@ -24,7 +24,7 @@ public final class UptakeData {
         measurerData.save();
         measurerData.update();
         uptake = new Uptake();
-        uptake.setId(1000);
+        uptake.setId(1000000);
         uptake.setMeasurer(measurerData.findById());
         uptake.setCurrentValueTaken(100);
     }
@@ -103,7 +103,7 @@ public final class UptakeData {
     public List<Uptake> findNotBilled() {
         List<Uptake> list = new ArrayList<>();
         try {
-            list = uptakeImpl.findNotBilled(1000);
+            list = uptakeImpl.findNotBilled(1000000);
             if (list.size() > 0) {
                 System.out.println("Not Billed: ");
                 for (int i = 0; i < list.size(); i++) {

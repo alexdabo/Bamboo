@@ -15,11 +15,14 @@ import org.junit.Test;
  */
 public class BeneficiaryTest {
 
-    private final BeneficiaryData beneficiaryData = new BeneficiaryData();
-
     @Test
     public void run() {
-        printTitle("Beneficiary");
+        Message msg = new Message();
+        msg.printTitle("Beneficiary");
+        msg.printDependency();
+        BeneficiaryData beneficiaryData = new BeneficiaryData();
+        msg.printImplementation();
+
         assertTrue(beneficiaryData.save());
         assertTrue(beneficiaryData.find().size() > 0);
         assertTrue(beneficiaryData.findById() != null);
@@ -30,10 +33,4 @@ public class BeneficiaryTest {
         System.out.println("\n\n");
     }
 
-    private void printTitle(String title) {
-        System.out.print("\n\n\033[1m---------------------------------< \033[0m");
-        System.out.print("\033[36m" + title + " \033[0m");
-        System.out.println("\033[1m>---------------------------------\033[0m\n");
-
-    }
 }

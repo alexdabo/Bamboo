@@ -17,7 +17,7 @@ import java.util.List;
 public final class AnotherServiceData {
 
     private final AnotherServiceImpl serviceImpl = new AnotherServiceImpl();
-    private final AnotherService service = new AnotherService(1000, "Cambio de medidor", 20);
+    private final AnotherService service = new AnotherService(1000000, "Cambio de medidor", 20);
 
     public boolean save() {
         boolean saved = false;

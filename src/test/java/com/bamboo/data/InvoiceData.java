@@ -27,7 +27,7 @@ public final class InvoiceData {
         collectorData.save();
 
         this.invoice = new Invoice();
-        this.invoice.setId(1000);
+        this.invoice.setId(1000000);
         this.invoice.setBeneficiary(beneficiaryData.findById());
         this.invoice.setDebtcollector(collectorData.findById());
         this.invoice.setTotalToPay(100.0);
@@ -106,7 +106,7 @@ public final class InvoiceData {
     public List<Invoice> findByBeneficiary() {
         List<Invoice> list = new ArrayList<>();
         try {
-            list = invoiceImpl.findByBeneficiary(1000);
+            list = invoiceImpl.findByBeneficiary(1000000);
             if (list.size() > 0) {
                 System.out.println("By beneficiary: ");
                 for (int i = 0; i < list.size(); i++) {

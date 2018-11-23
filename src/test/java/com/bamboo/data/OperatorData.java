@@ -5,6 +5,7 @@
  */
 package com.bamboo.data;
 
+import com.bamboo.test.Message;
 import com.bamboo.model.entity.Operator;
 import com.bamboo.model.method.OperatorImpl;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public final class OperatorData {
 
     public OperatorData() {
         roleData.save();
-        operator = new Operator(1000, "Alexanderda", "12345", "adbonilla@gmail.com", "0604059741", "Alexander David", "Bonilla Adriano", "0979728686", "Riobamba", roleData.findById());
+        operator = new Operator(1000000, "Alexanderda", "12345", "adbonilla@gmail.com", "0604059741", "Alexander David", "Bonilla Adriano", "0979728686", "Riobamba", roleData.findById());
     }
 
     public boolean save() {

@@ -28,7 +28,7 @@ public final class MeasurerData {
     public MeasurerData() {
         sapData.save();
         statusData.save();
-        this.measurer = new Measurer(1000, "", new Date(), sapData.findById(), statusData.findById());
+        this.measurer = new Measurer(1000000, "", new Date(), sapData.findById(), statusData.findById());
     }
 
     public Measurer save() {
@@ -102,7 +102,7 @@ public final class MeasurerData {
     public List<Measurer> findBySap() {
         List<Measurer> list = new ArrayList<>();
         try {
-            list = measurerImpl.findBySap(1000);
+            list = measurerImpl.findBySap(1000000);
             if (list.size() > 0) {
                 System.out.println("By Sap: ");
                 for (int i = 0; i < list.size(); i++) {
