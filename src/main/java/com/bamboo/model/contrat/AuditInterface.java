@@ -8,7 +8,7 @@ public interface AuditInterface {
 
     public void save(Audit audit);
 
-    public void Update(Audit audit);
+    public void update(Audit audit);
 
     public void delete(Audit audit);
 

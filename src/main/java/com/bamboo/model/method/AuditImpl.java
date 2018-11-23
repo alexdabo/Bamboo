@@ -24,7 +24,7 @@ public class AuditImpl implements AuditInterface {
     }
 
     @Override
-    public void Update(Audit audit) {
+    public void update(Audit audit) {
         audit.setActionName("Update");
         registrate(audit);
     }

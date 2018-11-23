@@ -36,7 +36,7 @@ public class AuditTest {
 
         audit.save(new Audit(operator, "description"));
         System.out.println("");
-        audit.Update(new Audit(operator, "description"));
+        audit.update(new Audit(operator, "description"));
         System.out.println("");
         audit.delete(new Audit(operator, "description"));
         System.out.println("");
