@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.dependent.Beneficiary;
-import com.bamboo.model.method.dependent.BeneficiaryImpl;
+import com.bamboo.model.entity.Beneficiary;
+import com.bamboo.model.method.BeneficiaryImpl;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

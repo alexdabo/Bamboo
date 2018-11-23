@@ -6,12 +6,12 @@
 package com.bamboo.test;
 
 import com.bamboo.data.OperatorData;
-import com.bamboo.model.entity.dependent.Audit;
+import com.bamboo.model.entity.Audit;
 import org.junit.Test;
 
-import com.bamboo.model.method.dependent.AuditImpl;
-import com.bamboo.model.entity.dependent.Beneficiary;
-import com.bamboo.model.entity.dependent.Operator;
+import com.bamboo.model.method.AuditImpl;
+import com.bamboo.model.entity.Beneficiary;
+import com.bamboo.model.entity.Operator;
 
 /**
  *

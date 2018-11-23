@@ -50,10 +50,10 @@ public class AnotherServiceDetail {
 
     @Override
     public String toString() {
-        return "AnotherServiceDetail{" +
-                "invoice=" + invoice +
-                ", service=" + service +
-                ", total=" + total +
-                '}';
+        return "AnotherServiceDetail{"
+                + "invoice=" + invoice
+                + ", service=" + service
+                + ", total=" + total
+                + '}';
     }
 }

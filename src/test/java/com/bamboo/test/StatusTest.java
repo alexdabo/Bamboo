@@ -5,7 +5,6 @@
  */
 package com.bamboo.test;
 
-import com.bamboo.data.RoleData;
 import com.bamboo.data.StatusData;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

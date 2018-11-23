@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.independent.Sap;
-import com.bamboo.model.method.independent.SapImpl;
+import com.bamboo.model.entity.Sap;
+import com.bamboo.model.method.SapImpl;
 import java.util.ArrayList;
 import java.util.List;
 

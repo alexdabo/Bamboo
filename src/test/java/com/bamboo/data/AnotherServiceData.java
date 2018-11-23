@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.independent.AnotherService;
-import com.bamboo.model.method.independent.AnotherServiceImpl;
+import com.bamboo.model.entity.AnotherService;
+import com.bamboo.model.method.AnotherServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 

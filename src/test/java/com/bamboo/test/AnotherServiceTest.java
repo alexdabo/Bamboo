@@ -6,10 +6,6 @@
 package com.bamboo.test;
 
 import com.bamboo.data.AnotherServiceData;
-import com.bamboo.model.entity.independent.AnotherService;
-import com.bamboo.model.method.independent.AnotherServiceImpl;
-import java.util.ArrayList;
-import java.util.List;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 

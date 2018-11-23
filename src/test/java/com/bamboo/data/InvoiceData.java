@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.dependent.Invoice;
-import com.bamboo.model.method.dependent.InvoiceImpl;
+import com.bamboo.model.entity.Invoice;
+import com.bamboo.model.method.InvoiceImpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

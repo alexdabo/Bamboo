@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.dependent.Operator;
-import com.bamboo.model.method.dependent.OperatorImpl;
+import com.bamboo.model.entity.Operator;
+import com.bamboo.model.method.OperatorImpl;
 import java.util.ArrayList;
 import java.util.List;
 

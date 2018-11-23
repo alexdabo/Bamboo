@@ -5,9 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.dependent.Measurer;
-import com.bamboo.model.entity.independent.Status;
-import com.bamboo.model.method.dependent.MeasurerImpl;
+import com.bamboo.model.entity.Measurer;
+import com.bamboo.model.method.MeasurerImpl;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,7 +117,7 @@ public final class MeasurerData {
     public List<Measurer> findByStatus() {
         List<Measurer> list = new ArrayList<>();
         try {
-            list = measurerImpl.findByStatus(1000);
+            list = measurerImpl.findByStatus(1);
             if (list.size() > 0) {
                 System.out.println("By Satus: ");
                 for (int i = 0; i < list.size(); i++) {

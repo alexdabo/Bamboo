@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.independent.Role;
-import com.bamboo.model.method.independent.RoleImpl;
+import com.bamboo.model.entity.Role;
+import com.bamboo.model.method.RoleImpl;
 import java.util.ArrayList;
 import java.util.List;
 

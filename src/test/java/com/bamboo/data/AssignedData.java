@@ -5,9 +5,9 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.dependent.Measurer;
-import com.bamboo.model.entity.intermediate.Assigned;
-import com.bamboo.model.method.intermediate.AssignedImpl;
+import com.bamboo.model.entity.Measurer;
+import com.bamboo.model.entity.Assigned;
+import com.bamboo.model.method.AssignedImpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

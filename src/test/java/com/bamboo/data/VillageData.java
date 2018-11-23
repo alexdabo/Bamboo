@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.independent.Village;
-import com.bamboo.model.method.independent.VillageImpl;
+import com.bamboo.model.entity.Village;
+import com.bamboo.model.method.VillageImpl;
 import java.util.ArrayList;
 import java.util.List;
 

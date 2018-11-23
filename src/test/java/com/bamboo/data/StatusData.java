@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.independent.Status;
-import com.bamboo.model.method.independent.StatusImpl;
+import com.bamboo.model.entity.Status;
+import com.bamboo.model.method.StatusImpl;
 import java.util.ArrayList;
 import java.util.List;
 

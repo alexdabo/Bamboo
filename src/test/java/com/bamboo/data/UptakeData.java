@@ -5,8 +5,8 @@
  */
 package com.bamboo.data;
 
-import com.bamboo.model.entity.dependent.Uptake;
-import com.bamboo.model.method.dependent.UptakeImpl;
+import com.bamboo.model.entity.Uptake;
+import com.bamboo.model.method.UptakeImpl;
 import java.util.ArrayList;
 import java.util.List;
 
