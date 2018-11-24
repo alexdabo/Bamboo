@@ -40,7 +40,7 @@ public class SapImpl implements SapInterface {
 
     @Override
     public Sap findById(int id) throws Exception {
-        Sap sap = new Sap();
+        Sap sap = null;
         String sql = "SELECT id, name, basevolume, baseprice, extraprice FROM public.sap where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
