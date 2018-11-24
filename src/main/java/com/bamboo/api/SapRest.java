@@ -6,11 +6,11 @@
 package com.bamboo.api;
 
 import com.bamboo.model.entity.Audit;
-import com.bamboo.model.entity.Operator;
 import com.bamboo.model.entity.Sap;
 import com.bamboo.model.method.AuditImpl;
 import com.bamboo.model.method.SapImpl;
 import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
  * @author alexander
  */
 @WebServlet(name = "SapRest", urlPatterns = {"/sap"})
@@ -37,10 +36,9 @@ public class SapRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
+            responseJson = gson.toJson(sapImpl.find());
             if (request.getParameter("id") != null) {
                 responseJson = gson.toJson(sapImpl.findById(Integer.parseInt(request.getParameter("id"))));
-            } else {
-                responseJson = gson.toJson(sapImpl.find());
             }
         } catch (Exception ex) {
             response.sendError(400, ex.getMessage());
@@ -59,7 +57,7 @@ public class SapRest extends HttpServlet {
         try {
             if (sapImpl.save(sap)) {
                 map.put("saved", true);
-                audit.save(new Audit(Integer.parseInt(request.getHeader("user")),"Sap name: "+sap.getName()));
+                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sap.getName()));
             } else {
                 map.put("saved", false);
             }
@@ -82,7 +80,7 @@ public class SapRest extends HttpServlet {
         try {
             if (sapImpl.update(sap)) {
                 map.put("updated", true);
-                audit.update(new Audit(Integer.parseInt(request.getHeader("user")),"Sap id: "+sap.getId()));
+                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sap.getId()));
             } else {
                 map.put("updated", false);
             }
@@ -104,7 +102,7 @@ public class SapRest extends HttpServlet {
             Sap sap = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Sap.class);
             if (sapImpl.delete(sap)) {
                 map.put("deleted", true);
-                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")),"Sap id: "+sap.getId()));
+                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sap.getId()));
             } else {
                 map.put("deleted", false);
             }
@@ -115,10 +113,5 @@ public class SapRest extends HttpServlet {
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

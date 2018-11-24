@@ -5,10 +5,12 @@
  */
 package com.bamboo.api;
 
+import com.bamboo.model.entity.Audit;
 import com.bamboo.model.entity.Village;
-import com.bamboo.model.method.InvoiceImpl;
+import com.bamboo.model.method.AuditImpl;
 import com.bamboo.model.method.VillageImpl;
 import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
  * @author alexander
  */
 @WebServlet(name = "VillageRest", urlPatterns = {"/village"})
@@ -28,16 +29,16 @@ public class VillageRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final VillageImpl villageImpl = new VillageImpl();
+    private final AuditImpl audit = new AuditImpl(Village.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
+            responseJson = gson.toJson(villageImpl.find());
             if (request.getParameter("id") != null) {
                 responseJson = gson.toJson(villageImpl.findById(Integer.parseInt(request.getParameter("id"))));
-            } else {
-                responseJson = gson.toJson(villageImpl.find());
             }
         } catch (Exception ex) {
             response.sendError(400, ex.getMessage());
@@ -56,6 +57,7 @@ public class VillageRest extends HttpServlet {
         try {
             if (villageImpl.save(village)) {
                 map.put("saved", true);
+                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + village.getName()));
             } else {
                 map.put("saved", false);
             }
@@ -77,6 +79,7 @@ public class VillageRest extends HttpServlet {
         try {
             if (villageImpl.update(village)) {
                 map.put("updated", true);
+                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + village.getId()));
             } else {
                 map.put("updated", false);
             }
@@ -95,10 +98,10 @@ public class VillageRest extends HttpServlet {
         String responseJson;
 
         try {
-            Village village = new Village();
-            village.setId(Integer.parseInt(request.getParameter("id")));
+            Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
             if (villageImpl.delete(village)) {
                 map.put("deleted", true);
+                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + village.getId()));
             } else {
                 map.put("deleted", false);
             }
@@ -109,10 +112,5 @@ public class VillageRest extends HttpServlet {
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

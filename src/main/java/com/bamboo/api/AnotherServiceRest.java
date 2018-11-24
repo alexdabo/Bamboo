@@ -28,10 +28,9 @@ public class AnotherServiceRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
+            responseJson = gson.toJson(anotherServiceImpl.find());
             if (request.getParameter("id") != null) {
                 responseJson = gson.toJson(anotherServiceImpl.findById(Integer.parseInt(request.getParameter("id"))));
-            } else {
-                responseJson = gson.toJson(anotherServiceImpl.find());
             }
         } catch (Exception ex) {
             response.sendError(400, ex.getMessage());
@@ -49,7 +48,7 @@ public class AnotherServiceRest extends HttpServlet {
         try {
             if (anotherServiceImpl.save(anotherService)) {
                 map.put("saved", true);
-                audit.save(new Audit(Integer.parseInt(request.getHeader("user")),"name: "+anotherService.getName()));
+                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + anotherService.getName()));
             } else {
                 map.put("saved", false);
             }
@@ -72,7 +71,7 @@ public class AnotherServiceRest extends HttpServlet {
         try {
             if (anotherServiceImpl.update(anotherService)) {
                 map.put("updated", true);
-                audit.update(new Audit(Integer.parseInt(request.getHeader("user")),"id: "+anotherService.getId()));
+                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + anotherService.getId()));
             } else {
                 map.put("updated", false);
             }
@@ -95,7 +94,7 @@ public class AnotherServiceRest extends HttpServlet {
             AnotherService anotherService = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AnotherService.class);
             if (anotherServiceImpl.delete(anotherService)) {
                 map.put("deleted", true);
-                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")),"Service id: "+anotherService.getId()));
+                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + anotherService.getId()));
             } else {
                 map.put("deleted", false);
             }

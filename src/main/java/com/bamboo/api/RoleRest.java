@@ -21,10 +21,9 @@ public class RoleRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
+            responseJson = gson.toJson(roleImpl.find());
             if (request.getParameter("id") != null) {
                 responseJson = gson.toJson(roleImpl.findById(Integer.parseInt(request.getParameter("id"))));
-            } else {
-                responseJson = gson.toJson(roleImpl.find());
             }
         } catch (Exception ex) {
             response.sendError(400, ex.getMessage());

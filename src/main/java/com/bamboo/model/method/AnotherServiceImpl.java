@@ -19,7 +19,7 @@ public class AnotherServiceImpl implements AnotherServiceInterface {
         boolean affected = false;
         String sql = "INSERT INTO public.anotherservice(name, price) VALUES (?, ?);";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, service.getName().toLowerCase()));
+        dbos.add(new DBObject(1, service.getName()));
         dbos.add(new DBObject(2, service.getPrice()));
         if (service.getId() != 0) {
             sql = "INSERT INTO public.anotherservice(name, price, id)	VALUES (?, ?, ?);";
@@ -81,7 +81,7 @@ public class AnotherServiceImpl implements AnotherServiceInterface {
         String sql = "update public.anotherservice set name=?, price=? where id=?;";
         service.setName(service.getName().substring(0, 1).toUpperCase() + service.getName().substring(1).toLowerCase());
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, service.getName().toLowerCase()));
+        dbos.add(new DBObject(1, service.getName()));
         dbos.add(new DBObject(2, service.getPrice()));
         dbos.add(new DBObject(3, service.getId()));
         try {
