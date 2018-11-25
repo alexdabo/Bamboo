@@ -1,7 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue';
-import App from './App';
+import Vue from 'vue'
+import App from './App'
+import router from './router'
 import wal from 'sweetalert';
 import M from 'materialize-css';
 import vfs from 'pdfmake/build/vfs_fonts';
@@ -19,18 +20,16 @@ document.addEventListener('DOMContentLoaded', function () {
     M.Datepicker.init(datepicker, {format: 'yyyy-mm-dd', setDefaultDate: true, defaultDate: new Date()});//mmm dd, yyyy
     var modal = document.querySelectorAll('.modal');
     M.Modal.init(modal);
-    var tab = document.querySelectorAll('.tabs');
-    M.Tabs.init(tab);
     var select = document.querySelectorAll('select');
     M.FormSelect.init(select);
 });
-
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
   components: { App },
   template: '<App/>'
 })

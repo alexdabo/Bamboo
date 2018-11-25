@@ -1,7 +1,7 @@
 {
-  "name": "simbawater",
+  "name": "web",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Bamboo frontend",
   "author": "Alexander Bonilla <aldaboad@gmail.com>",
   "private": true,
   "scripts": {
@@ -15,7 +15,8 @@
     "materialize-css": "^1.0.0",
     "pdfmake": "^0.1.38",
     "sweetalert": "^2.1.2",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
