@@ -1,22 +1,16 @@
 <template lang="html">
-  <div class="not-found-screen">
-    <div id="clouds">
-      <div class="cloud x1"></div>
-      <div class="cloud x1_5"></div>
-      <div class="cloud x2"></div>
-      <div class="cloud x3"></div>
-      <div class="cloud x4"></div>
-      <div class="cloud x5"></div>
-    </div>
-    <div class='c'>
-      <div class='_404'>404</div>
-      <hr>
-      <div class='_1'>LA PÁGINA</div>
-      <div class='_2'>NO FUE ENCONTRADA</div>
+  <div id="notfound">
+    <div class="notfound">
+      <div class="notfound-404">
+        <h1>4<span></span>4</h1>
+      </div>
+      <h2>Oops! No se encuentra la página</h2>
+      <p>Lo sentimos, pero la página que busca no existe, se ha eliminado. nombre cambiado o no está disponible temporalmente</p>
+      <button class="btn cyan waves-effect" onclick="window.history.back()"> <i class="material-icons left">arrow_back</i> Regresar</button>
+
     </div>
   </div>
 </template>
-
 <style lang="css">
-  @import '../assets/css/error.css';
+@import '../assets/css/error.css';
 </style>
