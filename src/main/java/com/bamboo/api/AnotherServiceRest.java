@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "AnotheServiceRest", urlPatterns = {"/anotherservice"})
+@WebServlet(name = "AnotheServiceRest", urlPatterns = {"/api/anotherservice"})
 public class AnotherServiceRest extends HttpServlet {
 
     private final Gson gson = new Gson();

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author alexander
  */
-@WebServlet(name = "VillageRest", urlPatterns = {"/village"})
+@WebServlet(name = "VillageRest", urlPatterns = {"/api/village"})
 public class VillageRest extends HttpServlet {
 
     private final Gson gson = new Gson();

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author alexander
  */
-@WebServlet(name = "SapRest", urlPatterns = {"/sap"})
+@WebServlet(name = "SapRest", urlPatterns = {"/api/sap"})
 public class SapRest extends HttpServlet {
 
     private final Gson gson = new Gson();

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "RoleRest", urlPatterns = {"/role"})
+@WebServlet(name = "RoleRest", urlPatterns = {"/api/role"})
 public class RoleRest extends HttpServlet {
 
     private final Gson gson = new Gson();

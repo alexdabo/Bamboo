@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "StatusRest", urlPatterns = {"/status"})
+@WebServlet(name = "StatusRest", urlPatterns = {"/api/status"})
 public class StatusRest extends HttpServlet {
 
     private final Gson gson = new Gson();
