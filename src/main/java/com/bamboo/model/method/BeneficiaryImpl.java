@@ -77,7 +77,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
 
     @Override
     public List<Beneficiary> find() throws Exception {
-        List<Beneficiary> beneficiarys = new ArrayList<>();
+        List<Beneficiary> beneficiaries = new ArrayList<>();
         VillageImpl villageImpl = new VillageImpl();
         String sql = "SELECT id, dni, lastname, firstname, address, placereference, villageid, telephone "
                 + "FROM public.beneficiary  order by lastname ASC;";
@@ -97,12 +97,12 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
                 } catch (Exception e) {
                 }
                 beneficiary.setTelephone(result.getString("telephone"));
-                beneficiarys.add(beneficiary);
+                beneficiaries.add(beneficiary);
             }
         } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
-        return beneficiarys;
+        return beneficiaries;
     }
 
     @Override
@@ -148,7 +148,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
 
     @Override
     public List<Beneficiary> findByData(String data, int villageId) throws Exception {
-        List<Beneficiary> beneficiarys = new ArrayList<>();
+        List<Beneficiary> beneficiaries = new ArrayList<>();
         VillageImpl villageImpl = new VillageImpl();
         List<DBObject> dbos = new ArrayList<>();
         data = data.toLowerCase();
@@ -175,18 +175,14 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
                 beneficiary.setFirstName(capitalize(result.getString("firstname")));
                 beneficiary.setAddress(result.getString("address"));
                 beneficiary.setPlaceReference(result.getString("placereference"));
-                try {
-                    beneficiary.setVillage(villageImpl.findById(result.getInt("villageid")));
-                } catch (Exception e) {
-                    throw e;
-                }
+                beneficiary.setVillage(villageImpl.findById(result.getInt("villageid")));
                 beneficiary.setTelephone(result.getString("telephone"));
-                beneficiarys.add(beneficiary);
+                beneficiaries.add(beneficiary);
             }
         } catch (Exception e) {
             throw e;
         }
-        return beneficiarys;
+        return beneficiaries;
     }
 
     @Override
