@@ -1,5 +1,5 @@
 <template>
-<v-app id="inspire">
+<v-app>
 	<!--SIDEBAR-->
 	<v-navigation-drawer v-model="drawer" clipped fixed app class="primary lighten-5">
 		<v-list>
@@ -58,8 +58,8 @@
 </template>
 
 <script>
-import SideBarItem from '@/components/widget/SideBarItem';
-import Tmp from '@/components/widget/NotificationList';
+import SideBarItem from '@/components/widget/sidebaritem/SideBarItem';
+
 export default {
 	data: () => ({
 		drawer: true,
@@ -93,8 +93,7 @@ export default {
 		]
 	}),
 	components: {
-		SideBarItem,
-		Tmp
+		SideBarItem
 	},
 	methods: {
 		toggleFullscreen() {

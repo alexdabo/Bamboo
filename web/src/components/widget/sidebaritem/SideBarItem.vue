@@ -8,17 +8,7 @@
     </v-list-tile-content>
   </v-list-tile>
 </template>
-
-<script>
-export default {
-	name: 'side-bar-item',
-	props: {
-		icon: String,
-		title: String,
-		link: String
-	}
-}
+<script lang="ts">
+import SideBarItem from '@/components/widget/sidebaritem/SideBarItem.ts'
+export default SideBarItem
 </script>
-
-<style lang="css">
-</style>
