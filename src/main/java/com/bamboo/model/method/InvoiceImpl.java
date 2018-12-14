@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class InvoiceImpl implements InvoiceInterface {
 
-    private DBConnection DBC = new DBConnection();
+    private final DBConnection DBC = new DBConnection();
 
     @Override
     public Invoice save(Invoice invoice) throws Exception {
@@ -48,7 +48,7 @@ public class InvoiceImpl implements InvoiceInterface {
     public Invoice findById(int id) throws Exception {
         Invoice invoice = null;
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-        OperatorImpl operatorImpl = new OperatorImpl();
+        UserImpl userImpl = new UserImpl();
         String sql = "SELECT id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed FROM public.invoice where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
@@ -58,7 +58,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice = new Invoice();
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
-                invoice.setDebtcollector(operatorImpl.findById(result.getInt("debtcollectorid")));
+                invoice.setDebtcollector(userImpl.findById(result.getInt("debtcollectorid")));
                 invoice.setNumber(result.getString("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
@@ -74,7 +74,7 @@ public class InvoiceImpl implements InvoiceInterface {
     public List<Invoice> find() throws Exception {
         List<Invoice> invoices = new ArrayList<>();
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-        OperatorImpl operatorImpl = new OperatorImpl();
+        UserImpl userImpl = new UserImpl();
         String sql = "SELECT id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed FROM public.invoice ORDER BY dateofissue ASC;";
         try {
             ResultSet result = DBC.queryGet(sql);
@@ -82,7 +82,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 Invoice invoice = new Invoice();
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
-                invoice.setDebtcollector(operatorImpl.findById(result.getInt("debtcollectorid")));
+                invoice.setDebtcollector(userImpl.findById(result.getInt("debtcollectorid")));
                 invoice.setNumber(result.getString("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
@@ -137,7 +137,7 @@ public class InvoiceImpl implements InvoiceInterface {
     public List<Invoice> findByBeneficiary(int beneficiaryId) throws Exception {
         List<Invoice> invoices = new ArrayList<>();
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-        OperatorImpl operatorImpl = new OperatorImpl();
+        UserImpl userImpl = new UserImpl();
         String sql = " SELECT id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed FROM PUBLIC.invoice WHERE  beneficiaryid=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, beneficiaryId));
@@ -147,7 +147,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 Invoice invoice = new Invoice();
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
-                invoice.setDebtcollector(operatorImpl.findById(result.getInt("debtcollectorid")));
+                invoice.setDebtcollector(userImpl.findById(result.getInt("debtcollectorid")));
                 invoice.setNumber(result.getString("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
@@ -165,7 +165,7 @@ public class InvoiceImpl implements InvoiceInterface {
     public List<Invoice> findByDate(Object date) throws Exception {
         List<Invoice> invoices = new ArrayList<>();
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-        OperatorImpl operatorImpl = new OperatorImpl();
+        UserImpl userImpl = new UserImpl();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateOfIssue = "";
@@ -185,7 +185,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 Invoice invoice = new Invoice();
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
-                invoice.setDebtcollector(operatorImpl.findById(result.getInt("debtcollectorid")));
+                invoice.setDebtcollector(userImpl.findById(result.getInt("debtcollectorid")));
                 invoice.setNumber(result.getString("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
@@ -202,7 +202,7 @@ public class InvoiceImpl implements InvoiceInterface {
     private Invoice findByCode(String code) throws Exception {
         Invoice invoice = null;
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-        OperatorImpl operatorImpl = new OperatorImpl();
+        UserImpl userImpl = new UserImpl();
         String sql = "SELECT id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed FROM public.invoice where number = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, code));
@@ -212,7 +212,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice = new Invoice();
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
-                invoice.setDebtcollector(operatorImpl.findById(result.getInt("debtcollectorid")));
+                invoice.setDebtcollector(userImpl.findById(result.getInt("debtcollectorid")));
                 invoice.setNumber(result.getString("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));

@@ -22,12 +22,12 @@ public class Invoice {
     private Double totalToPay;
     private boolean payed;
     private Beneficiary beneficiary;
-    private Operator debtcollector;
+    private User debtcollector;
 
     public Invoice() {
     }
 
-    public Invoice(int id, String number, Date dateOfIssue, Double totalToPay, boolean payed, Beneficiary beneficiary, Operator debtcollector) {
+    public Invoice(int id, String number, Date dateOfIssue, Double totalToPay, boolean payed, Beneficiary beneficiary, User debtcollector) {
         this.id = id;
         this.number = number;
         this.dateOfIssue = dateOfIssue;
@@ -37,7 +37,7 @@ public class Invoice {
         this.debtcollector = debtcollector;
     }
 
-    public Invoice(int id, String number, String dateOfIssue, Double totalToPay, boolean payed, Beneficiary beneficiary, Operator debtcollector) throws ParseException {
+    public Invoice(int id, String number, String dateOfIssue, Double totalToPay, boolean payed, Beneficiary beneficiary, User debtcollector) throws ParseException {
         this.id = id;
         this.number = number;
         toDate(dateOfIssue);
@@ -47,11 +47,11 @@ public class Invoice {
         this.debtcollector = debtcollector;
     }
 
-    public Operator getDebtcollector() {
+    public User getDebtcollector() {
         return debtcollector;
     }
 
-    public void setDebtcollector(Operator debtcollector) {
+    public void setDebtcollector(User debtcollector) {
         this.debtcollector = debtcollector;
     }
 

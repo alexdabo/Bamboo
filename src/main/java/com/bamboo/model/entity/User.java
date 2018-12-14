@@ -9,7 +9,7 @@ package com.bamboo.model.entity;
  *
  * @author alexander
  */
-public class Operator {
+public class User {
 
     private int id;
     private String userName;
@@ -22,10 +22,10 @@ public class Operator {
     private String address;
     private Role role;
 
-    public Operator() {
+    public User() {
     }
 
-    public Operator(int id, String userName, String password, String email, String dni, String firstName, String lastName, String telephone, String address, Role role) {
+    public User(int id, String userName, String password, String email, String dni, String firstName, String lastName, String telephone, String address, Role role) {
         this.id = id;
         this.userName = userName;
         this.password = password;

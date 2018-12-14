@@ -5,7 +5,7 @@
  */
 package com.bamboo.test;
 
-import com.bamboo.data.OperatorData;
+import com.bamboo.data.UserData;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -13,21 +13,21 @@ import org.junit.Test;
  *
  * @author alexander
  */
-public class OperatorTest {
+public class UserTest {
 
     @Test
     public void run() {
         Message msg = new Message();
-        msg.printTitle("Operator");
+        msg.printTitle("User");
         msg.printDependency();
-        OperatorData operatorData = new OperatorData();
+        UserData userData = new UserData();
         msg.printImplementation();
 
-        assertTrue(operatorData.save());
-        assertTrue(operatorData.find().size() > 0);
-        assertTrue(operatorData.findById() != null);
-        assertTrue(operatorData.update());
-        assertTrue(operatorData.delete());
+        assertTrue(userData.save());
+        assertTrue(userData.find().size() > 0);
+        assertTrue(userData.findById() != null);
+        assertTrue(userData.update());
+        assertTrue(userData.delete());
         System.out.println("\n\n");
     }
 

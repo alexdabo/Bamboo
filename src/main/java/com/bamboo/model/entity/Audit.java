@@ -14,7 +14,7 @@ import java.util.Date;
 public class Audit {
 
     private int id;
-    private Operator operator;
+    private User user;
     private Date executedDate;
     private String tableAffected;
     private String actionName;
@@ -23,20 +23,20 @@ public class Audit {
     public Audit() {
     }
 
-    public Audit(Operator operator, String description) {
-        this.operator = operator;
+    public Audit(User user, String description) {
+        this.user = user;
         this.description = description;
     }
 
-    public Audit(int operatorId, String description) {
-        this.operator = new Operator();
-        this.operator.setId(operatorId);
+    public Audit(int userId, String description) {
+        this.user = new User();
+        this.user.setId(userId);
         this.description = description;
     }
 
-    public Audit(int id, Operator operator, Date executedDate, String tableAffected, String actionName, String description) {
+    public Audit(int id, User user, Date executedDate, String tableAffected, String actionName, String description) {
         this.id = id;
-        this.operator = operator;
+        this.user = user;
         this.executedDate = executedDate;
         this.tableAffected = tableAffected;
         this.actionName = actionName;
@@ -51,12 +51,12 @@ public class Audit {
         this.id = id;
     }
 
-    public Operator getOperator() {
-        return operator;
+    public User getOperator() {
+        return user;
     }
 
-    public void setOperator(Operator operator) {
-        this.operator = operator;
+    public void setOperator(User user) {
+        this.user = user;
     }
 
     public Date getExecutedDate() {
@@ -95,7 +95,7 @@ public class Audit {
     public String toString() {
         return "Audit{"
                 + "id=" + id
-                + ", operator=" + operator
+                + ", user=" + user
                 + ", executedDate=" + executedDate
                 + ", tableAffected='" + tableAffected + '\''
                 + ", actionName='" + actionName + '\''

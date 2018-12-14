@@ -5,13 +5,13 @@
  */
 package com.bamboo.test;
 
-import com.bamboo.data.OperatorData;
+import com.bamboo.data.UserData;
 import com.bamboo.model.entity.Audit;
 
 
 import com.bamboo.model.method.AuditImpl;
 import com.bamboo.model.entity.Beneficiary;
-import com.bamboo.model.entity.Operator;
+import com.bamboo.model.entity.User;
 
 /**
  *
@@ -20,27 +20,27 @@ import com.bamboo.model.entity.Operator;
 public class AuditTest {
 
     private final AuditImpl audit = new AuditImpl(Beneficiary.class);
-    private final OperatorData operatorData = new OperatorData();
-    private final Operator operator;
+    private final UserData userData = new UserData();
+    private final User user;
 
     public AuditTest() {
         Message msg = new Message();
         msg.printTitle("Audit");
-        operatorData.save();
-        operator = operatorData.findById();
+        userData.save();
+        user = userData.findById();
 
     }
 
 //    @Test
     public void run() {
 
-        audit.save(new Audit(operator, "description"));
+        audit.save(new Audit(user, "description"));
         System.out.println("");
-        audit.update(new Audit(operator, "description"));
+        audit.update(new Audit(user, "description"));
         System.out.println("");
-        audit.delete(new Audit(operator, "description"));
+        audit.delete(new Audit(user, "description"));
         System.out.println("");
-        operatorData.delete();
+        userData.delete();
 
         System.out.println("\n\n");
     }

@@ -19,7 +19,7 @@ public final class InvoiceData {
 
     private final InvoiceImpl invoiceImpl = new InvoiceImpl();
     private final BeneficiaryData beneficiaryData = new BeneficiaryData();
-    private final OperatorData collectorData = new OperatorData();
+    private final UserData collectorData = new UserData();
     private final Invoice invoice;
 
     public InvoiceData() {
