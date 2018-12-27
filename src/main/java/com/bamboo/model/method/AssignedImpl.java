@@ -4,6 +4,9 @@ import com.bamboo.connection.DBConnection;
 import com.bamboo.connection.DBObject;
 import com.bamboo.model.contrat.AssignedInterface;
 import com.bamboo.model.entity.Assigned;
+import com.bamboo.model.entity.AssignedMeasurer;
+import com.bamboo.model.entity.Beneficiary;
+import com.bamboo.model.entity.Measurer;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -16,20 +19,22 @@ public class AssignedImpl implements AssignedInterface {
     @Override
     public Assigned save(Assigned assigned) throws Exception {
         MeasurerImpl measurerImpl = new MeasurerImpl();
-        String sql = "insert into public.assigned(beneficiaryid, measurerid, assignmentdate ) values(?, ?, ?)";
-        List<DBObject> dbos = new ArrayList<>();
+        String sql = "insert into public.assigned(beneficiaryid, measurerid ) values(?, ?)";
 
         try {
-            assigned.setMeasurer(measurerImpl.save(assigned.getMeasurer()));
+            for (AssignedMeasurer item : assigned.getAssigneds()) {
+                Measurer measurer = measurerImpl.save(item.getMeasurer());
+                if (measurer != null) {
+                    List<DBObject> dbos = new ArrayList<>();
+                    dbos.add(new DBObject(1, assigned.getBeneficiary().getId()));
+                    dbos.add(new DBObject(2, measurer.getId()));
+                    if (DBC.querySet(sql, dbos)) {
 
-            if (assigned.getMeasurer() != null) {
-                dbos.add(new DBObject(1, assigned.getBeneficiary().getId()));
-                dbos.add(new DBObject(2, assigned.getMeasurer().getId()));
-                dbos.add(new DBObject(3, assigned.getAssignmentDate()));
+                    }
+                }
+
             }
-            if (DBC.querySet(sql, dbos)) {
-                assigned = findById(assigned.getBeneficiary().getId(), assigned.getMeasurer().getId());
-            }
+            assigned = findByBeneficiary(assigned.getBeneficiary().getId());
         } catch (Exception e) {
             throw e;
         }
@@ -39,8 +44,8 @@ public class AssignedImpl implements AssignedInterface {
     @Override
     public Assigned findById(int beneficiaryId, int measurerId) throws Exception {
         Assigned assigned = null;
-        BeneficiaryImpl beneficiary = new BeneficiaryImpl();
-        MeasurerImpl measurer = new MeasurerImpl();
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "SELECT beneficiaryid, measurerid, assignmentdate, status FROM public.assigned WHERE beneficiaryid=? AND measurerid=? ;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, beneficiaryId));
@@ -50,10 +55,15 @@ public class AssignedImpl implements AssignedInterface {
             ResultSet result = DBC.queryGet(sql, dbos);
             while (result.next()) {
                 assigned = new Assigned();
-                assigned.setBeneficiary(beneficiary.findById(result.getInt("beneficiaryid")));
-                assigned.setMeasurer(measurer.findById(result.getInt("measurerid")));
-                assigned.setAssignmentDate(result.getDate("assignmentdate"));
-                assigned.setStatus(result.getString("status"));
+                assigned.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
+
+                AssignedMeasurer measurer = new AssignedMeasurer();
+                measurer.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                measurer.setAssignmentDate(result.getDate("assignmentdate"));
+                measurer.setStatus(result.getString("status"));
+                assigned.addAssigned(measurer);
+
+
             }
         } catch (Exception e) {
             throw e;
@@ -62,19 +72,29 @@ public class AssignedImpl implements AssignedInterface {
     }
 
     @Override
+    public Assigned findByBeneficiary(int beneficiaryId) throws Exception {
+        Assigned assigned = null;
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
+        try {
+            assigned = new Assigned();
+            assigned.setBeneficiary(beneficiaryImpl.findById(beneficiaryId));
+            assigned.setAssigneds(assignedToBeneficiary(beneficiaryId));
+        } catch (Exception e) {
+            throw e;
+        }
+        return assigned;
+    }
+
+
+    @Override
     public List<Assigned> find() throws Exception {
         List<Assigned> list = new ArrayList<>();
-        BeneficiaryImpl beneficiary = new BeneficiaryImpl();
-        MeasurerImpl measurer = new MeasurerImpl();
-        String sql = "SELECT beneficiaryid, measurerid, assignmentdate, status FROM public.assigned ORDER BY assignmentdate ASC;";
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
         try {
-            ResultSet result = DBC.queryGet(sql);
-            while (result.next()) {
+            for (Beneficiary beneficiary : beneficiaryImpl.find()) {
                 Assigned assigned = new Assigned();
-                assigned.setBeneficiary(beneficiary.findById(result.getInt("beneficiaryid")));
-                assigned.setMeasurer(measurer.findById(result.getInt("measurerid")));
-                assigned.setAssignmentDate(result.getDate("assignmentdate"));
-                assigned.setStatus(result.getString("status"));
+                assigned.setBeneficiary(beneficiary);
+                assigned.setAssigneds(assignedToBeneficiary(beneficiary.getId()));
                 list.add(assigned);
             }
         } catch (Exception e) {
@@ -85,41 +105,33 @@ public class AssignedImpl implements AssignedInterface {
 
     @Override
     public boolean update(Assigned assigned) throws Exception {
-        boolean affected = false;
-        MeasurerImpl measurer = new MeasurerImpl();
-        String sql = "UPDATE public.assigned set status=? WHERE  beneficiaryid=? and measurerid=?;";
-        List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, assigned.getStatus()));
-        dbos.add(new DBObject(2, assigned.getBeneficiary().getId()));
-        dbos.add(new DBObject(3, assigned.getMeasurer().getId()));
-
-        try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = measurer.update(assigned.getMeasurer());
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-
-        return affected;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean delete(Assigned assigned) throws Exception {
-        boolean affected = false;
-        MeasurerImpl measurer = new MeasurerImpl();
-        String sql = "DELETE FROM public.assigned WHERE beneficiaryid=? and measurerid=?;";
-        List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, assigned.getBeneficiary().getId()));
-        dbos.add(new DBObject(2, assigned.getMeasurer().getId()));
-
-        try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = measurer.delete(assigned.getMeasurer());
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return affected;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    private List<AssignedMeasurer> assignedToBeneficiary(int beneficiaryId) {
+        List<AssignedMeasurer> list = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        String sql = "SELECT measurerid, assignmentdate, status FROM assigned WHERE beneficiaryid = ?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, beneficiaryId));
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                AssignedMeasurer assigned = new AssignedMeasurer();
+                assigned.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                assigned.setAssignmentDate(result.getDate("assignmentdate"));
+                assigned.setStatus(result.getString("status"));
+                list.add(assigned);
+            }
+
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
 }

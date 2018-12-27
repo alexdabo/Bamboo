@@ -10,6 +10,8 @@ public interface AssignedInterface {
 
     public Assigned findById(int beneficiaryId, int measurerId) throws Exception;
 
+    public Assigned findByBeneficiary(int beneficiaryId) throws Exception;
+
     public List<Assigned> find() throws Exception;
 
     public boolean update(Assigned assigned) throws Exception;

@@ -5,7 +5,9 @@
  */
 package com.bamboo.model.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -14,18 +16,16 @@ import java.util.Date;
 public class Assigned {
 
     private Beneficiary beneficiary;
-    private Measurer measurer;
-    private Date assignmentDate;
-    private String status;
+    private List<AssignedMeasurer> assigneds;
 
     public Assigned() {
+        beneficiary = new Beneficiary();
+        assigneds = new ArrayList<>();
     }
 
-    public Assigned(Beneficiary beneficiary, Measurer measurer, Date assignmentDate, String status) {
+    public Assigned(Beneficiary beneficiary, List<AssignedMeasurer> assigneds) {
         this.beneficiary = beneficiary;
-        this.measurer = measurer;
-        this.assignmentDate = assignmentDate;
-        this.status = status;
+        this.assigneds = assigneds;
     }
 
     public Beneficiary getBeneficiary() {
@@ -36,37 +36,24 @@ public class Assigned {
         this.beneficiary = beneficiary;
     }
 
-    public Measurer getMeasurer() {
-        return measurer;
+    public List<AssignedMeasurer> getAssigneds() {
+        return assigneds;
     }
 
-    public void setMeasurer(Measurer measurer) {
-        this.measurer = measurer;
+    public void setAssigneds(List<AssignedMeasurer> assigneds) {
+        this.assigneds = assigneds;
     }
 
-    public Date getAssignmentDate() {
-        return assignmentDate;
-    }
-
-    public void setAssignmentDate(Date assignmentDate) {
-        this.assignmentDate = assignmentDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void addAssigned(AssignedMeasurer assigned){
+        assigneds = new ArrayList<>();
+        this.assigneds.add(assigned);
     }
 
     @Override
     public String toString() {
-        return "Assigned{"
-                + "beneficiary=" + beneficiary
-                + ", waterMeter=" + measurer
-                + ", assignmentDate=" + assignmentDate
-                + ", status='" + status + '\''
-                + '}';
+        return "Assigned{" +
+                "beneficiary=" + beneficiary +
+                ", assigneds=" + assigneds +
+                '}';
     }
 }
