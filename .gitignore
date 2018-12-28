@@ -2,7 +2,9 @@
 # build files
 src/main/webapp/
 target/
-simbawater.iml
+
+# server 
+Bamboo.iml 
 
 
 
