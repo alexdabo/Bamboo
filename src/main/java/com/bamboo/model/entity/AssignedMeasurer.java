@@ -16,14 +16,16 @@ public class AssignedMeasurer {
     private Measurer measurer;
     private Date assignmentDate;
     private String status;
+    private double debt;
 
     public AssignedMeasurer() {
     }
 
-    public AssignedMeasurer(Measurer measurer, Date assignmentDate, String status) {
+    public AssignedMeasurer(Measurer measurer, Date assignmentDate, String status, double debt) {
         this.measurer = measurer;
         this.assignmentDate = assignmentDate;
         this.status = status;
+        this.debt = debt;
     }
 
     public Measurer getMeasurer() {
@@ -50,13 +52,21 @@ public class AssignedMeasurer {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "\nAssignedMeasurer{" + "measurers=" + measurer + ", assignmentDate=" + assignmentDate + ", status=" + status + "}";
+    public double getDebt() {
+        return debt;
     }
 
-   
-    
-    
-    
+    public void setDebt(double debt) {
+        this.debt = debt;
+    }
+
+    @Override
+    public String toString() {
+        return "AssignedMeasurer{" +
+                "measurer=" + measurer +
+                ", assignmentDate=" + assignmentDate +
+                ", status='" + status + '\'' +
+                ", debt=" + debt +
+                '}';
+    }
 }

@@ -27,3 +27,24 @@ INSERT INTO public.anotherservice(name, price) VALUES
     (1,   '9876578965',  'sisa sisa',          'angel isaias',         '0983746237',     'La primera constituyente', 'Junto a la fotocopiadora el copion'),
     (2,   '2345678896',  'ortega siguencia',   'gabriela sanndy',      '0973828118',     '11 de noviembre y colon',  'Frente al coliseo'),
     (3,   '3245677654',  'palmay vargas',      'brigith lisbeth',      '0918872646',     'Av Baños de agua santa',   'Junto a la Hacienda los altares');
+
+INSERT INTO PUBLIC.measurer(sapid,	number) values
+  (1,'sdfdfgdg-4'),
+  (2,'frykudtr-l'),
+  (3,'aerseb57-d'),
+  (4,'u87e6v4f-k'),
+  (5,'7nbryy86-f'),
+  (1,'v6fnt7dc-5'),
+  (2,'b7evvvr7-e'),
+  (3,'srgr5y54-5');
+
+
+INSERT INTO PUBLIC.assigned(beneficiaryid,	measurerid) values
+  (1,8),
+  (2,7),
+  (3,6),
+  (4,5),
+  (5,4),
+  (6,3),
+  (7,2),
+  (1,1);

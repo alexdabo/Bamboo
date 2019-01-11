@@ -46,7 +46,7 @@ public class AssignedImpl implements AssignedInterface {
         Assigned assigned = null;
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
         MeasurerImpl measurerImpl = new MeasurerImpl();
-        String sql = "SELECT beneficiaryid, measurerid, assignmentdate, status FROM public.assigned WHERE beneficiaryid=? AND measurerid=? ;";
+        String sql = "SELECT beneficiaryid, measurerid, debt, assignmentdate, status FROM public.assigned WHERE beneficiaryid=? AND measurerid=? ;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, beneficiaryId));
         dbos.add(new DBObject(2, measurerId));
@@ -61,6 +61,7 @@ public class AssignedImpl implements AssignedInterface {
                 measurer.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
                 measurer.setAssignmentDate(result.getDate("assignmentdate"));
                 measurer.setStatus(result.getString("status"));
+                measurer.setDebt(result.getDouble("debt"));
                 assigned.addAssigned(measurer);
 
 
@@ -116,7 +117,7 @@ public class AssignedImpl implements AssignedInterface {
     private List<AssignedMeasurer> assignedToBeneficiary(int beneficiaryId) {
         List<AssignedMeasurer> list = new ArrayList<>();
         MeasurerImpl measurerImpl = new MeasurerImpl();
-        String sql = "SELECT measurerid, assignmentdate, status FROM assigned WHERE beneficiaryid = ?;";
+        String sql = "SELECT measurerid, assignmentdate, debt, status FROM assigned WHERE beneficiaryid = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, beneficiaryId));
         try {
@@ -126,6 +127,8 @@ public class AssignedImpl implements AssignedInterface {
                 assigned.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
                 assigned.setAssignmentDate(result.getDate("assignmentdate"));
                 assigned.setStatus(result.getString("status"));
+                assigned.setDebt(result.getDouble("debt"));
+
                 list.add(assigned);
             }
 
