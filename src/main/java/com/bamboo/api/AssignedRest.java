@@ -3,6 +3,7 @@ package com.bamboo.api;
 import com.bamboo.model.entity.Assigned;
 import com.bamboo.model.method.AssignedImpl;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +20,20 @@ import static java.lang.Integer.*;
 @WebServlet(name = "AssignedRest", urlPatterns = {"/api/assigned"})
 public class AssignedRest extends HttpServlet {
 
-    private final Gson gson = new Gson();
+    private Gson gson;
     private final AssignedImpl assignedImpl = new AssignedImpl();
+
+    public AssignedRest() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd");
+        gson = gsonBuilder.create();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
+
         try {
 
             responseJson = gson.toJson(assignedImpl.find());
@@ -56,15 +64,16 @@ public class AssignedRest extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = null;
-
-        Assigned assigned = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Assigned.class);
         try {
+            Assigned assigned = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Assigned.class);
             responseJson = gson.toJson(assignedImpl.save(assigned));
 
         } catch (Exception ex) {
+            System.err.println(ex.getMessage());
             response.sendError(400, ex.getMessage());
         }
-        
+
+        System.out.println(responseJson);
         response.getWriter().write(responseJson);
     }
 }
