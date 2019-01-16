@@ -17,28 +17,33 @@ public class AssignedImpl implements AssignedInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public Assigned save(Assigned assigned) throws Exception {
+    public boolean save(Assigned assigned) throws Exception {
+        boolean affected = false;
         MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "insert into public.assigned(beneficiaryid, measurerid ) values(?, ?)";
 
         try {
             for (AssignedMeasurer item : assigned.getAssigneds()) {
-                Measurer measurer = measurerImpl.save(item.getMeasurer());
+                Measurer measurer = null;
+                if (item.getMeasurer().getId() == 0) {
+                    measurer = measurerImpl.save(item.getMeasurer());
+                }else{
+                    measurer = item.getMeasurer();
+                }
                 if (measurer != null) {
                     List<DBObject> dbos = new ArrayList<>();
                     dbos.add(new DBObject(1, assigned.getBeneficiary().getId()));
                     dbos.add(new DBObject(2, measurer.getId()));
                     if (DBC.querySet(sql, dbos)) {
-
+                        affected = true;
                     }
                 }
 
             }
-            assigned = findByBeneficiary(assigned.getBeneficiary().getId());
         } catch (Exception e) {
             throw e;
         }
-        return assigned;
+        return affected;
     }
 
     @Override

@@ -17,13 +17,13 @@ public class MeasurerImpl implements MeasurerInterface {
     public Measurer save(Measurer measurer) throws Exception {
         Measurer measurer1 = null;
         measurer.setNumber(random());
-        String sql = "INSERT INTO public.measurer(number, sapid , statusid) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO public.measurer(number, sapid, installationdate ) VALUES (?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, measurer.getNumber()));
         dbos.add(new DBObject(2, measurer.getSap().getId()));
-        dbos.add(new DBObject(3, measurer.getStatus().getId()));
+        dbos.add(new DBObject(3, measurer.getInstallationDate()));
         if (measurer.getId() != 0) {
-            sql = "INSERT INTO public.measurer(number, sapid, statusid, id) VALUES (?, ?, ?, ?);";
+            sql = "INSERT INTO public.measurer(number, sapid, installationdate, id) VALUES (?, ?, ?, ?);";
             dbos.add(new DBObject(4, measurer.getId()));
         }
         try {

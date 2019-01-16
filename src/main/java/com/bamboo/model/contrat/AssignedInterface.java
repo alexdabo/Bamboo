@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AssignedInterface {
 
-    public Assigned save(Assigned assigned) throws Exception;
+    public boolean save(Assigned assigned) throws Exception;
 
     public Assigned findById(int beneficiaryId, int measurerId) throws Exception;
 
