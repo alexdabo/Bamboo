@@ -25,11 +25,16 @@ public class AssignedImpl implements AssignedInterface {
         try {
             for (AssignedMeasurer item : assigned.getAssigneds()) {
                 Measurer measurer = null;
+                //Cuando se asigna un nuevo medidor a un beneficiario
                 if (item.getMeasurer().getId() == 0) {
                     measurer = measurerImpl.save(item.getMeasurer());
-                }else{
+                }
+                //Cuando se realiza un cambio de propietario "beneficiario"
+                else {
                     measurer = item.getMeasurer();
                 }
+
+                // Assignar el mediror al beneficiario
                 if (measurer != null) {
                     List<DBObject> dbos = new ArrayList<>();
                     dbos.add(new DBObject(1, assigned.getBeneficiary().getId()));
@@ -111,7 +116,38 @@ public class AssignedImpl implements AssignedInterface {
 
     @Override
     public boolean update(Assigned assigned) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean affected = false;
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        String sql = "UPDATE public.assigned SET debt=?, assignmentdate=?, status=? WHERE beneficiaryid=? and measurerid=?;";
+
+        try {
+            for (AssignedMeasurer item : assigned.getAssigneds()) {
+                //Actualizar los datos del medidor
+                if (measurerImpl.update(item.getMeasurer())) {
+                    affected = true;
+                }
+
+                // Actualizar datos del medidor asignado
+
+                List<DBObject> dbos = new ArrayList<>();
+                dbos.add(new DBObject(1, item.getDebt()));
+                dbos.add(new DBObject(2, item.getAssignmentDate()));
+                dbos.add(new DBObject(3, item.getStatus()));
+                dbos.add(new DBObject(4, assigned.getBeneficiary().getId()));
+                dbos.add(new DBObject(5, item.getMeasurer().getId()));
+
+                // Actualiza la tabla assigned y verifica que medidores se actualizo
+                if (DBC.querySet(sql, dbos)) {
+                    affected = affected && true;
+                }else{
+                    affected = affected && false;
+                }
+
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return affected;
     }
 
     @Override

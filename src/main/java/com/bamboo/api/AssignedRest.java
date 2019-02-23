@@ -79,4 +79,27 @@ public class AssignedRest extends HttpServlet {
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
+
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
+        String responseJson = null;
+        Assigned assigned = null;
+        try {
+            assigned = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Assigned.class);
+            if (assignedImpl.update(assigned)) {
+                map.put("saved", true);
+            } else {
+                map.put("saved", false);
+            }
+        } catch (Exception ex) {
+            response.setStatus(400);
+            map.put("error", ex.getMessage());
+            map.put("assigned", assigned);
+        }
+        responseJson = gson.toJson(map);
+        response.getWriter().write(responseJson);
+    }
 }
