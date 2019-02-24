@@ -22,6 +22,7 @@ public class AssignedRest extends HttpServlet {
 
     private Gson gson;
     private final AssignedImpl assignedImpl = new AssignedImpl();
+    private Map<String, Object> map = new HashMap<>();
 
     public AssignedRest() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -42,19 +43,33 @@ public class AssignedRest extends HttpServlet {
                 responseJson = gson.toJson(assignedImpl.findByBeneficiary(
                         Integer.parseInt(request.getParameter("beneficiaryId"))
                 ));
+            }
 
-                if (request.getParameter("measurerId") != null) {
-                    responseJson = gson.toJson(assignedImpl.findById(
-                            Integer.parseInt(request.getParameter("beneficiaryId")),
-                            Integer.parseInt(request.getParameter("measurerId"))
-                    ));
+            if (request.getParameter("measurerId") != null) {
+                responseJson = gson.toJson(assignedImpl.findByMeasurer(
+                        Integer.parseInt(request.getParameter("measurerId"))
+                ));
+            }
 
-                }
+            if (request.getParameter("measurerNumber") != null) {
+                responseJson = gson.toJson(assignedImpl.findByMeasurer(
+                        request.getParameter("measurerNumber")
+                ));
+            }
+
+            if (request.getParameter("beneficiaryId") != null && request.getParameter("measurerId") != null) {
+                responseJson = gson.toJson(assignedImpl.findById(
+                        Integer.parseInt(request.getParameter("beneficiaryId")),
+                        Integer.parseInt(request.getParameter("measurerId"))
+                ));
 
             }
 
+
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.setStatus(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
     }

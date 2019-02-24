@@ -96,6 +96,66 @@ public class AssignedImpl implements AssignedInterface {
         return assigned;
     }
 
+    public Assigned findByMeasurer(int measurerId) throws Exception {
+        Assigned assigned = null;
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        String sql = "SELECT beneficiaryid, measurerid, debt, assignmentdate, status FROM public.assigned WHERE measurerid=? ;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, measurerId));
+
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                assigned = new Assigned();
+                assigned.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
+
+                AssignedMeasurer measurer = new AssignedMeasurer();
+                measurer.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                measurer.setAssignmentDate(result.getDate("assignmentdate"));
+                measurer.setStatus(result.getString("status"));
+                measurer.setDebt(result.getDouble("debt"));
+                assigned.addAssigned(measurer);
+
+
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return assigned;
+    }
+
+    public Assigned findByMeasurer(String measurerNumber) throws Exception {
+        Assigned assigned = null;
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        String sql = "SELECT assigned.beneficiaryid, assigned.measurerid, assigned.debt, assigned.assignmentdate, assigned.status FROM public.assigned " +
+                "INNER JOIN measurer on assigned.measurerid =  measurer.id " +
+                "WHERE measurer.number=? AND assigned.status='enable';";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, measurerNumber));
+
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                assigned = new Assigned();
+                assigned.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
+
+                AssignedMeasurer measurer = new AssignedMeasurer();
+                measurer.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                measurer.setAssignmentDate(result.getDate("assignmentdate"));
+                measurer.setStatus(result.getString("status"));
+                measurer.setDebt(result.getDouble("debt"));
+                assigned.addAssigned(measurer);
+
+
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return assigned;
+    }
+
 
     @Override
     public List<Assigned> find() throws Exception {
@@ -139,7 +199,7 @@ public class AssignedImpl implements AssignedInterface {
                 // Actualiza la tabla assigned y verifica que medidores se actualizo
                 if (DBC.querySet(sql, dbos)) {
                     affected = affected && true;
-                }else{
+                } else {
                     affected = affected && false;
                 }
 
