@@ -28,7 +28,7 @@ public class MeasurerImpl implements MeasurerInterface {
         }
         try {
             if (DBC.querySet(sql, dbos)) {
-                measurer1 = findByCode(measurer.getNumber());
+                measurer1 = findByNumber(measurer.getNumber());
             }
         } catch (Exception e) {
             throw e;
@@ -46,6 +46,31 @@ public class MeasurerImpl implements MeasurerInterface {
         String sql = "SELECT id, sapid, statusid, number, installationdate FROM public.measurer where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                measurer = new Measurer();
+                measurer.setId(result.getInt("id"));
+                measurer.setSap(sapImpl.findById(result.getInt("sapid")));
+                measurer.setStatus(statusImpl.findById(result.getInt("statusid")));
+                measurer.setInstallationDate(result.getDate("installationdate"));
+                measurer.setNumber(result.getString("number"));
+
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return measurer;
+    }
+    
+    @Override
+    public Measurer findByNumber(String code) throws Exception {
+        Measurer measurer = null;
+        SapImpl sapImpl = new SapImpl();
+        StatusImpl statusImpl = new StatusImpl();
+        String sql = "SELECT id, sapid, statusid, number, installationdate FROM public.measurer where number = ?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, code));
         try {
             ResultSet result = DBC.queryGet(sql, dbos);
             while (result.next()) {
@@ -216,30 +241,6 @@ public class MeasurerImpl implements MeasurerInterface {
             map.put("amounts", amounts);
         }
         return map;
-    }
-
-    private Measurer findByCode(String code) throws Exception {
-        Measurer measurer = null;
-        SapImpl sapImpl = new SapImpl();
-        StatusImpl statusImpl = new StatusImpl();
-        String sql = "SELECT id, sapid, statusid, number, installationdate FROM public.measurer where number = ?;";
-        List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, code));
-        try {
-            ResultSet result = DBC.queryGet(sql, dbos);
-            while (result.next()) {
-                measurer = new Measurer();
-                measurer.setId(result.getInt("id"));
-                measurer.setSap(sapImpl.findById(result.getInt("sapid")));
-                measurer.setStatus(statusImpl.findById(result.getInt("statusid")));
-                measurer.setInstallationDate(result.getDate("installationdate"));
-                measurer.setNumber(result.getString("number"));
-
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return measurer;
     }
 
     private String random() {

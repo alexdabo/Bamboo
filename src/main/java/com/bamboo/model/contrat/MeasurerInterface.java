@@ -11,6 +11,8 @@ public interface MeasurerInterface {
 
     public Measurer findById(int id) throws Exception;
 
+    public Measurer findByNumber(String code) throws Exception;
+
     public List<Measurer> find() throws Exception;
 
     public boolean update(Measurer measurer) throws Exception;
