@@ -8,6 +8,8 @@ public interface UptakeInterface extends CRUD<Uptake> {
 
     public List<Uptake> findNotBilled(int measurerId) throws Exception;
 
+    public List<Uptake> findByMeasurer(int measurerId) throws Exception;
+
     public List<Uptake> findByInvoice(int InvoiceId) throws Exception;
 
 }

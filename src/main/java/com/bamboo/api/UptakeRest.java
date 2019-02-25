@@ -4,6 +4,7 @@ import com.bamboo.model.entity.Audit;
 import com.bamboo.model.entity.Uptake;
 import com.bamboo.model.method.UptakeImpl;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +19,15 @@ import java.util.stream.Collectors;
 @WebServlet(name = "UptakeRest", urlPatterns = {"/api/uptake"})
 public class UptakeRest extends HttpServlet {
 
-    private final Gson gson = new Gson();
+    private Gson gson = new Gson();
     private final UptakeImpl uptakeImpl = new UptakeImpl();
     private Map<String, Object> map = new HashMap<>();
+
+    public UptakeRest() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd");
+        gson = gsonBuilder.create();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,11 +41,18 @@ public class UptakeRest extends HttpServlet {
             if (request.getParameter("notBilled") != null) {
                 if (request.getParameter("measurerId") != null) {
                     responseJson = gson.toJson(uptakeImpl.findNotBilled(Integer.parseInt(request.getParameter("measurerId"))));
-                }else{
-                    map.put("error","El Id de medidor es requerido.");
+                } else {
+                    map.put("error", "El Id de medidor es requerido.");
                     responseJson = gson.toJson(map);
                 }
+            } else {
+                if (request.getParameter("measurerId") != null) {
+                    responseJson = gson.toJson(uptakeImpl.findByMeasurer(
+                            Integer.parseInt(request.getParameter("measurerId")))
+                    );
+                }
             }
+
 
         } catch (Exception ex) {
             response.setStatus(400);
@@ -52,10 +66,11 @@ public class UptakeRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        String responseJson;
+        String responseJson = null;
 
-        Uptake uptake = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Uptake.class);
+        Uptake uptake;
         try {
+            uptake = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Uptake.class);
             if (uptakeImpl.save(uptake)) {
                 map.put("saved", true);
                 // audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + uptake.getName()));
@@ -66,7 +81,6 @@ public class UptakeRest extends HttpServlet {
         } catch (Exception ex) {
             response.setStatus(400);
             map.put("error", ex.getMessage());
-            responseJson = gson.toJson(map);
 
         }
         responseJson = gson.toJson(map);
@@ -90,7 +104,6 @@ public class UptakeRest extends HttpServlet {
         } catch (Exception ex) {
             response.setStatus(400);
             map.put("error", ex.getMessage());
-            responseJson = gson.toJson(map);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -113,7 +126,6 @@ public class UptakeRest extends HttpServlet {
         } catch (Exception ex) {
             response.setStatus(400);
             map.put("error", ex.getMessage());
-            responseJson = gson.toJson(map);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

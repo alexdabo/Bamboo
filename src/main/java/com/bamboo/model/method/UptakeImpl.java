@@ -169,6 +169,38 @@ public class UptakeImpl implements UptakeInterface {
     }
 
     @Override
+    public List<Uptake> findByMeasurer(int measurerId) throws Exception {
+        List<Uptake> uptakes = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        String sql = "SELECT id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, extraprice, volumeconsumed, volumeexceeded, totalprice, billed "
+                + "FROM public.uptake where measurerid = ? ORDER BY id DESC lIMIT 10;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, measurerId));
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                Uptake uptake = new Uptake();
+                uptake.setId(result.getInt("id"));
+                uptake.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                uptake.setDatetaked(result.getDate("datetaked"));
+                uptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
+                uptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));
+                uptake.setBaseVolume(result.getDouble("basevolume"));
+                uptake.setBasePrice(result.getDouble("baseprice"));
+                uptake.setExtraPrice(result.getDouble("extraprice"));
+                uptake.setVolumeConsumed(result.getDouble("volumeconsumed"));
+                uptake.setVolumeExceeded(result.getDouble("volumeexceeded"));
+                uptake.setTotalPrice(result.getDouble("totalprice"));
+                uptake.setBilled(result.getBoolean("billed"));
+                uptakes.add(uptake);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            throw e;
+        }
+        return uptakes;
+    }
+
+    @Override
     public List<Uptake> findByInvoice(int InvoiceId) throws Exception {
         return null;
     }
