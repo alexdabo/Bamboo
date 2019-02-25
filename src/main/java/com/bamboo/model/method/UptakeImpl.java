@@ -201,7 +201,39 @@ public class UptakeImpl implements UptakeInterface {
     }
 
     @Override
-    public List<Uptake> findByInvoice(int InvoiceId) throws Exception {
-        return null;
+    public List<Uptake> findByInvoice(int invoiceId) throws Exception {
+        List<Uptake> uptakes = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        String sql = "SELECT uptake.id, uptake.measurerid, uptake.datetaked, uptake.lastvaluetaken, uptake.currentvaluetaken, " +
+                "uptake.basevolume, uptake.baseprice, uptake.extraprice, uptake.volumeconsumed, uptake.volumeexceeded, " +
+                "uptake.totalprice, uptake.billed " +
+                "FROM public.sapdetail as detail " +
+                "INNER JOIN public.uptake on detail.uptakeid = uptake.id " +
+                "INNER JOIN public.invoice on detail.invoiceid = invoice.id " +
+                "WHERE invoice.id=?";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, invoiceId));
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                Uptake uptake = new Uptake();
+                uptake.setId(result.getInt("id"));
+                uptake.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                uptake.setDatetaked(result.getDate("datetaked"));
+                uptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
+                uptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));
+                uptake.setBaseVolume(result.getDouble("basevolume"));
+                uptake.setBasePrice(result.getDouble("baseprice"));
+                uptake.setExtraPrice(result.getDouble("extraprice"));
+                uptake.setVolumeConsumed(result.getDouble("volumeconsumed"));
+                uptake.setVolumeExceeded(result.getDouble("volumeexceeded"));
+                uptake.setTotalPrice(result.getDouble("totalprice"));
+                uptake.setBilled(result.getBoolean("billed"));
+                uptakes.add(uptake);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            throw e;
+        }
+        return uptakes;
     }
 }

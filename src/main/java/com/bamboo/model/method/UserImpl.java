@@ -63,7 +63,7 @@ public class UserImpl implements UserInterface {
                 user.setId(result.getInt("id"));
                 user.setRole(roleImpl.findById(result.getInt("roleid")));
                 user.setUserName(result.getString("username"));
-                user.setPassword(result.getString("password"));
+                //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
                 user.setDni(result.getString("dni"));
                 user.setFirstName(capitalize(result.getString("firstname")));
@@ -89,7 +89,7 @@ public class UserImpl implements UserInterface {
                 user.setId(result.getInt("id"));
                 user.setRole(roleImpl.findById(result.getInt("roleid")));
                 user.setUserName(result.getString("username"));
-                user.setPassword(result.getString("password"));
+                //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
                 user.setDni(result.getString("dni"));
                 user.setFirstName(capitalize(result.getString("firstname")));
@@ -166,7 +166,7 @@ public class UserImpl implements UserInterface {
                 user.setId(result.getInt("id"));
                 user.setRole(roleImpl.findById(result.getInt("roleid")));
                 user.setUserName(result.getString("username"));
-                user.setPassword(result.getString("password"));
+                //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
                 user.setDni(result.getString("dni"));
                 user.setFirstName(capitalize(result.getString("firstname")));
@@ -199,7 +199,7 @@ public class UserImpl implements UserInterface {
                 user.setId(result.getInt("id"));
                 user.setRole(roleImpl.findById(result.getInt("roleid")));
                 user.setUserName(result.getString("username"));
-                user.setPassword(result.getString("password"));
+                //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
                 user.setDni(result.getString("dni"));
                 user.setFirstName(capitalize(result.getString("firstname")));

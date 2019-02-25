@@ -5,6 +5,8 @@
  */
 package com.bamboo.model.entity;
 
+import java.util.List;
+
 /**
  *
  * @author alexander
@@ -12,14 +14,14 @@ package com.bamboo.model.entity;
 public class SapDetail {
 
     private Invoice invoice;
-    private Uptake uptake;
+    private List<Uptake> uptakes;
 
     public SapDetail() {
     }
 
-    public SapDetail(Invoice invoice, Uptake uptake) {
+    public SapDetail(Invoice invoice, List<Uptake> uptakes) {
         this.invoice = invoice;
-        this.uptake = uptake;
+        this.uptakes = uptakes;
     }
 
     public Invoice getInvoice() {
@@ -30,19 +32,11 @@ public class SapDetail {
         this.invoice = invoice;
     }
 
-    public Uptake getUptake() {
-        return uptake;
+    public List<Uptake> getUptakes() {
+        return uptakes;
     }
 
-    public void setUptake(Uptake uptake) {
-        this.uptake = uptake;
-    }
-
-    @Override
-    public String toString() {
-        return "SapDetail{"
-                + "invoice=" + invoice
-                + ", uptake=" + uptake
-                + '}';
+    public void setUptakes(List<Uptake> uptakes) {
+        this.uptakes = uptakes;
     }
 }
