@@ -1,3 +1,7 @@
+INSERT INTO public.operator(roleid,username, password, email, dni, firstname, lastname, telephone, address) VALUES
+       (2,'cobros', '20aabadb6855268577d5a66f0d9346d7','cobros@bamboo.com', '1111111111', 'cobros', 'cobros', '1111111111',''),
+       (3,'medidas', '794544c88ec2aa0fdeaa3e7a4fad6454','medidas@bamboo.com', '222222222', 'medidas', 'medidas', '2222222222','');
+
 INSERT INTO village(name) values
   ('Riobamba'),
   ('Guano'),
@@ -29,14 +33,14 @@ INSERT INTO public.anotherservice(name, price) VALUES
     (3,   '3245677654',  'palmay vargas',      'brigith lisbeth',      '0918872646',     'Av Baños de agua santa',   'Junto a la Hacienda los altares');
 
 INSERT INTO PUBLIC.measurer(sapid,	number) values
-  (1,'sdfdfgdg-4'),
-  (2,'frykudtr-l'),
-  (3,'aerseb57-d'),
-  (4,'u87e6v4f-k'),
-  (5,'7nbryy86-f'),
-  (1,'v6fnt7dc-5'),
-  (2,'b7evvvr7-e'),
-  (3,'srgr5y54-5');
+  (1,'1'),
+  (2,'2'),
+  (3,'3'),
+  (4,'4'),
+  (5,'5'),
+  (1,'6'),
+  (2,'7'),
+  (3,'8');
 
 
 INSERT INTO PUBLIC.assigned(beneficiaryid,	measurerid) values

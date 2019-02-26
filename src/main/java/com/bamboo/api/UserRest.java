@@ -35,6 +35,15 @@ public class UserRest extends HttpServlet {
                 responseJson = gson.toJson(userImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
 
+            if (request.getParameter("username") != null && request.getParameter("password") != null) {
+                System.out.println("logear");
+                responseJson = gson.toJson(userImpl.findAndLogin(
+                        request.getParameter("username"),
+                        request.getParameter("password")
+                ));
+            }
+
+
             if (request.getParameter("data") != null) {
                 responseJson = gson.toJson(userImpl.findByData(request.getParameter("data")));
             }
