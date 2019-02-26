@@ -1,5 +1,7 @@
 package com.bamboo.api;
 
+import com.bamboo.model.entity.Audit;
+import com.bamboo.model.entity.Sap;
 import com.bamboo.model.entity.SapDetail;
 import com.bamboo.model.method.RoleImpl;
 import com.bamboo.model.method.SapDetailImpl;
@@ -11,8 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-@WebServlet(name = "ServiceInvoiceRest", urlPatterns = {"/api/invoice/sap"})
+@WebServlet(name = "ServiceInvoiceRest", urlPatterns = {"/api/sapinvoice"})
 public class SapInvoiceRest extends HttpServlet {
 
     private final Gson gson = new Gson();
@@ -30,6 +35,30 @@ public class SapInvoiceRest extends HttpServlet {
         } catch (Exception ex) {
             response.sendError(400, ex.getMessage());
         }
+        response.getWriter().write(responseJson);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        Map<String, Boolean> map = new HashMap<>();
+        String responseJson;
+
+        SapDetail sapDetail = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDetail.class);
+        try {
+            if (detailImpl.save(sapDetail)) {
+                map.put("saved", true);
+                //audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sap.getName()));
+            } else {
+                map.put("saved", false);
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            response.sendError(400, ex.getMessage());
+
+        }
+        responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
 }
