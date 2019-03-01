@@ -1,6 +1,15 @@
 /*******************************************************************
 *                          INDEPENDENT TABLES                      *
 ********************************************************************/
+CREATE TABLE entity(
+  province CHARACTER VARYING (30) NOT NULL,
+  canton CHARACTER VARYING  (30) NOT NULL,
+  community CHARACTER VARYING  (30) NOT NULL,
+  address CHARACTER VARYING (50) NOT NULL,
+  telephone CHARACTER VARYING (13) NOT NULL,
+  email CHARACTER VARYING (30) NOT NULL,
+  ruc CHARACTER VARYING  (15) NOT NULL
+);
 
 CREATE TABLE role(
   id SERIAL NOT NULL,
