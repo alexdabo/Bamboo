@@ -22,11 +22,12 @@ public class UserRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final UserImpl userImpl = new UserImpl();
-    private final AuditImpl audit = new AuditImpl(Beneficiary.class);
+    private final AuditImpl audit = new AuditImpl(User.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
         String responseJson = "";
         try {
             responseJson = gson.toJson(userImpl.find());
@@ -36,11 +37,18 @@ public class UserRest extends HttpServlet {
             }
 
             if (request.getParameter("username") != null && request.getParameter("password") != null) {
-                System.out.println("logear");
-                responseJson = gson.toJson(userImpl.findAndLogin(
+                User user = userImpl.findAndLogin(
                         request.getParameter("username"),
                         request.getParameter("password")
-                ));
+                );
+                if (user == null) {
+                    map.put("logged", false);
+                    responseJson = gson.toJson(map);
+                } else {
+                    map.put("logged", true);
+                    map.put("user", user);
+                    responseJson = gson.toJson(map);
+                }
             }
 
 

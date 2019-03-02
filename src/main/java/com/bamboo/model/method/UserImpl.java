@@ -108,19 +108,18 @@ public class UserImpl implements UserInterface {
     public boolean update(User user) throws Exception {
         boolean affected = false;
         String sql = "UPDATE public.operator SET "
-                + "roleid=?, username=?, password=?, email=?, dni=?, firstname=?, lastname=?, telephone=?, address=? "
+                + "roleid=?, username=?, email=?, dni=?, firstname=?, lastname=?, telephone=?, address=? "
                 + "WHERE id = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, user.getRole().getId()));
         dbos.add(new DBObject(2, user.getUserName().toLowerCase()));
-        dbos.add(new DBObject(3, user.getPassword()));
-        dbos.add(new DBObject(4, user.getEmail()));
-        dbos.add(new DBObject(5, user.getDni()));
-        dbos.add(new DBObject(6, user.getFirstName().toLowerCase()));
-        dbos.add(new DBObject(7, user.getLastName().toLowerCase()));
-        dbos.add(new DBObject(8, user.getTelephone()));
-        dbos.add(new DBObject(9, user.getAddress()));
-        dbos.add(new DBObject(10, user.getId()));
+        dbos.add(new DBObject(3, user.getEmail()));
+        dbos.add(new DBObject(4, user.getDni()));
+        dbos.add(new DBObject(5, user.getFirstName().toLowerCase()));
+        dbos.add(new DBObject(6, user.getLastName().toLowerCase()));
+        dbos.add(new DBObject(7, user.getTelephone()));
+        dbos.add(new DBObject(8, user.getAddress()));
+        dbos.add(new DBObject(9, user.getId()));
 
         try {
             if (DBC.querySet(sql, dbos)) {
