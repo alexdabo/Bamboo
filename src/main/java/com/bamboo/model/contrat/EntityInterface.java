@@ -15,5 +15,6 @@ import java.util.List;
 public interface EntityInterface {
 
     public Entity find() throws Exception;
+
     public boolean update(Entity entity) throws Exception;
 }
