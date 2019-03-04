@@ -92,19 +92,36 @@ public class UserRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Map<String, Object> map = new HashMap<>();
         String responseJson;
-
-        User user = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), User.class);
-        try {
-            if (userImpl.update(user)) {
-                map.put("updated", true);
-                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "dni: " + user.getDni()));
-            } else {
-                map.put("updated", false);
+        if (request.getParameter("currentPass") != null && request.getParameter("newPass") != null) {
+            try {
+                User user = userImpl.findAndLogin(request.getParameter("username"), request.getParameter("currentPass"));
+                if (user != null) {
+                    user.setPassword(request.getParameter("newPass"));
+                    if (userImpl.updatePass(user)) {
+                        map.put("updated", true);
+                    }
+                } else {
+                    map.put("updated", false);
+                    map.put("msg", "Contraseña actual no coicide");
+                }
+            } catch (Exception ex) {
+                response.setStatus(400);
+                map.put("error", ex.getMessage());
             }
+        } else {
+            User user = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), User.class);
+            try {
+                if (userImpl.update(user)) {
+                    map.put("updated", true);
+                    audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "dni: " + user.getDni()));
+                } else {
+                    map.put("updated", false);
+                }
 
-        } catch (Exception ex) {
-            response.setStatus(400);
-            map.put("errorText", ex.getMessage());
+            } catch (Exception ex) {
+                response.setStatus(400);
+                map.put("error", ex.getMessage());
+            }
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
