@@ -27,7 +27,7 @@ public class StatisticRest extends HttpServlet {
         try {
             //Find the number of people in the villages
             BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-            map.put("peopleFromBillage", beneficiaryImpl.peopleFromVillages());
+            map.put("peopleFromVillage", beneficiaryImpl.peopleFromVillages());
 
             MeasurerImpl measurerImpl = new MeasurerImpl();
             map.put("measurerPerService",measurerImpl.findMeasurerPerService());

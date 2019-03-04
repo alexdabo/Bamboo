@@ -9,5 +9,5 @@ public interface BeneficiaryInterface extends CRUD<Beneficiary> {
 
     public List<Beneficiary> findByData(String data, int villageId) throws Exception;
 
-    public Map<String, Object> peopleFromVillages() throws Exception;
+    public List< Map<String, Object>> peopleFromVillages() throws Exception;
 }

@@ -186,25 +186,21 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
     }
 
     @Override
-    public Map<String, Object> peopleFromVillages() throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        List<String> villages = new ArrayList<>();
-        List<Integer> amounts = new ArrayList<>();
+    public List<Map<String, Object>> peopleFromVillages() throws Exception {
+        List<Map<String, Object>> list = new ArrayList<>();
         String sql = "Select v.name as village, COUNT(b.villageid) as amounts From village v, beneficiary b where v.id=b.villageid group by v.name";
         try {
             ResultSet result = DBC.queryGet(sql);
             while (result.next()) {
-                villages.add(result.getString("village"));
-                amounts.add(result.getInt("amounts"));
+                Map<String, Object> map = new HashMap<>();
+                map.put("village",result.getString("village"));
+                map.put("amount",result.getInt("amounts"));
+                list.add(map);
             }
         } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
-        if (villages.size() > 0 && amounts.size() > 0 && villages.size() == amounts.size()) {
-            map.put("villages", villages);
-            map.put("amounts", amounts);
-        }
-        return map;
+        return list;
     }
 
     private String capitalize(final String text) {

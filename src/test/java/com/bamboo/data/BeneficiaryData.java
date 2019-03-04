@@ -113,8 +113,8 @@ public final class BeneficiaryData {
         return list;
     }
 
-    public Map<String, Object> peopleFromVillages() {
-        Map<String, Object> list = new HashMap<>();
+    public List<Map<String, Object>> peopleFromVillages() {
+        List<Map<String, Object>> list = new ArrayList<>();
         try {
             list = beneficiaryImpl.peopleFromVillages();
             if (list.size() > 0) {
