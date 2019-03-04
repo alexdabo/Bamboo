@@ -200,47 +200,42 @@ public class MeasurerImpl implements MeasurerInterface {
     }
 
     @Override
-    public Map<String, Object> findMeasurerPerService() throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        List<String> services = new ArrayList<>();
-        List<Integer> amounts = new ArrayList<>();
+    public List<Map<String, Object>> findMeasurerPerService() throws Exception {
+
+            List<Map<String, Object>> list = new ArrayList<>();
+
         String sql = "SELECT s.name as service, COUNT(m.sapid) as amounts FROM sap s, measurer m WHERE s.id=m.sapid GROUP BY s.name;";
         try {
             ResultSet result = DBC.queryGet(sql);
             while (result.next()) {
-                services.add(result.getString("service"));
-                amounts.add(result.getInt("amounts"));
+                Map<String, Object> map = new HashMap<>();
+                map.put("service",result.getString("service"));
+                map.put("amount",result.getInt("amounts"));
+                list.add(map);
             }
         } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
-        if (services.size() > 0 && amounts.size() > 0 && services.size() == amounts.size()) {
-            map.put("services", services);
-            map.put("amounts", amounts);
-        }
-        return map;
+
+        return list;
     }
 
     @Override
-    public Map<String, Object> findMeasurerPerStatus() throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        List<String> status = new ArrayList<>();
-        List<Integer> amounts = new ArrayList<>();
+    public List<Map<String, Object>> findMeasurerPerStatus() throws Exception {
+        List<Map<String, Object>> list = new ArrayList<>();
         String sql = "SELECT s.name as status, COUNT(m.statusid) as amounts FROM status s, measurer m WHERE s.id=m.statusid GROUP BY s.name;";
         try {
             ResultSet result = DBC.queryGet(sql);
             while (result.next()) {
-                status.add(result.getString("status"));
-                amounts.add(result.getInt("amounts"));
+                Map<String, Object> map = new HashMap<>();
+                map.put("status",result.getString("status"));
+                map.put("amount",result.getInt("amounts"));
+                list.add(map);
             }
         } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
-        if (status.size() > 0 && amounts.size() > 0 && status.size() == amounts.size()) {
-            map.put("status", status);
-            map.put("amounts", amounts);
-        }
-        return map;
+        return list;
     }
 
     private String random() {

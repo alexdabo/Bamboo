@@ -129,8 +129,8 @@ public final class MeasurerData {
         return list;
     }
 
-    public Map<String, Object> findMeasurerPerService() {
-        Map<String, Object> list = new HashMap<>();
+    public List<Map<String, Object>> findMeasurerPerService() {
+        List<Map<String, Object>> list = new ArrayList<>();
         try {
             list = measurerImpl.findMeasurerPerService();
             if (list.size() > 0) {
@@ -142,8 +142,8 @@ public final class MeasurerData {
         return list;
     }
 
-    public Map<String, Object> findMeasurerPerStatus() {
-        Map<String, Object> list = new HashMap<>();
+    public List<Map<String, Object>> findMeasurerPerStatus() {
+        List<Map<String, Object>> list = new ArrayList<>();
         try {
             list = measurerImpl.findMeasurerPerStatus();
             if (list.size() > 0) {

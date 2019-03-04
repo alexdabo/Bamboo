@@ -23,8 +23,8 @@ public interface MeasurerInterface {
 
     public List<Measurer> findByStatus(int statusId) throws Exception;
 
-    public Map<String, Object> findMeasurerPerService() throws Exception;
+    public List<Map<String, Object>> findMeasurerPerService() throws Exception;
 
-    public Map<String, Object> findMeasurerPerStatus() throws Exception;
+    public List<Map<String, Object>> findMeasurerPerStatus() throws Exception;
 
 }
