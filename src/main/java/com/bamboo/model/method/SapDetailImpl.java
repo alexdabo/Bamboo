@@ -16,8 +16,39 @@ public class SapDetailImpl implements SapDetailInterface {
 
     @Override
     public SapDetail create(SapDetail detail) throws Exception{
-        return null;
+        SapDetail sapDetail = null;
+        boolean affected= false;
+        UptakeImpl uptakeImp = new UptakeImpl();
+        InvoiceImpl invoiceImpl = new InvoiceImpl();
+        String sql = "insert into public.sapdetail(invoiceid, uptakeid ) values(?, ?)";
+
+        try {
+
+            Invoice invoice =  invoiceImpl.save(detail.getInvoice());
+            if(invoice.getId()!=0){
+                for (Uptake uptake : detail.getUptakes()){
+                    List<DBObject> dbos = new ArrayList<>();
+                    dbos.add(new DBObject(1,invoice.getId()));
+                    dbos.add(new DBObject(2,uptake.getId()));
+                    if (DBC.querySet(sql, dbos)) {
+                        affected = true;
+                        System.out.println("step1");
+                        uptake.setBilled(true);
+                        uptakeImp.update(uptake);
+                    }
+                }
+                if (affected){
+                    System.out.println("step2");
+                   sapDetail = findByInvoice(invoice.getId());
+                    System.out.println("id: " + invoice.getId());
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return sapDetail;
     }
+
 
     @Override
     public boolean save(SapDetail detail) throws Exception {
@@ -81,6 +112,24 @@ public class SapDetailImpl implements SapDetailInterface {
             throw e;
         }
         return list;
+    }
+
+
+    @Override
+    public SapDetail findByInvoice(int invoiceId) throws Exception {
+        SapDetail sapDetail = null;
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
+        InvoiceImpl invoiceImpl = new InvoiceImpl();
+        UptakeImpl uptakeImp = new UptakeImpl();
+        try {
+            sapDetail.setInvoice(invoiceImpl.findById(invoiceId));
+            sapDetail.setUptakes(uptakeImp.findByInvoice(sapDetail.getInvoice().getId()));
+            System.out.println(invoiceImpl.findById(invoiceId));
+        } catch (Exception e) {
+            //delete()
+            throw e;
+        }
+        return sapDetail;
     }
 
     @Override

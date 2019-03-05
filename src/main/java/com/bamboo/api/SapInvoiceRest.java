@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class SapInvoiceRest extends HttpServlet {
 
     private final Gson gson = new Gson();
+    Map<String,Object> map = new HashMap<>();
     private final SapDetailImpl detailImpl = new SapDetailImpl();
 
     @Override
@@ -41,24 +42,20 @@ public class SapInvoiceRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
-        String responseJson;
+
+        String responseJson = null;
 
         SapDetail sapDetail = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDetail.class);
         try {
-            if (detailImpl.save(sapDetail)) {
-                map.put("saved", true);
-                //audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sap.getName()));
-            } else {
-                map.put("saved", false);
-            }
+           responseJson =gson.toJson(detailImpl.create(sapDetail));
+           System.out.print(responseJson);
 
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            response.sendError(400, ex.getMessage());
+            response.setStatus(400);
+            map.put("error",ex.getMessage());
+            responseJson = gson.toJson(map);
 
         }
-        responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
 }
