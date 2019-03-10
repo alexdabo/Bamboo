@@ -17,12 +17,12 @@ import java.util.Map;
 @WebServlet(name = "StatisticRest", urlPatterns = {"/api/statistic"})
 public class StatisticRest extends HttpServlet {
 
+    private Map<String, Object> map = new HashMap<>();
     private final Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Object> map = new HashMap<>();
         String responseJson = "";
         try {
             //Find the number of people in the villages
@@ -30,11 +30,12 @@ public class StatisticRest extends HttpServlet {
             map.put("peopleFromVillage", beneficiaryImpl.peopleFromVillages());
 
             MeasurerImpl measurerImpl = new MeasurerImpl();
-            map.put("measurerPerService",measurerImpl.findMeasurerPerService());
-            map.put("measurerPerStatus",measurerImpl.findMeasurerPerStatus());
+            map.put("measurerPerService", measurerImpl.findMeasurerPerService());
+            map.put("measurerPerStatus", measurerImpl.findMeasurerPerStatus());
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

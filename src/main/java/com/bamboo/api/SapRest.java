@@ -29,6 +29,7 @@ public class SapRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final SapImpl sapImpl = new SapImpl();
+    private Map<String, Object> map = new HashMap<>();
     private final AuditImpl audit = new AuditImpl(Sap.class);
 
     @Override
@@ -41,7 +42,9 @@ public class SapRest extends HttpServlet {
                 responseJson = gson.toJson(sapImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
 
@@ -50,7 +53,6 @@ public class SapRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         Sap sap = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Sap.class);
@@ -63,8 +65,8 @@ public class SapRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
-
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -73,7 +75,6 @@ public class SapRest extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         Sap sap = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Sap.class);
@@ -86,7 +87,8 @@ public class SapRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -95,7 +97,6 @@ public class SapRest extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         try {
@@ -108,7 +109,8 @@ public class SapRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "StatusRest", urlPatterns = {"/api/status"})
 public class StatusRest extends HttpServlet {
 
     private final Gson gson = new Gson();
+    private Map<String, Object> map = new HashMap<>();
     private final StatusImpl statusImpl = new StatusImpl();
 
     @Override
@@ -26,7 +29,9 @@ public class StatusRest extends HttpServlet {
                 responseJson = gson.toJson(statusImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
     }

@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "MeasurerRest", urlPatterns = {"/api/measurer"})
 public class MearurerRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final MeasurerImpl measurerImpl = new MeasurerImpl();
+    private Map<String, Object> map = new HashMap<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +45,8 @@ public class MearurerRest extends HttpServlet {
                 responseJson = gson.toJson(measurerImpl.findMeasurerPerStatus());
             }
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         response.getWriter().write(responseJson);
     }

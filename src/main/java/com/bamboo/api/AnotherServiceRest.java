@@ -21,6 +21,7 @@ public class AnotherServiceRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final AnotherServiceImpl anotherServiceImpl = new AnotherServiceImpl();
+    private Map<String, Object> map = new HashMap<>();
     private final AuditImpl audit = new AuditImpl(AnotherService.class);
 
     @Override
@@ -33,7 +34,9 @@ public class AnotherServiceRest extends HttpServlet {
                 responseJson = gson.toJson(anotherServiceImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
     }
@@ -41,7 +44,6 @@ public class AnotherServiceRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         AnotherService anotherService = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AnotherService.class);
@@ -54,7 +56,8 @@ public class AnotherServiceRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
 
         }
         responseJson = gson.toJson(map);
@@ -64,7 +67,6 @@ public class AnotherServiceRest extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         AnotherService anotherService = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AnotherService.class);
@@ -77,7 +79,8 @@ public class AnotherServiceRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -86,7 +89,6 @@ public class AnotherServiceRest extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         try {
@@ -100,7 +102,8 @@ public class AnotherServiceRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

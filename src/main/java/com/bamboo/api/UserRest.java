@@ -22,12 +22,12 @@ public class UserRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final UserImpl userImpl = new UserImpl();
+    Map<String, Object> map = new HashMap<>();
     private final AuditImpl audit = new AuditImpl(User.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Object> map = new HashMap<>();
         String responseJson = "";
         try {
             responseJson = gson.toJson(userImpl.find());
@@ -43,12 +43,11 @@ public class UserRest extends HttpServlet {
                 );
                 if (user == null) {
                     map.put("logged", false);
-                    responseJson = gson.toJson(map);
                 } else {
                     map.put("logged", true);
                     map.put("user", user);
-                    responseJson = gson.toJson(map);
                 }
+                responseJson = gson.toJson(map);
             }
 
 
@@ -57,7 +56,9 @@ public class UserRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
     }
@@ -65,7 +66,6 @@ public class UserRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Object> map = new HashMap<>();
         String responseJson;
 
         User user = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), User.class);
@@ -80,8 +80,8 @@ public class UserRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.setStatus(400);
-            map.put("errorText", ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -90,7 +90,6 @@ public class UserRest extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Object> map = new HashMap<>();
         String responseJson;
         if (request.getParameter("currentPass") != null && request.getParameter("newPass") != null) {
             try {
@@ -130,7 +129,6 @@ public class UserRest extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Object> map = new HashMap<>();
         String responseJson;
 
         User user = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), User.class);
@@ -144,7 +142,7 @@ public class UserRest extends HttpServlet {
 
         } catch (Exception ex) {
             response.setStatus(400);
-            map.put("errorText", ex.getMessage());
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

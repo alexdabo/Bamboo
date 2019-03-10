@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "RoleRest", urlPatterns = {"/api/role"})
 public class RoleRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final RoleImpl roleImpl = new RoleImpl();
+    private Map<String, Object> map = new HashMap<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,7 +29,9 @@ public class RoleRest extends HttpServlet {
                 responseJson = gson.toJson(roleImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
     }

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class SapInvoiceRest extends HttpServlet {
 
     private final Gson gson = new Gson();
-    Map<String,Object> map = new HashMap<>();
+    Map<String, Object> map = new HashMap<>();
     private final SapDetailImpl detailImpl = new SapDetailImpl();
 
     @Override
@@ -34,7 +34,9 @@ public class SapInvoiceRest extends HttpServlet {
                 responseJson = gson.toJson(detailImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
     }
@@ -47,12 +49,12 @@ public class SapInvoiceRest extends HttpServlet {
 
         SapDetail sapDetail = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDetail.class);
         try {
-           responseJson =gson.toJson(detailImpl.create(sapDetail));
-           System.out.print(responseJson);
+            responseJson = gson.toJson(detailImpl.create(sapDetail));
+            System.out.print(responseJson);
 
         } catch (Exception ex) {
             response.setStatus(400);
-            map.put("error",ex.getMessage());
+            map.put("error", ex.getMessage());
             responseJson = gson.toJson(map);
 
         }

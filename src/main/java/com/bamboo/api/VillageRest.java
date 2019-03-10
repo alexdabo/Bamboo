@@ -29,6 +29,7 @@ public class VillageRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final VillageImpl villageImpl = new VillageImpl();
+    private Map<String, Object> map = new HashMap<>();
     private final AuditImpl audit = new AuditImpl(Village.class);
 
     @Override
@@ -41,7 +42,9 @@ public class VillageRest extends HttpServlet {
                 responseJson = gson.toJson(villageImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
 
@@ -50,7 +53,6 @@ public class VillageRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
@@ -63,7 +65,8 @@ public class VillageRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -72,7 +75,6 @@ public class VillageRest extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
@@ -85,7 +87,8 @@ public class VillageRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -94,7 +97,6 @@ public class VillageRest extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson;
 
         try {
@@ -107,7 +109,8 @@ public class VillageRest extends HttpServlet {
             }
 
         } catch (Exception ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

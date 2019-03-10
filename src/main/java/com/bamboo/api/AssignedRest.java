@@ -78,7 +78,6 @@ public class AssignedRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Boolean> map = new HashMap<>();
         String responseJson = null;
         try {
             Assigned assigned = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Assigned.class);
@@ -88,8 +87,8 @@ public class AssignedRest extends HttpServlet {
                 map.put("saved", false);
             }
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            response.sendError(400, ex.getMessage());
+            response.setStatus(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -99,7 +98,6 @@ public class AssignedRest extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        Map<String, Object> map = new HashMap<>();
         String responseJson = null;
         Assigned assigned = null;
         try {
