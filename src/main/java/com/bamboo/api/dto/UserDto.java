@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.bamboo.model.entity;
+package com.bamboo.api.dto;
 
-/**
- * @author alexander
- */
-public class User {
+import com.bamboo.model.entity.Role;
+import com.bamboo.model.entity.User;
+import com.bamboo.model.method.RoleImpl;
+
+public class UserDto {
+
 
     private int id;
     private String userName;
@@ -19,12 +16,12 @@ public class User {
     private String lastName;
     private String telephone;
     private String address;
-    private int role;
+    private Role role;
 
-    public User() {
+    public UserDto() {
     }
 
-    public User(int id, String userName, String password, String email, String dni, String firstName, String lastName, String telephone, String address, int role) {
+    public UserDto(int id, String userName, String password, String email, String dni, String firstName, String lastName, String telephone, String address, Role role) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -36,6 +33,7 @@ public class User {
         this.address = address;
         this.role = role;
     }
+
 
     public int getId() {
         return id;
@@ -109,11 +107,12 @@ public class User {
         this.address = address;
     }
 
-    public int getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(Role role) {
         this.role = role;
     }
+
 }

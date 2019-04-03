@@ -22,7 +22,7 @@ public final class UserData {
 
     public UserData() {
         roleData.save();
-        user = new User(1000000, "Alexanderda", "12345", "adbonilla@gmail.com", "0604059741", "Alexander David", "Bonilla Adriano", "0979728686", "Riobamba", roleData.findById());
+        user = new User(1000000, "Alexanderda", "12345", "adbonilla@gmail.com", "0604059741", "Alexander David", "Bonilla Adriano", "0979728686", "Riobamba", roleData.findById().getId());
     }
 
     public boolean save() {

@@ -13,7 +13,6 @@ import com.bamboo.model.contrat.UserInterface;
 public class UserImpl implements UserInterface {
 
     private final DBConnection DBC = new DBConnection();
-    private final RoleImpl roleImpl = new RoleImpl();
 
     @Override
     public boolean save(User user) throws Exception {
@@ -22,7 +21,7 @@ public class UserImpl implements UserInterface {
                 + "(roleid, username, password, email, dni, firstname, lastname, telephone, address) "
                 + "VALUES (?, ?, md5(?), ?, ?, ?, ?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, user.getRole().getId()));
+        dbos.add(new DBObject(1, user.getRole()));
         dbos.add(new DBObject(2, user.getUserName().toLowerCase()));
         dbos.add(new DBObject(3, user.getPassword()));
         dbos.add(new DBObject(4, user.getEmail()));
@@ -61,7 +60,7 @@ public class UserImpl implements UserInterface {
             while (result.next()) {
                 user = new User();
                 user.setId(result.getInt("id"));
-                user.setRole(roleImpl.findById(result.getInt("roleid")));
+                user.setRole(result.getInt("roleid"));
                 user.setUserName(result.getString("username"));
                 //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
@@ -87,7 +86,7 @@ public class UserImpl implements UserInterface {
             while (result.next()) {
                 User user = new User();
                 user.setId(result.getInt("id"));
-                user.setRole(roleImpl.findById(result.getInt("roleid")));
+                user.setRole(result.getInt("roleid"));
                 user.setUserName(result.getString("username"));
                 //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
@@ -111,7 +110,7 @@ public class UserImpl implements UserInterface {
                 + "roleid=?, username=?, email=?, dni=?, firstname=?, lastname=?, telephone=?, address=? "
                 + "WHERE id = ?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, user.getRole().getId()));
+        dbos.add(new DBObject(1, user.getRole()));
         dbos.add(new DBObject(2, user.getUserName().toLowerCase()));
         dbos.add(new DBObject(3, user.getEmail()));
         dbos.add(new DBObject(4, user.getDni()));
@@ -163,7 +162,7 @@ public class UserImpl implements UserInterface {
             while (result.next()) {
                 user = new User();
                 user.setId(result.getInt("id"));
-                user.setRole(roleImpl.findById(result.getInt("roleid")));
+                user.setRole(result.getInt("roleid"));
                 user.setUserName(result.getString("username"));
                 //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
@@ -196,7 +195,7 @@ public class UserImpl implements UserInterface {
             while (result.next()) {
                 User user = new User();
                 user.setId(result.getInt("id"));
-                user.setRole(roleImpl.findById(result.getInt("roleid")));
+                user.setRole(result.getInt("roleid"));
                 user.setUserName(result.getString("username"));
                 //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
