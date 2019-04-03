@@ -1,28 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.bamboo.model.entity;
+package com.bamboo.api.dto;
 
-/**
- * @author alexander
- */
-public class Beneficiary {
+import com.bamboo.model.entity.Village;
 
+public class BeneficiaryDto {
     private int id;
     private String dni;
     private String lastName;
     private String firstName;
     private String address;
     private String telephone;
-    private int village;
     private String placeReference;
+    private Village village;
 
-    public Beneficiary() {
+    public BeneficiaryDto() {
     }
 
-    public Beneficiary(int id, String dni, String lastName, String firstName, String address, String telephone, int village, String placeReference) {
+    public BeneficiaryDto(int id, String dni, String lastName, String firstName, String address, String telephone, Village village, String placeReference) {
         this.id = id;
         this.dni = dni;
         this.lastName = lastName;
@@ -81,11 +74,11 @@ public class Beneficiary {
         this.telephone = telephone;
     }
 
-    public int getVillage() {
+    public Village getVillage() {
         return village;
     }
 
-    public void setVillage(int village) {
+    public void setVillage(Village village) {
         this.village = village;
     }
 
@@ -96,5 +89,4 @@ public class Beneficiary {
     public void setPlaceReference(String placeReference) {
         this.placeReference = placeReference;
     }
-
 }

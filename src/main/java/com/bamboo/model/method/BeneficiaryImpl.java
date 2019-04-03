@@ -27,7 +27,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
         dbos.add(new DBObject(3, beneficiary.getFirstName().toLowerCase()));
         dbos.add(new DBObject(4, beneficiary.getAddress()));
         dbos.add(new DBObject(5, beneficiary.getPlaceReference()));
-        dbos.add(new DBObject(6, beneficiary.getVillage().getId()));
+        dbos.add(new DBObject(6, beneficiary.getVillage()));
         dbos.add(new DBObject(7, beneficiary.getTelephone()));
 
         if (beneficiary.getId() != 0) {
@@ -49,7 +49,6 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
     @Override
     public Beneficiary findById(int id) throws Exception {
         Beneficiary beneficiary = null;
-        VillageImpl villageImpl = new VillageImpl();
         String sql = "SELECT id, dni, lastname, firstname, address, placereference, villageid, telephone FROM public.beneficiary where id = ?";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
@@ -64,7 +63,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
                 beneficiary.setAddress(result.getString("address"));
                 beneficiary.setPlaceReference(result.getString("placereference"));
                 try {
-                    beneficiary.setVillage(villageImpl.findById(result.getInt("villageid")));
+                    beneficiary.setVillage(result.getInt("villageid"));
                 } catch (Exception e) {
                 }
                 beneficiary.setTelephone(result.getString("telephone"));
@@ -78,7 +77,6 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
     @Override
     public List<Beneficiary> find() throws Exception {
         List<Beneficiary> beneficiaries = new ArrayList<>();
-        VillageImpl villageImpl = new VillageImpl();
         String sql = "SELECT id, dni, lastname, firstname, address, placereference, villageid, telephone "
                 + "FROM public.beneficiary  order by lastname ASC;";
 
@@ -93,7 +91,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
                 beneficiary.setAddress(result.getString("address"));
                 beneficiary.setPlaceReference(result.getString("placereference"));
                 try {
-                    beneficiary.setVillage(villageImpl.findById(result.getInt("villageid")));
+                    beneficiary.setVillage(result.getInt("villageid"));
                 } catch (Exception e) {
                 }
                 beneficiary.setTelephone(result.getString("telephone"));
@@ -115,7 +113,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
         dbos.add(new DBObject(3, beneficiary.getFirstName().toLowerCase()));
         dbos.add(new DBObject(4, beneficiary.getAddress()));
         dbos.add(new DBObject(5, beneficiary.getPlaceReference()));
-        dbos.add(new DBObject(6, beneficiary.getVillage().getId()));
+        dbos.add(new DBObject(6, beneficiary.getVillage()));
         dbos.add(new DBObject(7, beneficiary.getTelephone()));
         dbos.add(new DBObject(8, beneficiary.getId()));
         try {
@@ -175,7 +173,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
                 beneficiary.setFirstName(capitalize(result.getString("firstname")));
                 beneficiary.setAddress(result.getString("address"));
                 beneficiary.setPlaceReference(result.getString("placereference"));
-                beneficiary.setVillage(villageImpl.findById(result.getInt("villageid")));
+                beneficiary.setVillage(result.getInt("villageid"));
                 beneficiary.setTelephone(result.getString("telephone"));
                 beneficiaries.add(beneficiary);
             }

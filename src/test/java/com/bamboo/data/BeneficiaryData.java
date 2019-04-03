@@ -26,7 +26,7 @@ public final class BeneficiaryData {
 
     public BeneficiaryData() {
         villageData.save();
-        this.beneficiary = new Beneficiary(1000000, "2895612450", "Porraz Vázcones", "Joaquin Porras", "Av los alamos", "0926754312", villageData.findById(), "Junto a la pista de hielo");
+        this.beneficiary = new Beneficiary(1000000, "2895612450", "Porraz Vázcones", "Joaquin Porras", "Av los alamos", "0926754312", villageData.findById().getId(), "Junto a la pista de hielo");
     }
 
     public boolean save() {
