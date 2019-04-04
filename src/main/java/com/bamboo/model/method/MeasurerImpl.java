@@ -20,7 +20,7 @@ public class MeasurerImpl implements MeasurerInterface {
         String sql = "INSERT INTO public.measurer(number, sapid, installationdate ) VALUES (?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, measurer.getNumber()));
-        dbos.add(new DBObject(2, measurer.getSap().getId()));
+        dbos.add(new DBObject(2, measurer.getSap()));
         dbos.add(new DBObject(3, measurer.getInstallationDate()));
         if (measurer.getId() != 0) {
             sql = "INSERT INTO public.measurer(number, sapid, installationdate, id) VALUES (?, ?, ?, ?);";
@@ -51,8 +51,8 @@ public class MeasurerImpl implements MeasurerInterface {
             while (result.next()) {
                 measurer = new Measurer();
                 measurer.setId(result.getInt("id"));
-                measurer.setSap(sapImpl.findById(result.getInt("sapid")));
-                measurer.setStatus(statusImpl.findById(result.getInt("statusid")));
+                measurer.setSap(result.getInt("sapid"));
+                measurer.setStatus(result.getInt("statusid"));
                 measurer.setInstallationDate(result.getDate("installationdate"));
                 measurer.setNumber(result.getString("number"));
 
@@ -76,8 +76,8 @@ public class MeasurerImpl implements MeasurerInterface {
             while (result.next()) {
                 measurer = new Measurer();
                 measurer.setId(result.getInt("id"));
-                measurer.setSap(sapImpl.findById(result.getInt("sapid")));
-                measurer.setStatus(statusImpl.findById(result.getInt("statusid")));
+                measurer.setSap(result.getInt("sapid"));
+                measurer.setStatus(result.getInt("statusid"));
                 measurer.setInstallationDate(result.getDate("installationdate"));
                 measurer.setNumber(result.getString("number"));
 
@@ -99,8 +99,8 @@ public class MeasurerImpl implements MeasurerInterface {
             while (result.next()) {
                 Measurer measurer = new Measurer();
                 measurer.setId(result.getInt("id"));
-                measurer.setSap(sapImpl.findById(result.getInt("sapid")));
-                measurer.setStatus(statusImpl.findById(result.getInt("statusid")));
+                measurer.setSap(result.getInt("sapid"));
+                measurer.setStatus(result.getInt("statusid"));
                 measurer.setInstallationDate(result.getDate("installationdate"));
                 measurer.setNumber(result.getString("number"));
                 measurers.add(measurer);
@@ -116,8 +116,8 @@ public class MeasurerImpl implements MeasurerInterface {
         boolean affected = false;
         String sql = "UPDATE public.measurer SET  sapid=?, statusid=?, number=?, installationdate=?  WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, measurer.getSap().getId()));
-        dbos.add(new DBObject(2, measurer.getStatus().getId()));
+        dbos.add(new DBObject(1, measurer.getSap()));
+        dbos.add(new DBObject(2, measurer.getStatus()));
         dbos.add(new DBObject(3, measurer.getNumber()));
         dbos.add(new DBObject(4, measurer.getInstallationDate()));
         dbos.add(new DBObject(5, measurer.getId()));
@@ -162,8 +162,8 @@ public class MeasurerImpl implements MeasurerInterface {
             while (result.next()) {
                 Measurer measurer = new Measurer();
                 measurer.setId(result.getInt("id"));
-                measurer.setSap(sapImpl.findById(result.getInt("sapid")));
-                measurer.setStatus(statusImpl.findById(result.getInt("statusid")));
+                measurer.setSap(result.getInt("sapid"));
+                measurer.setStatus(result.getInt("statusid"));
                 measurer.setInstallationDate(result.getDate("installationdate"));
                 measurer.setNumber(result.getString("number"));
                 measurers.add(measurer);
@@ -187,8 +187,8 @@ public class MeasurerImpl implements MeasurerInterface {
             while (result.next()) {
                 Measurer measurer = new Measurer();
                 measurer.setId(result.getInt("id"));
-                measurer.setSap(sapImpl.findById(result.getInt("sapid")));
-                measurer.setStatus(statusImpl.findById(result.getInt("statusid")));
+                measurer.setSap(result.getInt("sapid"));
+                measurer.setStatus(result.getInt("statusid"));
                 measurer.setInstallationDate(result.getDate("installationdate"));
                 measurer.setNumber(result.getString("number"));
                 measurers.add(measurer);

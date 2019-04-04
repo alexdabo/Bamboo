@@ -28,7 +28,7 @@ public final class MeasurerData {
     public MeasurerData() {
         sapData.save();
         statusData.save();
-        this.measurer = new Measurer(1000000, "", new Date(), sapData.findById(), statusData.findById());
+        this.measurer = new Measurer(1000000, "", new Date(), sapData.findById().getId(), statusData.findById().getId());
     }
 
     public Measurer save() {
@@ -72,7 +72,7 @@ public final class MeasurerData {
 
     public boolean update() {
         boolean updated = false;
-        measurer.getStatus().setId(1);
+        measurer.setStatus(1);
         try {
             updated = measurerImpl.update(measurer);
             if (updated) {

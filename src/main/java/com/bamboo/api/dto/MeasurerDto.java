@@ -1,29 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.bamboo.model.entity;
+package com.bamboo.api.dto;
+
+import com.bamboo.model.entity.Sap;
+import com.bamboo.model.entity.Status;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * @author alexander
- */
-public class Measurer {
-
+public class MeasurerDto {
     private int id;
     private String number;
     private Date installationDate;
-    private int sap;
-    private int status;
+    private Sap sap;
+    private Status status;
 
-    public Measurer() {
-    }
+    public MeasurerDto(){}
 
-    public Measurer(int id, String number, Date installationDate, int sap, int status) {
+    public MeasurerDto(int id, String number, Date installationDate, Sap sap, Status status) {
         this.id = id;
         this.number = number;
         this.installationDate = installationDate;
@@ -31,7 +24,7 @@ public class Measurer {
         this.status = status;
     }
 
-    public Measurer(int id, String number, String installationDate, int sap, int status) throws ParseException {
+    public MeasurerDto(int id, String number, String installationDate, Sap sap, Status status) throws ParseException {
         this.id = id;
         this.number = number;
         toDate(installationDate);
@@ -67,19 +60,19 @@ public class Measurer {
         toDate(installationDate);
     }
 
-    public int getSap() {
+    public Sap getSap() {
         return sap;
     }
 
-    public void setSap(int sap) {
+    public void setSap(Sap sap) {
         this.sap = sap;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -91,5 +84,4 @@ public class Measurer {
             throw e;
         }
     }
-
 }
