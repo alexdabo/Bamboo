@@ -19,7 +19,7 @@ public class UptakeImpl implements UptakeInterface {
         boolean affected = false;
         String sql = "INSERT INTO public.uptake(measurerid, currentvaluetaken) VALUES (?, ?)";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, uptake.getMeasurer().getId()));
+        dbos.add(new DBObject(1, uptake.getMeasurer()));
         dbos.add(new DBObject(2, uptake.getCurrentValueTaken()));
 
         if (uptake.getId() != 0) {
@@ -50,7 +50,7 @@ public class UptakeImpl implements UptakeInterface {
             while (result.next()) {
                 uptake = new Uptake();
                 uptake.setId(result.getInt("id"));
-                uptake.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                uptake.setMeasurer(result.getInt("measurerid"));
                 uptake.setDatetaked(result.getDate("datetaked"));
                 uptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
                 uptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));
@@ -80,7 +80,7 @@ public class UptakeImpl implements UptakeInterface {
             while (result.next()) {
                 Uptake uptake = new Uptake();
                 uptake.setId(result.getInt("id"));
-                uptake.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                uptake.setMeasurer(result.getInt("measurerid"));
                 uptake.setDatetaked(result.getDate("datetaked"));
                 uptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
                 uptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));
@@ -104,7 +104,7 @@ public class UptakeImpl implements UptakeInterface {
         boolean affected = false;
         String sql = "UPDATE public.uptake SET measurerid =?, currentvaluetaken=? WHERE id=?";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, uptake.getMeasurer().getId()));
+        dbos.add(new DBObject(1, uptake.getMeasurer()));
         dbos.add(new DBObject(2, uptake.getCurrentValueTaken()));
         dbos.add(new DBObject(3, uptake.getId()));
 
@@ -149,7 +149,7 @@ public class UptakeImpl implements UptakeInterface {
             while (result.next()) {
                 Uptake uptake = new Uptake();
                 uptake.setId(result.getInt("id"));
-                uptake.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                uptake.setMeasurer(result.getInt("measurerid"));
                 uptake.setDatetaked(result.getDate("datetaked"));
                 uptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
                 uptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));
@@ -181,7 +181,7 @@ public class UptakeImpl implements UptakeInterface {
             while (result.next()) {
                 Uptake uptake = new Uptake();
                 uptake.setId(result.getInt("id"));
-                uptake.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                uptake.setMeasurer(result.getInt("measurerid"));
                 uptake.setDatetaked(result.getDate("datetaked"));
                 uptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
                 uptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));
@@ -218,7 +218,7 @@ public class UptakeImpl implements UptakeInterface {
             while (result.next()) {
                 Uptake uptake = new Uptake();
                 uptake.setId(result.getInt("id"));
-                uptake.setMeasurer(measurerImpl.findById(result.getInt("measurerid")));
+                uptake.setMeasurer(result.getInt("measurerid"));
                 uptake.setDatetaked(result.getDate("datetaked"));
                 uptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
                 uptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));

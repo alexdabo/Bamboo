@@ -1,21 +1,12 @@
-/*
+package com.bamboo.api.dto;
 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.bamboo.model.entity;
+import com.bamboo.model.entity.Measurer;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
-/**
- *
- * @author alexander
- */
-public class Uptake {
-
+public class UptakeDto {
     private int id;
     private Date dateTaked;
     private double lastValueTaken;
@@ -27,12 +18,11 @@ public class Uptake {
     private double volumeConsumed;
     private double totalPrice;
     private boolean billed;
-    private int measurer;
 
-    public Uptake() {
+    public UptakeDto() {
     }
 
-    public Uptake(int id, Date dateTaked, double lastValueTaken, double currentValueTaken, double baseVolume, double basePrice, double extraPrice, double volumeExceeded, double volumeConsumed, double totalPrice, boolean billed, int measurer) {
+    public UptakeDto(int id, Date dateTaked, double lastValueTaken, double currentValueTaken, double baseVolume, double basePrice, double extraPrice, double volumeExceeded, double volumeConsumed, double totalPrice, boolean billed) {
         this.id = id;
         this.dateTaked = dateTaked;
         this.lastValueTaken = lastValueTaken;
@@ -44,10 +34,9 @@ public class Uptake {
         this.volumeConsumed = volumeConsumed;
         this.totalPrice = totalPrice;
         this.billed = billed;
-        this.measurer = measurer;
     }
 
-    public Uptake(int id, String dateTaked, double lastValueTaken, double currentValueTaken, double baseVolume, double basePrice, double extraPrice, double volumeExceeded, double volumeConsumed, double totalPrice, boolean billed, int measurer) throws ParseException {
+    public UptakeDto(int id, String dateTaked, double lastValueTaken, double currentValueTaken, double baseVolume, double basePrice, double extraPrice, double volumeExceeded, double volumeConsumed, double totalPrice, boolean billed) throws ParseException {
         this.id = id;
         toDate(dateTaked);
         this.lastValueTaken = lastValueTaken;
@@ -59,20 +48,8 @@ public class Uptake {
         this.volumeConsumed = volumeConsumed;
         this.totalPrice = totalPrice;
         this.billed = billed;
-        this.measurer = measurer;
     }
 
-    public Date getDatetaked() {
-        return dateTaked;
-    }
-
-    public void setDatetaked(Date dateTaked) {
-        this.dateTaked = dateTaked;
-    }
-
-    public void setDatetaked(String date) throws ParseException {
-        toDate(date);
-    }
 
     public int getId() {
         return id;
@@ -80,6 +57,14 @@ public class Uptake {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getDateTaked() {
+        return dateTaked;
+    }
+
+    public void setDateTaked(Date dateTaked) {
+        this.dateTaked = dateTaked;
     }
 
     public double getLastValueTaken() {
@@ -154,12 +139,8 @@ public class Uptake {
         this.billed = billed;
     }
 
-    public int getMeasurer() {
-        return measurer;
-    }
-
-    public void setMeasurer(int measurer) {
-        this.measurer = measurer;
+    public void setDatetaked(String date) throws ParseException {
+        toDate(date);
     }
 
     private void toDate(String dateTaked) throws ParseException {
@@ -171,21 +152,4 @@ public class Uptake {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Uptake{"
-                + "id=" + id
-                + ", dateTaked=" + dateTaked
-                + ", lastValueTaken=" + lastValueTaken
-                + ", currentValueTaken=" + currentValueTaken
-                + ", baseVolume=" + baseVolume
-                + ", basePrice=" + basePrice
-                + ", extraPrice=" + extraPrice
-                + ", volumeExceeded=" + volumeExceeded
-                + ", volumeConsumed=" + volumeConsumed
-                + ", totalPrice=" + totalPrice
-                + ", billed=" + billed
-                + ", measurer=" + measurer
-                + '}';
-    }
 }

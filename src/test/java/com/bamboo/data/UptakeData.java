@@ -25,7 +25,7 @@ public final class UptakeData {
         measurerData.update();
         uptake = new Uptake();
         uptake.setId(1000000);
-        uptake.setMeasurer(measurerData.findById());
+        uptake.setMeasurer(measurerData.findById().getId());
         uptake.setCurrentValueTaken(100);
     }
 

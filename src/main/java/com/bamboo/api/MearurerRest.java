@@ -1,10 +1,13 @@
 package com.bamboo.api;
 
 import com.bamboo.api.dto.MeasurerDto;
+import com.bamboo.api.dto.UptakeDto;
 import com.bamboo.model.entity.Measurer;
+import com.bamboo.model.entity.Uptake;
 import com.bamboo.model.method.MeasurerImpl;
 import com.bamboo.model.method.SapImpl;
 import com.bamboo.model.method.StatusImpl;
+import com.bamboo.model.method.UptakeImpl;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -18,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MeasurerRest", urlPatterns = {"/api/measurer"})
+@WebServlet(name = "MeasurerRest", urlPatterns = {"/api/measurer/"})
 public class MearurerRest extends HttpServlet {
 
     private final Gson gson = new Gson();
@@ -34,7 +37,9 @@ public class MearurerRest extends HttpServlet {
 
             List<MeasurerDto> measurers = new ArrayList<>();
             for (Measurer measurer : measurerImpl.find()) {
-                measurers.add(getMeasurerDto(measurer));
+                MeasurerDto measurerDto = getMeasurerDto(measurer);
+                measurerDto.setUptakes(getUpdateDto(measurer.getId()));
+                measurers.add(measurerDto);
             }
             responseJson = gson.toJson(measurers);
 
@@ -93,5 +98,26 @@ public class MearurerRest extends HttpServlet {
             e.printStackTrace();
         }
         return measurerDto;
+    }
+    private List<UptakeDto> getUpdateDto(int measurerId) throws Exception {
+        List<UptakeDto> uptakesDto = new ArrayList<>();
+        UptakeImpl uptakeImpl =new UptakeImpl();
+        for (Uptake uptake :uptakeImpl.findByMeasurer(measurerId) ){
+            UptakeDto uptakeDto = new UptakeDto();
+            uptakeDto.setId(uptake.getId());
+            uptakeDto.setDateTaked(uptake.getDatetaked());
+            uptakeDto.setLastValueTaken(uptake.getLastValueTaken());
+            uptakeDto.setCurrentValueTaken(uptake.getCurrentValueTaken());
+            uptakeDto.setBaseVolume(uptake.getBaseVolume());
+            uptakeDto.setBasePrice(uptake.getBasePrice());
+            uptakeDto.setExtraPrice(uptake.getExtraPrice());
+            uptakeDto.setVolumeExceeded(uptake.getVolumeExceeded());
+            uptakeDto.setVolumeConsumed(uptake.getVolumeConsumed());
+            uptakeDto.setTotalPrice(uptake.getTotalPrice());
+            uptakeDto.setBilled(uptake.isBilled());
+            uptakesDto.add(uptakeDto);
+        }
+
+        return uptakesDto;
     }
 }
