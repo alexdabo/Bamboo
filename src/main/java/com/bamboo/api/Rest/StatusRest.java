@@ -1,6 +1,6 @@
-package com.bamboo.api;
+package com.bamboo.api.Rest;
 
-import com.bamboo.model.method.InvoiceImpl;
+import com.bamboo.model.method.StatusImpl;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -12,24 +12,24 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "InvoiceRest", urlPatterns = {"/api/invoice"})
-public class InvoiceRest extends HttpServlet {
+@WebServlet(name = "StatusRest", urlPatterns = {"/api/status"})
+public class StatusRest extends HttpServlet {
 
     private final Gson gson = new Gson();
-    private final InvoiceImpl invoiceImpl = new InvoiceImpl();
     private Map<String, Object> map = new HashMap<>();
+    private final StatusImpl statusImpl = new StatusImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            responseJson = gson.toJson(invoiceImpl.find());
+            responseJson = gson.toJson(statusImpl.find());
             if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(invoiceImpl.findById(Integer.parseInt(request.getParameter("id"))));
+                responseJson = gson.toJson(statusImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
-            response.setStatus(400);
+            response.sendError(400);
             map.put("error", ex.getMessage());
             responseJson = gson.toJson(map);
         }

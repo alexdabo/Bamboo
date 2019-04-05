@@ -1,7 +1,5 @@
-package com.bamboo.api;
+package com.bamboo.api.Rest;
 
-import com.bamboo.model.method.BeneficiaryImpl;
-import com.bamboo.model.method.MeasurerImpl;
 import com.bamboo.model.method.RoleImpl;
 import com.google.gson.Gson;
 
@@ -14,30 +12,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "StatisticRest", urlPatterns = {"/api/statistic"})
-public class StatisticRest extends HttpServlet {
+@WebServlet(name = "RoleRest", urlPatterns = {"/api/role"})
+public class RoleRest extends HttpServlet {
 
-    private Map<String, Object> map = new HashMap<>();
     private final Gson gson = new Gson();
+    private final RoleImpl roleImpl = new RoleImpl();
+    private Map<String, Object> map = new HashMap<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            //Find the number of people in the villages
-            BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-            map.put("peopleFromVillage", beneficiaryImpl.peopleFromVillages());
-
-            MeasurerImpl measurerImpl = new MeasurerImpl();
-            map.put("measurerPerService", measurerImpl.findMeasurerPerService());
-            map.put("measurerPerStatus", measurerImpl.findMeasurerPerStatus());
-
+            responseJson = gson.toJson(roleImpl.find());
+            if (request.getParameter("id") != null) {
+                responseJson = gson.toJson(roleImpl.findById(Integer.parseInt(request.getParameter("id"))));
+            }
         } catch (Exception ex) {
             response.sendError(400);
             map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
-        responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
 }

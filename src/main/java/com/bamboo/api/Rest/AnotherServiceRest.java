@@ -1,45 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.bamboo.api;
+package com.bamboo.api.Rest;
 
+import com.bamboo.model.entity.AnotherService;
 import com.bamboo.model.entity.Audit;
-import com.bamboo.model.entity.Village;
+import com.bamboo.model.method.AnotherServiceImpl;
 import com.bamboo.model.method.AuditImpl;
-import com.bamboo.model.method.VillageImpl;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-/**
- * @author alexander
- */
-@WebServlet(name = "VillageRest", urlPatterns = {"/api/village"})
-public class VillageRest extends HttpServlet {
+@WebServlet(name = "AnotheServiceRest", urlPatterns = {"/api/anotherservice"})
+public class AnotherServiceRest extends HttpServlet {
 
     private final Gson gson = new Gson();
-    private final VillageImpl villageImpl = new VillageImpl();
+    private final AnotherServiceImpl anotherServiceImpl = new AnotherServiceImpl();
     private Map<String, Object> map = new HashMap<>();
-    private final AuditImpl audit = new AuditImpl(Village.class);
+    private final AuditImpl audit = new AuditImpl(AnotherService.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            responseJson = gson.toJson(villageImpl.find());
+            responseJson = gson.toJson(anotherServiceImpl.find());
             if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(villageImpl.findById(Integer.parseInt(request.getParameter("id"))));
+                responseJson = gson.toJson(anotherServiceImpl.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
             response.sendError(400);
@@ -47,7 +39,6 @@ public class VillageRest extends HttpServlet {
             responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
-
     }
 
     @Override
@@ -55,11 +46,11 @@ public class VillageRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
+        AnotherService anotherService = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AnotherService.class);
         try {
-            if (villageImpl.save(village)) {
+            if (anotherServiceImpl.save(anotherService)) {
                 map.put("saved", true);
-                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + village.getName()));
+                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + anotherService.getName()));
             } else {
                 map.put("saved", false);
             }
@@ -67,6 +58,7 @@ public class VillageRest extends HttpServlet {
         } catch (Exception ex) {
             response.sendError(400);
             map.put("error", ex.getMessage());
+
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -77,11 +69,11 @@ public class VillageRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
+        AnotherService anotherService = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AnotherService.class);
         try {
-            if (villageImpl.update(village)) {
+            if (anotherServiceImpl.update(anotherService)) {
                 map.put("updated", true);
-                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + village.getId()));
+                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + anotherService.getId()));
             } else {
                 map.put("updated", false);
             }
@@ -100,10 +92,11 @@ public class VillageRest extends HttpServlet {
         String responseJson;
 
         try {
-            Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
-            if (villageImpl.delete(village)) {
+
+            AnotherService anotherService = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AnotherService.class);
+            if (anotherServiceImpl.delete(anotherService)) {
                 map.put("deleted", true);
-                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + village.getId()));
+                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + anotherService.getId()));
             } else {
                 map.put("deleted", false);
             }
@@ -115,5 +108,4 @@ public class VillageRest extends HttpServlet {
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
-
 }

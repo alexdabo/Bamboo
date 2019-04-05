@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.api;
+package com.bamboo.api.Rest;
 
 import com.bamboo.model.entity.Audit;
 import com.bamboo.model.entity.Sap;

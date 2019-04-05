@@ -1,4 +1,4 @@
-package com.bamboo.api;
+package com.bamboo.api.Rest;
 
 import com.bamboo.api.dto.UserDto;
 import com.bamboo.model.entity.Audit;
