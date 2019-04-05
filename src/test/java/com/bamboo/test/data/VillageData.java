@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.data;
+package com.bamboo.test.data;
 
-import com.bamboo.model.entity.Sap;
-import com.bamboo.model.method.SapImpl;
+import com.bamboo.model.entity.Village;
+import com.bamboo.model.method.VillageImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +14,17 @@ import java.util.List;
  *
  * @author alexander
  */
-public final class SapData {
+public final class VillageData {
 
-    private final SapImpl sapImpl = new SapImpl();
-    private final Sap sap = new Sap(1000000, "SAP Empresarial", 10, 10.0, 0.15);
+    private final VillageImpl villageImpl = new VillageImpl();
+    private final Village village = new Village(1000000, "San Miguel");
 
     public boolean save() {
         boolean saved = false;
         try {
-            saved = sapImpl.save(sap);
+            saved = villageImpl.save(village);
             if (saved) {
-                System.out.println("Saved:   " + sap);
+                System.out.println("Saved:   " + village);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -32,10 +32,10 @@ public final class SapData {
         return saved;
     }
 
-    public List<Sap> find() {
-        List<Sap> list = new ArrayList<>();
+    public List<Village> find() {
+        List<Village> list = new ArrayList<>();
         try {
-            list = sapImpl.find();
+            list = villageImpl.find();
             if (list.size() > 0) {
                 System.out.println("Found: ");
                 for (int i = 0; i < list.size(); i++) {
@@ -47,25 +47,25 @@ public final class SapData {
         return list;
     }
 
-    public Sap findById() {
-        Sap sap1 = null;
+    public Village findById() {
+        Village village1 = null;
         try {
-            sap1 = sapImpl.findById(sap.getId());
-            if (sap1 != null) {
-                System.out.println("By Id:   " + sap1);
+            village1 = villageImpl.findById(village.getId());
+            if (village1 != null) {
+                System.out.println("By Id:   " + village1);
             }
         } catch (Exception e) {
         }
-        return sap1;
+        return village1;
     }
 
     public boolean update() {
         boolean updated = false;
-        sap.setName("SAP Empresarial premium");
+        village.setName("Langos San Miguel");
         try {
-            updated = sapImpl.update(sap);
+            updated = villageImpl.update(village);
             if (updated) {
-                System.out.println("Updated: " + sap);
+                System.out.println("Updated: " + village);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -76,9 +76,9 @@ public final class SapData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = sapImpl.delete(sap);
+            deleted = villageImpl.delete(village);
             if (deleted) {
-                System.out.println("Deleted: " + sap);
+                System.out.println("Deleted: " + village);
             }
         } catch (Exception e) {
             System.err.println(e);

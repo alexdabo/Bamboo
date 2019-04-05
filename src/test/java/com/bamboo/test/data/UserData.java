@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.data;
+package com.bamboo.test.data;
 
-import com.bamboo.model.entity.AnotherService;
-import com.bamboo.model.method.AnotherServiceImpl;
+import com.bamboo.model.entity.User;
+import com.bamboo.model.method.UserImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +14,23 @@ import java.util.List;
  *
  * @author alexander
  */
-public final class AnotherServiceData {
+public final class UserData {
 
-    private final AnotherServiceImpl serviceImpl = new AnotherServiceImpl();
-    private final AnotherService service = new AnotherService(1000000, "Cambio de medidor", 20);
+    private final UserImpl userImpl = new UserImpl();
+    private final RoleData roleData = new RoleData();
+    private final User user;
+
+    public UserData() {
+        roleData.save();
+        user = new User(1000000, "Alexanderda", "12345", "adbonilla@gmail.com", "0604059741", "Alexander David", "Bonilla Adriano", "0979728686", "Riobamba", roleData.findById().getId());
+    }
 
     public boolean save() {
         boolean saved = false;
         try {
-            saved = serviceImpl.save(service);
+            saved = userImpl.save(user);
             if (saved) {
-                System.out.println("Saved:   " + service);
+                System.out.println("Saved:   " + user);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -32,10 +38,10 @@ public final class AnotherServiceData {
         return saved;
     }
 
-    public List<AnotherService> find() {
-        List<AnotherService> list = new ArrayList<>();
+    public List<User> find() {
+        List<User> list = new ArrayList<>();
         try {
-            list = serviceImpl.find();
+            list = userImpl.find();
             if (list.size() > 0) {
                 System.out.println("Found: ");
                 for (int i = 0; i < list.size(); i++) {
@@ -47,26 +53,25 @@ public final class AnotherServiceData {
         return list;
     }
 
-    public AnotherService findById() {
-        AnotherService service1 = null;
+    public User findById() {
+        User user1 = null;
         try {
-            service1 = serviceImpl.findById(service.getId());
-            if (service1 != null) {
-                System.out.println("By Id:   " + service1);
+            user1 = userImpl.findById(user.getId());
+            if (user1 != null) {
+                System.out.println("By Id:   " + user1);
             }
         } catch (Exception e) {
         }
-        return service1;
+        return user1;
     }
 
     public boolean update() {
         boolean updated = false;
-        service.setName("Cambio de medidor industrial");
-        service.setPrice(25);
+        user.setUserName("AlexDav");
         try {
-            updated = serviceImpl.update(service);
+            updated = userImpl.update(user);
             if (updated) {
-                System.out.println("Updated: " + service);
+                System.out.println("Updated: " + user);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -77,9 +82,10 @@ public final class AnotherServiceData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = serviceImpl.delete(service);
+            deleted = userImpl.delete(user);
             if (deleted) {
-                System.out.println("Deleted: " + service);
+                System.out.println("Deleted: " + user);
+                roleData.delete();
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -87,5 +93,4 @@ public final class AnotherServiceData {
         return deleted;
 
     }
-
 }

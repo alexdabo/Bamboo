@@ -5,7 +5,7 @@
  */
 package com.bamboo.test;
 
-import com.bamboo.data.SapData;
+import com.bamboo.test.data.SapData;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 

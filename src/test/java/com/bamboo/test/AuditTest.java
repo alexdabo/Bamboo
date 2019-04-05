@@ -5,7 +5,7 @@
  */
 package com.bamboo.test;
 
-import com.bamboo.data.UserData;
+import com.bamboo.test.data.UserData;
 import com.bamboo.model.entity.Audit;
 
 

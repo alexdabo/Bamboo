@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.data;
+package com.bamboo.test.data;
 
-import com.bamboo.model.entity.Status;
-import com.bamboo.model.method.StatusImpl;
+import com.bamboo.model.entity.AnotherService;
+import com.bamboo.model.method.AnotherServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +14,17 @@ import java.util.List;
  *
  * @author alexander
  */
-public final class StatusData {
+public final class AnotherServiceData {
 
-    private final StatusImpl statusImpl = new StatusImpl();
-    private final Status status = new Status(1000000, "Perdido");
+    private final AnotherServiceImpl serviceImpl = new AnotherServiceImpl();
+    private final AnotherService service = new AnotherService(1000000, "Cambio de medidor", 20);
 
     public boolean save() {
         boolean saved = false;
         try {
-            saved = statusImpl.save(status);
+            saved = serviceImpl.save(service);
             if (saved) {
-                System.out.println("Saved:   " + status);
+                System.out.println("Saved:   " + service);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -32,10 +32,10 @@ public final class StatusData {
         return saved;
     }
 
-    public List<Status> find() {
-        List<Status> list = new ArrayList<>();
+    public List<AnotherService> find() {
+        List<AnotherService> list = new ArrayList<>();
         try {
-            list = statusImpl.find();
+            list = serviceImpl.find();
             if (list.size() > 0) {
                 System.out.println("Found: ");
                 for (int i = 0; i < list.size(); i++) {
@@ -47,25 +47,26 @@ public final class StatusData {
         return list;
     }
 
-    public Status findById() {
-        Status status1 = null;
+    public AnotherService findById() {
+        AnotherService service1 = null;
         try {
-            status1 = statusImpl.findById(status.getId());
-            if (status1 != null) {
-                System.out.println("By Id:   " + status1);
+            service1 = serviceImpl.findById(service.getId());
+            if (service1 != null) {
+                System.out.println("By Id:   " + service1);
             }
         } catch (Exception e) {
         }
-        return status1;
+        return service1;
     }
 
     public boolean update() {
         boolean updated = false;
-        status.setName("Perdido editado");
+        service.setName("Cambio de medidor industrial");
+        service.setPrice(25);
         try {
-            updated = statusImpl.update(status);
+            updated = serviceImpl.update(service);
             if (updated) {
-                System.out.println("Updated: " + status);
+                System.out.println("Updated: " + service);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -76,9 +77,9 @@ public final class StatusData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = statusImpl.delete(status);
+            deleted = serviceImpl.delete(service);
             if (deleted) {
-                System.out.println("Deleted: " + status);
+                System.out.println("Deleted: " + service);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -86,4 +87,5 @@ public final class StatusData {
         return deleted;
 
     }
+
 }

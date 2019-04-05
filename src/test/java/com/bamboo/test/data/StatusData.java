@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bamboo.data;
+package com.bamboo.test.data;
 
-import com.bamboo.model.entity.Role;
-import com.bamboo.model.method.RoleImpl;
+import com.bamboo.model.entity.Status;
+import com.bamboo.model.method.StatusImpl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,28 +14,28 @@ import java.util.List;
  *
  * @author alexander
  */
-public final class RoleData {
-    
-    private final RoleImpl roleImpl = new RoleImpl();
-    private final Role role = new Role(1000000, "Auditor");
-    
+public final class StatusData {
+
+    private final StatusImpl statusImpl = new StatusImpl();
+    private final Status status = new Status(1000000, "Perdido");
+
     public boolean save() {
         boolean saved = false;
         try {
-            saved = roleImpl.save(role);
+            saved = statusImpl.save(status);
             if (saved) {
-                System.out.println("Saved:   " + role);
+                System.out.println("Saved:   " + status);
             }
         } catch (Exception e) {
             System.err.println(e);
         }
         return saved;
     }
-    
-    public List<Role> find() {
-        List<Role> list = new ArrayList<>();
+
+    public List<Status> find() {
+        List<Status> list = new ArrayList<>();
         try {
-            list = roleImpl.find();
+            list = statusImpl.find();
             if (list.size() > 0) {
                 System.out.println("Found: ");
                 for (int i = 0; i < list.size(); i++) {
@@ -46,44 +46,44 @@ public final class RoleData {
         }
         return list;
     }
-    
-    public Role findById() {
-        Role role1 = null;
+
+    public Status findById() {
+        Status status1 = null;
         try {
-            role1 = roleImpl.findById(role.getId());
-            if (role1 != null) {
-                System.out.println("By Id:   " + role1);
+            status1 = statusImpl.findById(status.getId());
+            if (status1 != null) {
+                System.out.println("By Id:   " + status1);
             }
         } catch (Exception e) {
         }
-        return role1;
+        return status1;
     }
-    
+
     public boolean update() {
         boolean updated = false;
-        role.setName("Auditor Encargado");
+        status.setName("Perdido editado");
         try {
-            updated = roleImpl.update(role);
+            updated = statusImpl.update(status);
             if (updated) {
-                System.out.println("Updated: " + role);
+                System.out.println("Updated: " + status);
             }
         } catch (Exception e) {
             System.err.println(e);
         }
         return updated;
     }
-    
+
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = roleImpl.delete(role);
+            deleted = statusImpl.delete(status);
             if (deleted) {
-                System.out.println("Deleted: " + role);
+                System.out.println("Deleted: " + status);
             }
         } catch (Exception e) {
             System.err.println(e);
         }
         return deleted;
-        
+
     }
 }
