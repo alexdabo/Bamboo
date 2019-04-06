@@ -1,4 +1,4 @@
-package com.bamboo.api.Rest;
+package com.bamboo.api.Rest.measurer;
 
 import com.bamboo.api.dto.MeasurerDto;
 import com.bamboo.api.dto.UptakeDto;
@@ -21,12 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MeasurerRestO", urlPatterns = {"/api/measurer/o"})
-public class MearurerRest extends HttpServlet {
-
+@WebServlet(name = "MeasurerRest", urlPatterns = {"/api/measurer/"})
+public class MeasurerRest extends HttpServlet {
     private final Gson gson = new Gson();
     private Map<String, Object> map = new HashMap<>();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -43,40 +41,6 @@ public class MearurerRest extends HttpServlet {
             }
             responseJson = gson.toJson(measurers);
 
-
-            if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(
-                        getMeasurerDto(measurerImpl.findById(Integer.parseInt(request.getParameter("id"))))
-                );
-            }
-            if (request.getParameter("number") != null) {
-                responseJson = gson.toJson(
-                        getMeasurerDto(measurerImpl.findByNumber(request.getParameter("number")))
-                );
-            }
-            if (request.getParameter("sapId") != null) {
-                measurers = new ArrayList<>();
-                for (Measurer measurer : measurerImpl.findBySap(Integer.parseInt(request.getParameter("sapId")))) {
-                    measurers.add(getMeasurerDto(measurer));
-                }
-                responseJson = gson.toJson(measurers);
-
-            }
-            if (request.getParameter("statusId") != null) {
-                measurers = new ArrayList<>();
-                for (Measurer measurer : measurerImpl.findByStatus(Integer.parseInt(request.getParameter("statusId")))) {
-                    measurers.add(getMeasurerDto(measurer));
-                }
-                responseJson = gson.toJson(measurers);
-
-            }
-
-            if (request.getParameter("measurerPerService") != null) {
-                responseJson = gson.toJson(measurerImpl.findMeasurerPerService());
-            }
-            if (request.getParameter("measurerPerStatus") != null) {
-                responseJson = gson.toJson(measurerImpl.findMeasurerPerStatus());
-            }
         } catch (Exception ex) {
             response.sendError(400);
             map.put("error", ex.getMessage());
