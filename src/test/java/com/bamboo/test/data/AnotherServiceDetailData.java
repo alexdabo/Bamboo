@@ -5,7 +5,9 @@
  */
 package com.bamboo.test.data;
 
+import com.bamboo.model.entity.AnotherServiceDetail;
 import com.bamboo.model.entity.SapDetail;
+import com.bamboo.model.method.AnotherServiceDetailImpl;
 import com.bamboo.model.method.SapDetailImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,25 +16,25 @@ import java.util.List;
  *
  * @author alexander
  */
-public final class SapDetailData {
+public final class AnotherServiceDetailData {
 
-    private final SapDetailImpl sapDetailImpl = new SapDetailImpl();
+    private final AnotherServiceDetailImpl serviceDetailImpl = new AnotherServiceDetailImpl();
     private final InvoiceData invoiceData = new InvoiceData();
-    private final UptakeData uptakeData = new UptakeData();
-    private SapDetail sapDetail = null;
+    private final AnotherServiceData anotherServiceData = new AnotherServiceData();
+    private AnotherServiceDetail serviceDetail = null;
 
-    public SapDetailData() {
+    public AnotherServiceDetailData() {
         invoiceData.save();
-        uptakeData.save();
-        this.sapDetail = new SapDetail(1000000, invoiceData.findById().getId(), uptakeData.findById().getId());
+        anotherServiceData.save();
+        this.serviceDetail = new AnotherServiceDetail(1000000, invoiceData.findById().getId(), anotherServiceData.findById().getId(), 10);
     }
 
     public boolean save() {
         boolean saved = false;
         try {
-            saved = sapDetailImpl.save(sapDetail);
+            saved = serviceDetailImpl.save(serviceDetail);
             if (saved) {
-                System.out.println("Saved:   " + sapDetail);
+                System.out.println("Saved:   " + serviceDetail);
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -40,10 +42,10 @@ public final class SapDetailData {
         return saved;
     }
 
-    public List<SapDetail> find() {
-        List<SapDetail> list = new ArrayList<>();
+    public List<AnotherServiceDetail> find() {
+       List<AnotherServiceDetail> list = new ArrayList<>();
         try {
-            list = sapDetailImpl.find();
+            list = serviceDetailImpl.find();
             if (list.size() > 0) {
                 System.out.println("Found: ");
                 for (int i = 0; i < list.size(); i++) {
@@ -55,29 +57,16 @@ public final class SapDetailData {
         return list;
     }
 
-    public List<SapDetail> findByInvoice() {
-        List<SapDetail> list = new ArrayList<>();
-        try {
-            list = sapDetailImpl.findByInvoice(sapDetail.getInvoice());
-            if (list.size() > 0) {
-                System.out.println("Found by invoice: ");
-                for (int i = 0; i < list.size(); i++) {
-                    System.out.println("\t " + list.get(i));
-                }
-            }
-        } catch (Exception e) {
-        }
-        return list;
-    }
+
 
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = sapDetailImpl.delete(sapDetail);
+            deleted = serviceDetailImpl.delete(serviceDetail);
             if (deleted) {
-                System.out.println("Deleted: " + sapDetail);
+                System.out.println("Deleted: " + serviceDetail);
                 invoiceData.delete();
-                uptakeData.delete();
+                anotherServiceData.delete();
             }
         } catch (Exception e) {
             System.err.println(e);

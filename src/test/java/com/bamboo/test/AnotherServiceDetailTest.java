@@ -5,6 +5,7 @@
  */
 package com.bamboo.test;
 
+import com.bamboo.test.data.AnotherServiceDetailData;
 import com.bamboo.test.data.AssignedData;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -13,21 +14,18 @@ import org.junit.Test;
  *
  * @author alexander
  */
-public class AssignedTest {
+public class AnotherServiceDetailTest {
 
     @Test
     public void run() {
         Message msg = new Message();
-        msg.printTitle("Assigned");
-        AssignedData assignedData = new AssignedData();
+        msg.printTitle("Another Service Detail");
+        AnotherServiceDetailData anotherServiceDetailData = new AnotherServiceDetailData();
         msg.printImplementation();
 
-        assertTrue(assignedData.save());
-        assertTrue(assignedData.find().size() > 0);
-        assertTrue(assignedData.findByBeneficiary().size() > 0);
-        assertTrue(assignedData.findById() != null);
-        assertTrue(assignedData.update());
-        assertTrue(assignedData.delete());
+        assertTrue(anotherServiceDetailData.save());
+        assertTrue(anotherServiceDetailData.find().size() > 0);
+        assertTrue(anotherServiceDetailData.delete());
         System.out.println("\n\n");
     }
 }

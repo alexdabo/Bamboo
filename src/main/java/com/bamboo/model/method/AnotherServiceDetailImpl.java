@@ -3,7 +3,6 @@ package com.bamboo.model.method;
 import com.bamboo.connection.DBConnection;
 import com.bamboo.connection.DBObject;
 import com.bamboo.model.contrat.AnotherServiceDetailInterface;
-import com.bamboo.model.entity.AnotherService;
 import com.bamboo.model.entity.AnotherServiceDetail;
 import com.bamboo.model.entity.Invoice;
 
@@ -13,27 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnotherServiceDetailImpl implements AnotherServiceDetailInterface {
+
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(AnotherServiceDetail service) throws Exception {
+    public boolean save(AnotherServiceDetail serviceDetail) throws Exception {
         boolean affected = false;
         InvoiceImpl invoiceImpl = new InvoiceImpl();
         String sql = "INSERT INTO public.anotherservicedetail(invoiceid, anotherserviceid, price) VALUES (?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
-
+        dbos.add(new DBObject(1, serviceDetail.getInvoice()));
+        dbos.add(new DBObject(2, serviceDetail.getService()));
+        dbos.add(new DBObject(3, serviceDetail.getTotal()));
+        if (serviceDetail.getId() != 0) {
+            sql = "INSERT INTO public.anotherservicedetail(invoiceid, anotherserviceid, price, id) VALUES (?, ?, ?, ?);";
+            dbos.add(new DBObject(4, serviceDetail.getId()));
+        }
 
         try {
-
-            Invoice invoice = invoiceImpl.save(service.getInvoice());
-            if (invoice.getId() != 0) {
-                dbos.add(new DBObject(1, invoice.getId()));
-                dbos.add(new DBObject(2, service.getService().getId()));
-                dbos.add(new DBObject(3, service.getTotal()));
-
-                if (DBC.querySet(sql, dbos)) {
-                    affected = true;
-                }
+            if (DBC.querySet(sql, dbos)) {
+                affected = true;
             }
         } catch (Exception e) {
             throw e;
@@ -43,25 +41,18 @@ public class AnotherServiceDetailImpl implements AnotherServiceDetailInterface {
     }
 
     @Override
-    public List<AnotherServiceDetail> findByBeneficiary(int beneficiaryId) throws Exception {
-        return null;
-    }
-
-
-    @Override
     public List<AnotherServiceDetail> find() throws Exception {
         List<AnotherServiceDetail> details = new ArrayList<>();
-        InvoiceImpl invoiceImpl = new InvoiceImpl();
-        AnotherServiceImpl serviceImpl = new AnotherServiceImpl();
-        String sql = "SELECT invoiceid, anotherserviceid, price FROM public.anotherservicedetail ORDER BY invoiceid DESC;";
+        String sql = "SELECT id, invoiceid, anotherserviceid, price FROM public.anotherservicedetail ORDER BY invoiceid DESC;";
         try {
             ResultSet result = DBC.queryGet(sql);
             while (result.next()) {
-                AnotherServiceDetail detail = new AnotherServiceDetail();
-                detail.setInvoice(invoiceImpl.findById(result.getInt("invoiceid")));
-                detail.setService(serviceImpl.findById(result.getInt("anotherserviceid")));
-                detail.setTotal(result.getDouble("price"));
-                details.add(detail);
+                AnotherServiceDetail detailService = new AnotherServiceDetail();
+                detailService.setId(result.getInt("id"));
+                detailService.setInvoice(result.getInt("invoiceid"));
+                detailService.setService(result.getInt("anotherserviceid"));
+                detailService.setTotal(result.getDouble("price"));
+                details.add(detailService);
 
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -70,16 +61,12 @@ public class AnotherServiceDetailImpl implements AnotherServiceDetailInterface {
         return details;
     }
 
-
     @Override
-    public boolean delete(AnotherServiceDetail detail) throws Exception {
+    public boolean delete(AnotherServiceDetail detailService) throws Exception {
         boolean affected = false;
-        String sql = "DELETE FROM public.anotherservicedetail WHERE (invoiceid=? AND anotherserviceid=?);";
+        String sql = "DELETE FROM public.anotherservicedetail WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, detail.getInvoice().getId()));
-        dbos.add(new DBObject(2, detail.getService().getId()));
-
-
+        dbos.add(new DBObject(1, detailService.getId()));
         try {
             if (DBC.querySet(sql, dbos)) {
                 affected = true;
