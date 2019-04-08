@@ -1,5 +1,7 @@
 package com.bamboo.api.Rest;
 
+import com.bamboo.api.dto.StatusDto;
+import com.bamboo.api.method.StatusDtoMethod;
 import com.bamboo.model.method.StatusImpl;
 import com.google.gson.Gson;
 
@@ -17,16 +19,16 @@ public class StatusRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private Map<String, Object> map = new HashMap<>();
-    private final StatusImpl statusImpl = new StatusImpl();
+    private final StatusDtoMethod statusDtoMethod = new StatusDtoMethod();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            responseJson = gson.toJson(statusImpl.find());
+            responseJson = gson.toJson(statusDtoMethod.find());
             if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(statusImpl.findById(Integer.parseInt(request.getParameter("id"))));
+                responseJson = gson.toJson(statusDtoMethod.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
             response.sendError(400);
