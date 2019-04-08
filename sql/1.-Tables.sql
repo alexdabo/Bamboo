@@ -137,6 +137,7 @@ CREATE TABLE invoice(
 ********************************************************************/
 
 CREATE TABLE assigned(
+  id	SERIAL NOT NULL,
   beneficiaryid	INTEGER NOT NULL,
   measurerid	INTEGER NOT NULL,
   debt DOUBLE PRECISION NOT NULL DEFAULT 0,
@@ -146,12 +147,14 @@ CREATE TABLE assigned(
 
 
 CREATE TABLE sapdetail(
+  id	SERIAL NOT NULL,
   invoiceid	INTEGER NOT NULL,
   uptakeid	INTEGER NOT NULL
 );
 
 
 CREATE TABLE anotherservicedetail(
+  id	SERIAL NOT NULL,
   invoiceid	INTEGER NOT NULL,
   anotherserviceid	INTEGER NOT NULL,
   price	DOUBLE PRECISION NOT NULL

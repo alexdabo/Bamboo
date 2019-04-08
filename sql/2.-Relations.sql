@@ -1,3 +1,7 @@
+/*******************************************************************
+*                      TABLES WITH DEPENDENCIES                    *
+********************************************************************/
+
 alter table operator
   add constraint fk_operator_role foreign key(roleid) references role(id);
 
@@ -20,19 +24,24 @@ alter table invoice
   add constraint fk_invoice_debtcollector foreign key(debtcollectorid) references operator(id);
 
 
+
+/*******************************************************************
+*                         INTERMEDIATE TABLES                      *
+********************************************************************/
+
 alter table assigned
   add constraint fk_assigned_beneficiary foreign key(beneficiaryid) references beneficiary(id),
   add constraint fk_assigned_measurer foreign key(measurerid) references measurer(id),
-  add constraint pk_assigned primary key(beneficiaryid,measurerid);
+  add constraint pk_assigned primary key(id,beneficiaryid,measurerid);
 
 
 alter table sapdetail
   add constraint fk_sapdetail_invoice foreign key(invoiceid) references invoice(id),
   add constraint fk_sapdetail_uptake foreign key(uptakeid) references uptake(id),
-  add constraint pk_sapdetail primary key(invoiceid,uptakeid);
+  add constraint pk_sapdetail primary key(id,invoiceid,uptakeid);
 
 
 alter table anotherservicedetail
   add constraint fk_anotherservicedetail_invoice foreign key(invoiceid) references invoice(id),
   add constraint fk_anotherservicedetail_service foreign key(anotherserviceid) references anotherservice(id),
-  add constraint pk_anotherservicedetail primary key(invoiceid,anotherserviceid);
+  add constraint pk_anotherservicedetail primary key(id,invoiceid,anotherserviceid);
