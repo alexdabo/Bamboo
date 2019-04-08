@@ -8,20 +8,29 @@ package com.bamboo.model.entity;
 import java.util.List;
 
 /**
- *
  * @author alexander
  */
 public class SapDetail {
 
+    private int id;
     private int invoice;
     private int uptake;
 
     public SapDetail() {
     }
 
-    public SapDetail(int invoice, int uptake) {
+    public SapDetail(int id, int invoice, int uptake) {
+        this.id = id;
         this.invoice = invoice;
         this.uptake = uptake;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getInvoice() {

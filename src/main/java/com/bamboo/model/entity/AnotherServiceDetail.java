@@ -10,6 +10,7 @@ package com.bamboo.model.entity;
  */
 public class AnotherServiceDetail {
 
+    private int id;
     private int invoice;
     private int service;
     private double total;
@@ -17,10 +18,19 @@ public class AnotherServiceDetail {
     public AnotherServiceDetail() {
     }
 
-    public AnotherServiceDetail(int invoice, int service, double total) {
+    public AnotherServiceDetail(int id, int invoice, int service, double total) {
+        this.id = id;
         this.invoice = invoice;
         this.service = service;
         this.total = total;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getInvoice() {

@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class Assigned {
 
+    private int id;
     private int beneficiary;
     private int measurer;
     private Date assignmentDate;
@@ -24,12 +25,21 @@ public class Assigned {
     public Assigned() {
     }
 
-    public Assigned(int beneficiary, int measurer, Date assignmentDate, String status, double debt) {
+    public Assigned(int id,int beneficiary, int measurer, Date assignmentDate, String status, double debt) {
+        this.id = id;
         this.beneficiary = beneficiary;
         this.measurer = measurer;
         this.assignmentDate = assignmentDate;
         this.status = status;
         this.debt = debt;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getBeneficiary() {
