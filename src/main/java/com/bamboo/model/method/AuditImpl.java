@@ -17,6 +17,10 @@ public class AuditImpl implements AuditInterface {
         this.TABLE = E.getSimpleName();
     }
 
+    public AuditImpl(String tableName) {
+        this.TABLE = tableName;
+    }
+
     @Override
     public void save(Audit audit) {
         audit.setActionName("Save");

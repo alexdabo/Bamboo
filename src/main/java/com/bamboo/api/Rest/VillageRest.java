@@ -5,10 +5,10 @@
  */
 package com.bamboo.api.Rest;
 
+import com.bamboo.api.dto.VillageDto;
+import com.bamboo.api.method.VillageDtoMethod;
 import com.bamboo.model.entity.Audit;
-import com.bamboo.model.entity.Village;
 import com.bamboo.model.method.AuditImpl;
-import com.bamboo.model.method.VillageImpl;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -28,18 +28,18 @@ import javax.servlet.http.HttpServletResponse;
 public class VillageRest extends HttpServlet {
 
     private final Gson gson = new Gson();
-    private final VillageImpl villageImpl = new VillageImpl();
+    private final VillageDtoMethod villageDtoMethod = new VillageDtoMethod();
     private Map<String, Object> map = new HashMap<>();
-    private final AuditImpl audit = new AuditImpl(Village.class);
+    private final AuditImpl audit = new AuditImpl("Comunidad");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            responseJson = gson.toJson(villageImpl.find());
+            responseJson = gson.toJson(villageDtoMethod.find());
             if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(villageImpl.findById(Integer.parseInt(request.getParameter("id"))));
+                responseJson = gson.toJson(villageDtoMethod.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
             response.sendError(400);
@@ -55,11 +55,11 @@ public class VillageRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
+        VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
         try {
-            if (villageImpl.save(village)) {
+            if (villageDtoMethod.save(villageDto)) {
                 map.put("saved", true);
-                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + village.getName()));
+                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + villageDto.getName()));
             } else {
                 map.put("saved", false);
             }
@@ -77,11 +77,11 @@ public class VillageRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
+        VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
         try {
-            if (villageImpl.update(village)) {
+            if (villageDtoMethod.update(villageDto)) {
                 map.put("updated", true);
-                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + village.getId()));
+                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + villageDto.getId()));
             } else {
                 map.put("updated", false);
             }
@@ -100,10 +100,10 @@ public class VillageRest extends HttpServlet {
         String responseJson;
 
         try {
-            Village village = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Village.class);
-            if (villageImpl.delete(village)) {
+            VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
+            if (villageDtoMethod.delete(villageDto)) {
                 map.put("deleted", true);
-                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + village.getId()));
+                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + villageDto.getId()));
             } else {
                 map.put("deleted", false);
             }
