@@ -15,45 +15,60 @@ import java.util.List;
  */
 public class Assigned {
 
-    private Beneficiary beneficiary;
-    private List<AssignedMeasurer> assigneds;
+    private int beneficiary;
+    private int measurer;
+    private Date assignmentDate;
+    private String status;
+    private double debt;
 
     public Assigned() {
-        beneficiary = new Beneficiary();
-        assigneds = new ArrayList<>();
     }
 
-    public Assigned(Beneficiary beneficiary, List<AssignedMeasurer> assigneds) {
+    public Assigned(int beneficiary, int measurer, Date assignmentDate, String status, double debt) {
         this.beneficiary = beneficiary;
-        this.assigneds = assigneds;
+        this.measurer = measurer;
+        this.assignmentDate = assignmentDate;
+        this.status = status;
+        this.debt = debt;
     }
 
-    public Beneficiary getBeneficiary() {
+    public int getBeneficiary() {
         return beneficiary;
     }
 
-    public void setBeneficiary(Beneficiary beneficiary) {
+    public void setBeneficiary(int beneficiary) {
         this.beneficiary = beneficiary;
     }
 
-    public List<AssignedMeasurer> getAssigneds() {
-        return assigneds;
+    public int getMeasurer() {
+        return measurer;
     }
 
-    public void setAssigneds(List<AssignedMeasurer> assigneds) {
-        this.assigneds = assigneds;
+    public void setMeasurer(int measurer) {
+        this.measurer = measurer;
     }
 
-    public void addAssigned(AssignedMeasurer assigned){
-        assigneds = new ArrayList<>();
-        this.assigneds.add(assigned);
+    public Date getAssignmentDate() {
+        return assignmentDate;
     }
 
-    @Override
-    public String toString() {
-        return "Assigned{" +
-                "beneficiary=" + beneficiary +
-                ", assigneds=" + assigneds +
-                '}';
+    public void setAssignmentDate(Date assignmentDate) {
+        this.assignmentDate = assignmentDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getDebt() {
+        return debt;
+    }
+
+    public void setDebt(double debt) {
+        this.debt = debt;
     }
 }

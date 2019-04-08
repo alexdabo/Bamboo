@@ -13,30 +13,30 @@ import java.util.List;
  */
 public class SapDetail {
 
-    private Invoice invoice;
-    private List<Uptake> uptakes;
+    private int invoice;
+    private int uptake;
 
     public SapDetail() {
     }
 
-    public SapDetail(Invoice invoice, List<Uptake> uptakes) {
+    public SapDetail(int invoice, int uptake) {
         this.invoice = invoice;
-        this.uptakes = uptakes;
+        this.uptake = uptake;
     }
 
-    public Invoice getInvoice() {
+    public int getInvoice() {
         return invoice;
     }
 
-    public void setInvoice(Invoice invoice) {
+    public void setInvoice(int invoice) {
         this.invoice = invoice;
     }
 
-    public List<Uptake> getUptakes() {
-        return uptakes;
+    public int getUptake() {
+        return uptake;
     }
 
-    public void setUptakes(List<Uptake> uptakes) {
-        this.uptakes = uptakes;
+    public void setUptake(int uptake) {
+        this.uptake = uptake;
     }
 }

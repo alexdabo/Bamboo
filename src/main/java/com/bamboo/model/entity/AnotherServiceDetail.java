@@ -6,37 +6,36 @@
 package com.bamboo.model.entity;
 
 /**
- *
  * @author alexander
  */
 public class AnotherServiceDetail {
 
-    private Invoice invoice;
-    private AnotherService service;
+    private int invoice;
+    private int service;
     private double total;
 
     public AnotherServiceDetail() {
     }
 
-    public AnotherServiceDetail(Invoice invoice, AnotherService service, double total) {
+    public AnotherServiceDetail(int invoice, int service, double total) {
         this.invoice = invoice;
         this.service = service;
         this.total = total;
     }
 
-    public Invoice getInvoice() {
+    public int getInvoice() {
         return invoice;
     }
 
-    public void setInvoice(Invoice invoice) {
+    public void setInvoice(int invoice) {
         this.invoice = invoice;
     }
 
-    public AnotherService getService() {
+    public int getService() {
         return service;
     }
 
-    public void setService(AnotherService service) {
+    public void setService(int service) {
         this.service = service;
     }
 
@@ -48,12 +47,4 @@ public class AnotherServiceDetail {
         this.total = total;
     }
 
-    @Override
-    public String toString() {
-        return "AnotherServiceDetail{"
-                + "invoice=" + invoice
-                + ", service=" + service
-                + ", total=" + total
-                + '}';
-    }
 }

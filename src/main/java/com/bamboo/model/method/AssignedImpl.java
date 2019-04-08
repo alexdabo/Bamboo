@@ -4,7 +4,6 @@ import com.bamboo.connection.DBConnection;
 import com.bamboo.connection.DBObject;
 import com.bamboo.model.contrat.AssignedInterface;
 import com.bamboo.model.entity.Assigned;
-import com.bamboo.model.entity.AssignedMeasurer;
 import com.bamboo.model.entity.Beneficiary;
 import com.bamboo.model.entity.Measurer;
 
