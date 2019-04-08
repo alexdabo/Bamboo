@@ -7,6 +7,7 @@ import com.bamboo.model.entity.Invoice;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,7 +96,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setIsPayed(result.getBoolean("payed"));
                 invoices.add(invoice);
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException | ParseException e) {
             throw e;
         }
         return invoices;

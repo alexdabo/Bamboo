@@ -6,49 +6,13 @@ import com.bamboo.model.contrat.SapDetailInterface;
 import com.bamboo.model.entity.*;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class SapDetailImpl implements SapDetailInterface {
 
     private final DBConnection DBC = new DBConnection();
-
-    @Override
-    public SapDetail create(SapDetail detail) throws Exception{
-        SapDetail sapDetail = null;
-        boolean affected= false;
-        UptakeImpl uptakeImp = new UptakeImpl();
-        InvoiceImpl invoiceImpl = new InvoiceImpl();
-        String sql = "insert into public.sapdetail(invoiceid, uptakeid ) values(?, ?)";
-
-        try {
-
-            Invoice invoice =  invoiceImpl.save(detail.getInvoice());
-            if(invoice.getId()!=0){
-                for (Uptake uptake : detail.getUptakes()){
-                    List<DBObject> dbos = new ArrayList<>();
-                    dbos.add(new DBObject(1,invoice.getId()));
-                    dbos.add(new DBObject(2,uptake.getId()));
-                    if (DBC.querySet(sql, dbos)) {
-                        affected = true;
-                        System.out.println("step1");
-                        uptake.setBilled(true);
-                        uptakeImp.update(uptake);
-                    }
-                }
-                if (affected){
-                    System.out.println("step2");
-                   sapDetail = findByInvoice(invoice.getId());
-                    System.out.println("id: " + invoice.getId());
-                }
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-        return sapDetail;
-    }
-
 
     @Override
     public boolean save(SapDetail detail) throws Exception {
@@ -57,22 +21,20 @@ public class SapDetailImpl implements SapDetailInterface {
         UptakeImpl uptakeImp = new UptakeImpl();
         InvoiceImpl invoiceImpl = new InvoiceImpl();
         String sql = "insert into public.sapdetail(invoiceid, uptakeid ) values(?, ?)";
-
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, detail.getInvoice()));
+        dbos.add(new DBObject(2, detail.getUptake()));
+        if (detail.getId() != 0) {
+            sql = "insert into public.sapdetail(invoiceid, uptakeid, id) values(?, ?, ?)";
+            dbos.add(new DBObject(3, detail.getId()));
+        }
         try {
 
-            Invoice invoice =  invoiceImpl.save(detail.getInvoice());
-            if(invoice.getId()!=0){
-                for (Uptake uptake : detail.getUptakes()){
-                    List<DBObject> dbos = new ArrayList<>();
-                    dbos.add(new DBObject(1,invoice.getId()));
-                    dbos.add(new DBObject(2,uptake.getId()));
-                    if (DBC.querySet(sql, dbos)) {
-                        affected = true;
-                        uptake.setBilled(true);
-                        uptakeImp.update(uptake);
-
-                    }
-                }
+            if (DBC.querySet(sql, dbos)) {
+                affected = true;
+                Uptake uptake = uptakeImp.findById(detail.getUptake());
+                uptake.setBilled(true);
+                uptakeImp.update(uptake);
             }
         } catch (Exception e) {
             throw e;
@@ -81,68 +43,77 @@ public class SapDetailImpl implements SapDetailInterface {
     }
 
     @Override
-    public SapDetail findById(int id) throws Exception {
-        SapDetail detail = null;
-        InvoiceImpl invoiceImpl = new InvoiceImpl();
-        UptakeImpl uptakeImp = new UptakeImpl();
+    public List<SapDetail> findByInvoice(int invoiceId) throws Exception {
+        List<SapDetail> SapDetails = new ArrayList<>();
+        String sql = "SELECT id, invoiceid, uptakeid FROM public.sapdetail WHERE invoiceid=?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, invoiceId));
+
         try {
-            detail = new SapDetail();
-            detail.setInvoice(invoiceImpl.findById(id));
-            detail.setUptakes(uptakeImp.findByInvoice(detail.getInvoice().getId()));
-        } catch (Exception e) {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                SapDetail detail = new SapDetail();
+                detail.setId(result.getInt("id"));
+                detail.setInvoice(result.getInt("invoiceid"));
+                detail.setUptake(result.getInt("uptakeid"));
+                SapDetails.add(detail);
+
+            }
+        } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
-        return detail;
+
+        return SapDetails;
+    }
+
+    @Override
+    public SapDetail findById(int id) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<SapDetail> find() throws Exception {
-        List<SapDetail> list = new ArrayList<>();
-        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-        InvoiceImpl invoiceImpl = new InvoiceImpl();
-        UptakeImpl uptakeImp = new UptakeImpl();
+        List<SapDetail> SapDetails = new ArrayList<>();
+        String sql = "SELECT id, invoiceid, uptakeid FROM public.sapdetail  ORDER BY invoiceid DESC;";
         try {
-            for (Invoice invoice : invoiceImpl.find()) {
+            ResultSet result = DBC.queryGet(sql);
+            while (result.next()) {
                 SapDetail detail = new SapDetail();
-                detail.setInvoice(invoice);
-                detail.setUptakes(uptakeImp.findByInvoice(invoice.getId()));
-                list.add(detail);
+                detail.setId(result.getInt("id"));
+                detail.setInvoice(result.getInt("invoiceid"));
+                detail.setUptake(result.getInt("uptakeid"));
+                SapDetails.add(detail);
+
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
-        return list;
-    }
 
-
-    @Override
-    public SapDetail findByInvoice(int invoiceId) throws Exception {
-        SapDetail sapDetail = null;
-        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
-        InvoiceImpl invoiceImpl = new InvoiceImpl();
-        UptakeImpl uptakeImp = new UptakeImpl();
-        try {
-            sapDetail.setInvoice(invoiceImpl.findById(invoiceId));
-            sapDetail.setUptakes(uptakeImp.findByInvoice(sapDetail.getInvoice().getId()));
-            System.out.println(invoiceImpl.findById(invoiceId));
-        } catch (Exception e) {
-            //delete()
-            throw e;
-        }
-        return sapDetail;
+        return SapDetails;
     }
 
     @Override
-    public boolean update(SapDetail detail) throws Exception {
-        return false;
+    public boolean update(SapDetail element) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean delete(SapDetail detail) throws Exception {
-        return false;
-    }
-    private String random() {
-        return UUID.randomUUID().toString().substring(0, 10);
+        boolean affected = false;
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        String sql = "DELETE FROM public.sapdetail WHERE id=?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, detail.getId()));
+
+        try {
+            if (DBC.querySet(sql, dbos)) {
+                affected = true;
+            }
+        } catch (Exception e) {
+            throw e;
+
+        }
+        return affected;
     }
 
 }
