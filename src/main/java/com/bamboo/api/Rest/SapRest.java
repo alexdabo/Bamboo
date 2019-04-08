@@ -5,10 +5,10 @@
  */
 package com.bamboo.api.Rest;
 
+import com.bamboo.api.dto.SapDto;
 import com.bamboo.model.entity.Audit;
-import com.bamboo.model.entity.Sap;
 import com.bamboo.model.method.AuditImpl;
-import com.bamboo.model.method.SapImpl;
+import com.bamboo.api.method.SapDtoMethod;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -28,18 +28,18 @@ import javax.servlet.http.HttpServletResponse;
 public class SapRest extends HttpServlet {
 
     private final Gson gson = new Gson();
-    private final SapImpl sapImpl = new SapImpl();
+    private final SapDtoMethod sapDtoMethod = new SapDtoMethod();
     private Map<String, Object> map = new HashMap<>();
-    private final AuditImpl audit = new AuditImpl(Sap.class);
+    private final AuditImpl audit = new AuditImpl("SAP");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            responseJson = gson.toJson(sapImpl.find());
+            responseJson = gson.toJson(sapDtoMethod.find());
             if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(sapImpl.findById(Integer.parseInt(request.getParameter("id"))));
+                responseJson = gson.toJson(sapDtoMethod.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
             response.sendError(400);
@@ -55,11 +55,11 @@ public class SapRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        Sap sap = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Sap.class);
+        SapDto sapDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDto.class);
         try {
-            if (sapImpl.save(sap)) {
+            if (sapDtoMethod.save(sapDto)) {
                 map.put("saved", true);
-                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sap.getName()));
+                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sapDto.getName()));
             } else {
                 map.put("saved", false);
             }
@@ -77,11 +77,11 @@ public class SapRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        Sap sap = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Sap.class);
+        SapDto sapDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDto.class);
         try {
-            if (sapImpl.update(sap)) {
+            if (sapDtoMethod.update(sapDto)) {
                 map.put("updated", true);
-                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sap.getId()));
+                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sapDto.getId()));
             } else {
                 map.put("updated", false);
             }
@@ -100,10 +100,10 @@ public class SapRest extends HttpServlet {
         String responseJson;
 
         try {
-            Sap sap = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Sap.class);
-            if (sapImpl.delete(sap)) {
+            SapDto sapDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDto.class);
+            if (sapDtoMethod.delete(sapDto)) {
                 map.put("deleted", true);
-                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sap.getId()));
+                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sapDto.getId()));
             } else {
                 map.put("deleted", false);
             }
