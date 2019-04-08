@@ -21,7 +21,7 @@ public class InvoiceImpl implements InvoiceInterface {
     public Invoice save(Invoice invoice) throws Exception {
         invoice.setNumber(random());
         String sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed) VALUES (?, ?, ?, ?, ?) " +
-                "RETURNING id, beneficiaryid, debtcollectorid, number, totaltopay, payed;";
+                "RETURNING id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, invoice.getBeneficiary()));
         dbos.add(new DBObject(2, invoice.getDebtcollector()));
@@ -31,7 +31,7 @@ public class InvoiceImpl implements InvoiceInterface {
 
         if (invoice.getId() != 0) {
             sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed, id )	VALUES (?, ?, ?, ?, ?, ?) " +
-                    "RETURNING id, beneficiaryid, debtcollectorid, number, totaltopay, payed;;";
+                    "RETURNING id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed;";
             dbos.add(new DBObject(6, invoice.getId()));
         }
         invoice = null;
