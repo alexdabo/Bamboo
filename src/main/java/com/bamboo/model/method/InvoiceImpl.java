@@ -19,9 +19,11 @@ public class InvoiceImpl implements InvoiceInterface {
 
     @Override
     public Invoice save(Invoice invoice) throws Exception {
-        Invoice invoice1 = null;
         invoice.setNumber(random());
-        String sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed) VALUES (?, ?, ?, ?, ?);";
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
+        UserImpl userImpl = new UserImpl();
+        String sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed) VALUES (?, ?, ?, ?, ?) " +
+                "RETURNING id, beneficiaryid, debtcollectorid, number, totaltopay, payed;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, invoice.getBeneficiary().getId()));
         dbos.add(new DBObject(2, invoice.getDebtcollector().getId()));
@@ -30,18 +32,28 @@ public class InvoiceImpl implements InvoiceInterface {
         dbos.add(new DBObject(5, invoice.isPayed()));
 
         if (invoice.getId() != 0) {
-            sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed, id )	VALUES (?, ?, ?, ?, ?, ?);";
+            sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed, id )	VALUES (?, ?, ?, ?, ?, ?) " +
+                    "RETURNING id, beneficiaryid, debtcollectorid, number, totaltopay, payed;;";
             dbos.add(new DBObject(6, invoice.getId()));
         }
+        invoice = null;
         try {
-            if (DBC.querySet(sql, dbos)) {
-                invoice1 = findByCode(invoice.getNumber());
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                invoice = new Invoice();
+                invoice.setId(result.getInt("id"));
+                invoice.setBeneficiary(beneficiaryImpl.findById(result.getInt("beneficiaryid")));
+                invoice.setDebtcollector(userImpl.findById(result.getInt("debtcollectorid")));
+                invoice.setNumber(result.getString("number"));
+                invoice.setDateOfIssue(result.getString("dateofissue"));
+                invoice.setTotalToPay(result.getDouble("totaltopay"));
+                invoice.setIsPayed(result.getBoolean("payed"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return invoice1;
+        return invoice;
     }
 
     @Override

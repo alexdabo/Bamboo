@@ -9,7 +9,6 @@ import java.sql.*;
 import java.util.*;
 
 /**
- *
  * @author usuario
  */
 public class DBConnection {
@@ -95,10 +94,6 @@ public class DBConnection {
             PreparedStatement statement = connnection.prepareStatement(sql);
             for (DBObject prm : lst) {
                 if (prm.getValor() instanceof java.util.Date) {
-//                    java.sql.Date fechaBD;
-//                    java.util.Date fechaOriginal = (java.util.Date) prm.getValor();
-//                    fechaBD = new java.sql.Date(fechaOriginal.getTime());
-//                    statement.setObject(prm.getPosicion(), fechaBD);
                     statement.setObject(prm.getPosicion(),
                             new java.sql.Date(((java.util.Date) prm.getValor()).getTime()));
                 } else {
@@ -114,6 +109,29 @@ public class DBConnection {
             disconnect();
         }
         return affected;
+    }
+
+    public ResultSet queryResultSet(String sql, List<DBObject> lst) throws Exception {
+        ResultSet result = null;
+        try {
+            connect();
+            PreparedStatement statement = connnection.prepareStatement(sql);
+            for (DBObject prm : lst) {
+                if (prm.getValor() instanceof java.util.Date) {
+                    statement.setObject(prm.getPosicion(),
+                            new java.sql.Date(((java.util.Date) prm.getValor()).getTime()));
+                } else {
+                    statement.setObject(prm.getPosicion(), prm.getValor());
+                }
+            }
+
+            result = statement.executeQuery();
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            disconnect();
+        }
+        return result;
     }
 
     public void disconnect() {
