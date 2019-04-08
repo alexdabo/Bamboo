@@ -21,13 +21,13 @@ public class Invoice {
     private Date dateOfIssue;
     private Double totalToPay;
     private boolean payed;
-    private Beneficiary beneficiary;
-    private User debtcollector;
+    private int beneficiary;
+    private int debtcollector;
 
     public Invoice() {
     }
 
-    public Invoice(int id, String number, Date dateOfIssue, Double totalToPay, boolean payed, Beneficiary beneficiary, User debtcollector) {
+    public Invoice(int id, String number, Date dateOfIssue, Double totalToPay, boolean payed, int beneficiary, int debtcollector) {
         this.id = id;
         this.number = number;
         this.dateOfIssue = dateOfIssue;
@@ -37,7 +37,7 @@ public class Invoice {
         this.debtcollector = debtcollector;
     }
 
-    public Invoice(int id, String number, String dateOfIssue, Double totalToPay, boolean payed, Beneficiary beneficiary, User debtcollector) throws ParseException {
+    public Invoice(int id, String number, String dateOfIssue, Double totalToPay, boolean payed, int beneficiary, int debtcollector) throws ParseException {
         this.id = id;
         this.number = number;
         toDate(dateOfIssue);
@@ -47,11 +47,11 @@ public class Invoice {
         this.debtcollector = debtcollector;
     }
 
-    public User getDebtcollector() {
+    public int getDebtcollector() {
         return debtcollector;
     }
 
-    public void setDebtcollector(User debtcollector) {
+    public void setDebtcollector(int debtcollector) {
         this.debtcollector = debtcollector;
     }
 
@@ -99,11 +99,11 @@ public class Invoice {
         this.payed = payed;
     }
 
-    public Beneficiary getBeneficiary() {
+    public int getBeneficiary() {
         return beneficiary;
     }
 
-    public void setBeneficiary(Beneficiary beneficiary) {
+    public void setBeneficiary(int beneficiary) {
         this.beneficiary = beneficiary;
     }
 
@@ -115,18 +115,5 @@ public class Invoice {
         } catch (ParseException e) {
             throw e;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Invoice{"
-                + "id=" + id
-                + ", number='" + number + '\''
-                + ", dateOfIssue=" + dateOfIssue
-                + ", totalToPay=" + totalToPay
-                + ", payed=" + payed
-                + ", beneficiary=" + beneficiary
-                + ", debtcollector=" + debtcollector
-                + '}';
     }
 }

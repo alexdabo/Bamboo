@@ -28,8 +28,8 @@ public final class InvoiceData {
 
         this.invoice = new Invoice();
         this.invoice.setId(1000000);
-        this.invoice.setBeneficiary(beneficiaryData.findById());
-        this.invoice.setDebtcollector(collectorData.findById());
+        this.invoice.setBeneficiary(beneficiaryData.findById().getId());
+        this.invoice.setDebtcollector(collectorData.findById().getId());
         this.invoice.setTotalToPay(100.0);
     }
 
