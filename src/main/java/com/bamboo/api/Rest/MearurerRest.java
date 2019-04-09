@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MeasurerRestO", urlPatterns = {"/api/measurer/o"})
+@WebServlet(name = "MeasurerRestO", urlPatterns = {"/api/measurerad/o"})
 public class MearurerRest extends HttpServlet {
 
     private final Gson gson = new Gson();

@@ -1,5 +1,6 @@
 package com.bamboo.api.Rest.measurer;
 
+import com.bamboo.api.Router;
 import com.bamboo.api.dto.MeasurerDto;
 import com.bamboo.api.dto.UptakeDto;
 import com.bamboo.api.method.MeasurerDtoMethod;
@@ -23,29 +24,57 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MeasurerRest", urlPatterns = {"/api/measurer"})
+@WebServlet(name = "MeasurerRest", urlPatterns = {"/api/measurer/*"})
 public class MeasurerRest extends HttpServlet {
+    private final Router router = new Router("measurer");
     private final Gson gson = new Gson();
     private Map<String, Object> map = new HashMap<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        router.setRequest(request);
         MeasurerDtoMethod measurerDtoMethod = new MeasurerDtoMethod();
         UptakeDtoMethod uptakeDtoMethod = new UptakeDtoMethod();
         String responseJson = "";
-        try {
-            List<MeasurerDto> list = new ArrayList<>();
-            for (MeasurerDto measurerDto : measurerDtoMethod.find()) {
-                measurerDto.setUptakes(uptakeDtoMethod.findByMeasurer(measurerDto.getId()));
-                list.add(measurerDto);
-            }
-            responseJson = gson.toJson(list);
 
-        } catch (Exception ex) {
-            response.sendError(400);
-            map.put("error", ex.getMessage());
+
+        switch (router.getRoute()) {
+            case "/measurer":
+                try {
+                    List<MeasurerDto> list = new ArrayList<>();
+                    for (MeasurerDto measurerDto : measurerDtoMethod.find()) {
+                        measurerDto.setUptakes(uptakeDtoMethod.findByMeasurer(measurerDto.getId()));
+                        list.add(measurerDto);
+                    }
+                    responseJson = gson.toJson(list);
+                } catch (Exception ex) {
+                    response.sendError(400);
+                    map.put("error", ex.getMessage());
+                    responseJson = gson.toJson(map);
+                }
+                break;
+            case "/measurer/findone":
+                try {
+                    int measurerId = Integer.parseInt(router.getParam("findone"));
+
+                    MeasurerDto measurerDto = measurerDtoMethod.findById(measurerId);
+                    if (measurerDto != null)
+                        measurerDto.setUptakes(uptakeDtoMethod.findByMeasurer(measurerDto.getId()));
+                    responseJson = gson.toJson(measurerDto);
+
+                } catch (Exception ex) {
+                    response.sendError(400);
+                    map.put("error", "" + ex.getMessage());
+                    responseJson = gson.toJson(map);
+
+                }
+                break;
+            default:
+                responseJson = "{\"msg\":\"Ruta no valida\"}";
+                break;
         }
+
         response.getWriter().write(responseJson);
     }
 }
