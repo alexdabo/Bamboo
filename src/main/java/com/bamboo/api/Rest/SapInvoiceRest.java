@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "ServiceInvoiceRest", urlPatterns = {"/api/sapinvoice"})
 public class SapInvoiceRest extends HttpServlet {
-
+/*
     private final Gson gson = new Gson();
     Map<String, Object> map = new HashMap<>();
     private final SapDetailImpl detailImpl = new SapDetailImpl();
@@ -59,5 +59,5 @@ public class SapInvoiceRest extends HttpServlet {
 
         }
         response.getWriter().write(responseJson);
-    }
+    }*/
 }

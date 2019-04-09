@@ -19,7 +19,7 @@ import static java.lang.Integer.*;
 
 @WebServlet(name = "AssignedRest", urlPatterns = {"/api/assigned"})
 public class AssignedRest extends HttpServlet {
-
+/*
     private Gson gson;
     private final AssignedImpl assignedImpl = new AssignedImpl();
     private Map<String, Object> map = new HashMap<>();
@@ -114,5 +114,5 @@ public class AssignedRest extends HttpServlet {
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
-    }
+    }*/
 }

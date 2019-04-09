@@ -91,12 +91,7 @@ public class MearurerRest extends HttpServlet {
         measurerDto.setId(measurer.getId());
         measurerDto.setNumber(measurer.getNumber());
         measurerDto.setInstallationDate(measurer.getInstallationDate());
-        try {
-            measurerDto.setSap(sapImpl.findById(measurer.getSap()));
-            measurerDto.setStatus(statusImpl.findById(measurer.getStatus()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return measurerDto;
     }
     private List<UptakeDto> getUpdateDto(int measurerId) throws Exception {

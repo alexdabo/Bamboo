@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "AnotherServiceInvoice", urlPatterns = {"/api/anotherserviceinvoice"})
 public class AnotherServiceInvoiceRest extends HttpServlet {
-
+/*
     private final Gson gson = new Gson();
     private final AnotherServiceDetailImpl serviceDetailImpl = new AnotherServiceDetailImpl();
     private final AuditImpl audit = new AuditImpl(AnotherServiceDetail.class);
@@ -66,5 +66,5 @@ public class AnotherServiceInvoiceRest extends HttpServlet {
         map.put("error", detail);
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
-    }
+    }*/
 }
