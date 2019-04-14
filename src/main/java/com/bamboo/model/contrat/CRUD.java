@@ -21,6 +21,6 @@ public interface CRUD<E> {
 
     public boolean update(E element) throws Exception;
 
-    public boolean delete(E element) throws Exception;
+    public boolean delete(int id) throws Exception;
 
 }

@@ -73,7 +73,7 @@ public final class SapDetailData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = sapDetailImpl.delete(sapDetail);
+            deleted = sapDetailImpl.delete(sapDetail.getId());
             if (deleted) {
                 System.out.println("Deleted: " + sapDetail);
                 invoiceData.delete();

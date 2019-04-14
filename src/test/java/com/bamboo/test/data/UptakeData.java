@@ -88,7 +88,7 @@ public final class UptakeData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = uptakeImpl.delete(uptake);
+            deleted = uptakeImpl.delete(uptake.getId());
             if (deleted) {
                 System.out.println("Deleted: " + uptake);
                 measurerData.delete();

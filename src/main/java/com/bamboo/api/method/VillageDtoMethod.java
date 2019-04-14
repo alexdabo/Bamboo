@@ -60,11 +60,11 @@ public class VillageDtoMethod {
         return affected;
     }
 
-    public boolean delete(VillageDto villageDto) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         VillageImpl villageImpl = new VillageImpl();
         try {
-            if (villageImpl.delete(getVillage(villageDto))) {
+            if (villageImpl.delete(id)) {
                 affected = true;
             }
         } catch (Exception e) {

@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SapRest extends HttpServlet {
 
     private final Gson gson = new Gson();
-    private final SapDtoMethod sapDtoMethod = new SapDtoMethod();
+    private final SapDtoMethod sapMtd = new SapDtoMethod();
     private Map<String, Object> map = new HashMap<>();
     private final AuditImpl audit = new AuditImpl("SAP");
 
@@ -37,9 +37,9 @@ public class SapRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            responseJson = gson.toJson(sapDtoMethod.find());
+            responseJson = gson.toJson(sapMtd.find());
             if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(sapDtoMethod.findById(Integer.parseInt(request.getParameter("id"))));
+                responseJson = gson.toJson(sapMtd.findById(Integer.parseInt(request.getParameter("id"))));
             }
         } catch (Exception ex) {
             response.sendError(400);
@@ -57,7 +57,7 @@ public class SapRest extends HttpServlet {
 
         SapDto sapDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDto.class);
         try {
-            if (sapDtoMethod.save(sapDto)) {
+            if (sapMtd.save(sapDto)) {
                 map.put("saved", true);
                 audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sapDto.getName()));
             } else {
@@ -79,7 +79,7 @@ public class SapRest extends HttpServlet {
 
         SapDto sapDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDto.class);
         try {
-            if (sapDtoMethod.update(sapDto)) {
+            if (sapMtd.update(sapDto)) {
                 map.put("updated", true);
                 audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sapDto.getId()));
             } else {
@@ -99,18 +99,19 @@ public class SapRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        try {
-            SapDto sapDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDto.class);
-            if (sapDtoMethod.delete(sapDto)) {
-                map.put("deleted", true);
-                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + sapDto.getId()));
-            } else {
-                map.put("deleted", false);
+        if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+            try {
+                if (sapMtd.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
+                    map.put("deleted", true);
+                    //audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + uptake.getId()));
+                } else {
+                    map.put("deleted", false);
+                }
+            } catch (Exception ex) {
+                response.sendError(400);
             }
-
-        } catch (Exception ex) {
-            response.sendError(400);
-            map.put("error", ex.getMessage());
+        } else {
+            response.setStatus(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

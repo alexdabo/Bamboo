@@ -114,18 +114,19 @@ public class UptakeRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        try {
-            Uptake uptake = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Uptake.class);
-            if (uptakeImpl.delete(uptake)) {
-                map.put("deleted", true);
-                //audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + uptake.getId()));
-            } else {
-                map.put("deleted", false);
+        if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+            try {
+                if (uptakeImpl.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
+                    map.put("deleted", true);
+                    //audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + uptake.getId()));
+                } else {
+                    map.put("deleted", false);
+                }
+            } catch (Exception ex) {
+                response.sendError(400);
             }
-
-        } catch (Exception ex) {
-            response.setStatus(400);
-            map.put("error", ex.getMessage());
+        } else {
+            response.setStatus(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

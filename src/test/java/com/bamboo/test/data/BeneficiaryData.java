@@ -85,7 +85,7 @@ public final class BeneficiaryData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = beneficiaryImpl.delete(beneficiary);
+            deleted = beneficiaryImpl.delete(beneficiary.getId());
             if (deleted) {
                 villageData.delete();
                 System.out.println("Deleted: " + beneficiary);

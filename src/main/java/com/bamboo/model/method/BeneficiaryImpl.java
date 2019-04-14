@@ -127,12 +127,12 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
     }
 
     @Override
-    public boolean delete(Beneficiary beneficiary) throws Exception {
+    public boolean delete(int id) throws Exception {
 
         boolean affected = false;
         String sql = "DELETE FROM public.beneficiary WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, beneficiary.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {
@@ -191,8 +191,8 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
             ResultSet result = DBC.queryGet(sql);
             while (result.next()) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("village",result.getString("village"));
-                map.put("amount",result.getInt("amounts"));
+                map.put("village", result.getString("village"));
+                map.put("amount", result.getInt("amounts"));
                 list.add(map);
             }
         } catch (ClassNotFoundException | SQLException e) {

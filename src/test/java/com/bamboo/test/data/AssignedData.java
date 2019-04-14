@@ -101,7 +101,7 @@ public final class AssignedData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = assignedImpl.delete(assigned);
+            deleted = assignedImpl.delete(assigned.getId());
             if (deleted) {
                 System.out.println("Deleted: " + assigned);
             }

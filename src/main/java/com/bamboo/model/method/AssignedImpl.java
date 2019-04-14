@@ -106,12 +106,12 @@ public class AssignedImpl implements AssignedInterface {
     }
 
     @Override
-    public boolean delete(Assigned assigned) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "DELETE FROM assigned WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, assigned.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {

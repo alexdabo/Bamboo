@@ -77,7 +77,7 @@ public final class AnotherServiceData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = serviceImpl.delete(service);
+            deleted = serviceImpl.delete(service.getId());
             if (deleted) {
                 System.out.println("Deleted: " + service);
             }

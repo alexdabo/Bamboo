@@ -61,11 +61,11 @@ public class StatusDtoMethod {
         return affected;
     }
 
-    public boolean delete(StatusDto statusDto) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         StatusImpl statusImpl = new StatusImpl();
         try {
-            if (statusImpl.delete(getStatus(statusDto))) {
+            if (statusImpl.delete(id)) {
                 affected = true;
             }
         } catch (Exception e) {

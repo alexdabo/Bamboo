@@ -98,12 +98,12 @@ public class SapDetailImpl implements SapDetailInterface {
     }
 
     @Override
-    public boolean delete(SapDetail detail) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "DELETE FROM public.sapdetail WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, detail.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {

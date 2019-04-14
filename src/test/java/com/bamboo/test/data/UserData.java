@@ -82,7 +82,7 @@ public final class UserData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = userImpl.delete(user);
+            deleted = userImpl.delete(user.getId());
             if (deleted) {
                 System.out.println("Deleted: " + user);
                 roleData.delete();

@@ -102,11 +102,11 @@ public class SapImpl implements SapInterface {
     }
 
     @Override
-    public boolean delete(Sap sap) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         String sql = "DELETE FROM public.sap WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, sap.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {

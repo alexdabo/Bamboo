@@ -120,11 +120,11 @@ public class UptakeImpl implements UptakeInterface {
     }
 
     @Override
-    public boolean delete(Uptake uptake) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         String sql = "DELETE FROM public.uptake WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, uptake.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {

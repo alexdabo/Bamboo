@@ -94,8 +94,7 @@ public class VillageRest extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws
-            ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
@@ -121,23 +120,20 @@ public class VillageRest extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws
-            ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
-        if (request.getPathInfo() == null) {
+
+        if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
             try {
-                VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
-                if (villageMtd.delete(villageDto)) {
+                if (villageMtd.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
                     map.put("deleted", true);
-                    audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + villageDto.getId()));
+                    //audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + uptake.getId()));
                 } else {
                     map.put("deleted", false);
                 }
-
             } catch (Exception ex) {
                 response.sendError(400);
-                map.put("error", ex.getMessage());
             }
         } else {
             response.setStatus(404);

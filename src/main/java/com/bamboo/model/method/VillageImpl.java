@@ -90,11 +90,11 @@ public class VillageImpl implements VillageInterface {
     }
 
     @Override
-    public boolean delete(Village village) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         String sql = "DELETE FROM village WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, village.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {

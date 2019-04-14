@@ -90,11 +90,11 @@ public class RoleImpl implements RoleInterface {
     }
 
     @Override
-    public boolean delete(Role role) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         String sql = "DELETE FROM public.role WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, role.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {

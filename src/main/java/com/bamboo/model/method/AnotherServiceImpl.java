@@ -95,11 +95,11 @@ public class AnotherServiceImpl implements AnotherServiceInterface {
     }
 
     @Override
-    public boolean delete(AnotherService service) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         String sql = "DELETE FROM public.anotherservice WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, service.getId()));
+        dbos.add(new DBObject(1, id));
 
         try {
             if (DBC.querySet(sql, dbos)) {

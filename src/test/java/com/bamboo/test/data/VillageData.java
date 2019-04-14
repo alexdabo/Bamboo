@@ -76,7 +76,7 @@ public final class VillageData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = villageImpl.delete(village);
+            deleted = villageImpl.delete(village.getId());
             if (deleted) {
                 System.out.println("Deleted: " + village);
             }

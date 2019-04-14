@@ -60,11 +60,11 @@ public class SapDtoMethod {
         return affected;
     }
 
-    public boolean delete(SapDto sapDto) throws Exception {
+    public boolean delete(int id) throws Exception {
         boolean affected = false;
         SapImpl sapImpl = new SapImpl();
         try {
-            if (sapImpl.delete(getSap(sapDto))) {
+            if (sapImpl.delete(id)) {
                 affected = true;
             }
         } catch (Exception e) {

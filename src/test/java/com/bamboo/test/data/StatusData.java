@@ -76,7 +76,7 @@ public final class StatusData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = statusImpl.delete(status);
+            deleted = statusImpl.delete(status.getId());
             if (deleted) {
                 System.out.println("Deleted: " + status);
             }

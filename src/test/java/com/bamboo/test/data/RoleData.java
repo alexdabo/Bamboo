@@ -76,7 +76,7 @@ public final class RoleData {
     public boolean delete() {
         boolean deleted = false;
         try {
-            deleted = roleImpl.delete(role);
+            deleted = roleImpl.delete(role.getId());
             if (deleted) {
                 System.out.println("Deleted: " + role);
             }
