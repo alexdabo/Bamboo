@@ -35,12 +35,12 @@ public class VillageRest extends HttpServlet {
 
     private final Gson gson = new Gson();
     private final VillageDtoMethod villageMtd = new VillageDtoMethod();
-    private Map<String, Object> map = new HashMap<>();
     private final AuditImpl audit = new AuditImpl("Comunidad");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
         String responseJson = "";
         try {
 
@@ -70,6 +70,7 @@ public class VillageRest extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
         String responseJson;
         if (request.getPathInfo() == null) {
             try {
@@ -83,11 +84,11 @@ public class VillageRest extends HttpServlet {
                 }
 
             } catch (Exception ex) {
-                response.sendError(400);
+                response.setStatus(400);
                 map.put("error", ex.getMessage());
             }
         } else {
-            response.setStatus(404);
+            response.sendError(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -96,6 +97,7 @@ public class VillageRest extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
         String responseJson;
 
         if (request.getPathInfo() == null) {
@@ -109,11 +111,11 @@ public class VillageRest extends HttpServlet {
                 }
 
             } catch (Exception ex) {
-                response.sendError(400);
+                response.setStatus(400);
                 map.put("error", ex.getMessage());
             }
         } else {
-            response.setStatus(404);
+            response.sendError(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -122,21 +124,23 @@ public class VillageRest extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
         String responseJson;
 
         if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
             try {
                 if (villageMtd.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
                     map.put("deleted", true);
-                    //audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + uptake.getId()));
+                    audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + request.getPathInfo().substring(1)));
                 } else {
                     map.put("deleted", false);
                 }
             } catch (Exception ex) {
-                response.sendError(400);
+                response.setStatus(400);
+                map.put("error", ex.getMessage());
             }
         } else {
-            response.setStatus(404);
+            response.sendError(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
