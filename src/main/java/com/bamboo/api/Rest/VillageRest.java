@@ -24,11 +24,17 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author alexander
  */
-@WebServlet(name = "VillageRest", urlPatterns = {"/api/village"})
+@WebServlet(
+        name = "VillageRest",
+        urlPatterns = {
+                "/api/village",
+                "/api/village/*"
+        }
+)
 public class VillageRest extends HttpServlet {
 
     private final Gson gson = new Gson();
-    private final VillageDtoMethod villageDtoMethod = new VillageDtoMethod();
+    private final VillageDtoMethod villageMtd = new VillageDtoMethod();
     private Map<String, Object> map = new HashMap<>();
     private final AuditImpl audit = new AuditImpl("Comunidad");
 
@@ -37,9 +43,20 @@ public class VillageRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson = "";
         try {
-            responseJson = gson.toJson(villageDtoMethod.find());
-            if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(villageDtoMethod.findById(Integer.parseInt(request.getParameter("id"))));
+
+            // Get all villages
+            if (request.getPathInfo() == null) {
+                responseJson = gson.toJson(villageMtd.find());
+            }
+
+            // Get village by id
+            else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                responseJson = gson.toJson(villageMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
+            }
+
+            // Route not found
+            else {
+                response.sendError(404);
             }
         } catch (Exception ex) {
             response.sendError(400);
@@ -54,63 +71,76 @@ public class VillageRest extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
+        if (request.getPathInfo() == null) {
+            try {
+                VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
 
-        VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
-        try {
-            if (villageDtoMethod.save(villageDto)) {
-                map.put("saved", true);
-                audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + villageDto.getName()));
-            } else {
-                map.put("saved", false);
+                if (villageMtd.save(villageDto)) {
+                    map.put("saved", true);
+                    audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + villageDto.getName()));
+                } else {
+                    map.put("saved", false);
+                }
+
+            } catch (Exception ex) {
+                response.sendError(400);
+                map.put("error", ex.getMessage());
             }
-
-        } catch (Exception ex) {
-            response.sendError(400);
-            map.put("error", ex.getMessage());
+        } else {
+            response.setStatus(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
 
-        VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
-        try {
-            if (villageDtoMethod.update(villageDto)) {
-                map.put("updated", true);
-                audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + villageDto.getId()));
-            } else {
-                map.put("updated", false);
-            }
+        if (request.getPathInfo() == null) {
+            try {
+                VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
+                if (villageMtd.update(villageDto)) {
+                    map.put("updated", true);
+                    audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + villageDto.getId()));
+                } else {
+                    map.put("updated", false);
+                }
 
-        } catch (Exception ex) {
-            response.sendError(400);
-            map.put("error", ex.getMessage());
+            } catch (Exception ex) {
+                response.sendError(400);
+                map.put("error", ex.getMessage());
+            }
+        } else {
+            response.setStatus(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String responseJson;
+        if (request.getPathInfo() == null) {
+            try {
+                VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
+                if (villageMtd.delete(villageDto)) {
+                    map.put("deleted", true);
+                    audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + villageDto.getId()));
+                } else {
+                    map.put("deleted", false);
+                }
 
-        try {
-            VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
-            if (villageDtoMethod.delete(villageDto)) {
-                map.put("deleted", true);
-                audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + villageDto.getId()));
-            } else {
-                map.put("deleted", false);
+            } catch (Exception ex) {
+                response.sendError(400);
+                map.put("error", ex.getMessage());
             }
-
-        } catch (Exception ex) {
-            response.sendError(400);
-            map.put("error", ex.getMessage());
+        } else {
+            response.setStatus(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
