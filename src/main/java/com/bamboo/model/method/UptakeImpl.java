@@ -8,6 +8,7 @@ import com.bamboo.model.entity.Uptake;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UptakeImpl implements UptakeInterface {
@@ -17,14 +18,18 @@ public class UptakeImpl implements UptakeInterface {
     @Override
     public boolean save(Uptake uptake) throws Exception {
         boolean affected = false;
-        String sql = "INSERT INTO public.uptake(measurerid, currentvaluetaken) VALUES (?, ?)";
+        String sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken) VALUES (?, ?, ?)";
+        if (uptake.getDatetaked()==null) {
+            uptake.setDatetaked(new Date());
+        }
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, uptake.getMeasurer()));
-        dbos.add(new DBObject(2, uptake.getCurrentValueTaken()));
+        dbos.add(new DBObject(2,uptake.getDatetaked()));
+        dbos.add(new DBObject(3, uptake.getCurrentValueTaken()));
 
         if (uptake.getId() != 0) {
-            sql = "INSERT INTO public.uptake(measurerid, currentvaluetaken, id) VALUES (?, ?, ?)";
-            dbos.add(new DBObject(3, uptake.getId()));
+            sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken, id) VALUES (?, ?, ?, ?)";
+            dbos.add(new DBObject(4, uptake.getId()));
         }
         try {
             if (DBC.querySet(sql, dbos)) {
@@ -101,22 +106,7 @@ public class UptakeImpl implements UptakeInterface {
 
     @Override
     public boolean update(Uptake uptake) throws Exception {
-        boolean affected = false;
-        String sql = "UPDATE public.uptake SET measurerid =?, currentvaluetaken=? WHERE id=?";
-        List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, uptake.getMeasurer()));
-        dbos.add(new DBObject(2, uptake.getCurrentValueTaken()));
-        dbos.add(new DBObject(3, uptake.getId()));
-
-        try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
-            }
-        } catch (Exception e) {
-            throw e;
-        }
-
-        return affected;
+        throw new UnsupportedOperationException("This method is not supported yet.");
     }
 
     @Override

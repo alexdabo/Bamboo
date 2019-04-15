@@ -1,7 +1,10 @@
 package com.bamboo.api.Rest;
 
+import com.bamboo.api.dto.UptakeDto;
+import com.bamboo.api.method.UptakeDtoMethod;
 import com.bamboo.model.entity.Audit;
 import com.bamboo.model.entity.Uptake;
+import com.bamboo.model.method.AuditImpl;
 import com.bamboo.model.method.UptakeImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,12 +19,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "UptakeRest", urlPatterns = {"/api/uptake"})
+@WebServlet(name = "UptakeRest", urlPatterns = {"/api/uptake/*"})
 public class UptakeRest extends HttpServlet {
 
     private Gson gson = new Gson();
-    private final UptakeImpl uptakeImpl = new UptakeImpl();
-    private Map<String, Object> map = new HashMap<>();
+    private final UptakeDtoMethod uptakeMtd = new UptakeDtoMethod();
+    private final AuditImpl audit = new AuditImpl("Mediadas");
 
     public UptakeRest() {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -29,104 +32,55 @@ public class UptakeRest extends HttpServlet {
         gson = gsonBuilder.create();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        String responseJson = "";
-        try {
-            responseJson = gson.toJson(uptakeImpl.find());
-            if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(uptakeImpl.findById(Integer.parseInt(request.getParameter("id"))));
-            }
-            if (request.getParameter("notBilled") != null) {
-                if (request.getParameter("measurerId") != null) {
-                    responseJson = gson.toJson(uptakeImpl.findNotBilled(Integer.parseInt(request.getParameter("measurerId"))));
-                } else {
-                    map.put("error", "El Id de medidor es requerido.");
-                    responseJson = gson.toJson(map);
-                }
-            } else {
-                if (request.getParameter("measurerId") != null) {
-                    responseJson = gson.toJson(uptakeImpl.findByMeasurer(
-                            Integer.parseInt(request.getParameter("measurerId")))
-                    );
-                }
-            }
-
-
-        } catch (Exception ex) {
-            response.setStatus(400);
-            map.put("error", ex.getMessage());
-            responseJson = gson.toJson(map);
-        }
-        response.getWriter().write(responseJson);
-    }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
         String responseJson = null;
 
-        Uptake uptake;
-        try {
-            uptake = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Uptake.class);
-            if (uptakeImpl.save(uptake)) {
-                map.put("saved", true);
-                // audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + uptake.getName()));
-            } else {
-                map.put("saved", false);
+        if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+            try {
+                UptakeDto uptakeDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), UptakeDto.class);
+                if (uptakeMtd.save(uptakeDto, Integer.parseInt(request.getPathInfo().substring(1)))) {
+                    map.put("saved", true);
+                    audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "medidor # " + request.getPathInfo().substring(1)));
+                } else {
+                    map.put("saved", false);
+                }
+
+            } catch (Exception ex) {
+                response.setStatus(400);
+                map.put("error", ex.getMessage());
             }
-
-        } catch (Exception ex) {
-            response.setStatus(400);
-            map.put("error", ex.getMessage());
-
+        } else {
+            response.sendError(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
 
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        String responseJson;
-
-        Uptake uptake = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), Uptake.class);
-        try {
-            if (uptakeImpl.update(uptake)) {
-                map.put("updated", true);
-                //audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + uptake.getId()));
-            } else {
-                map.put("updated", false);
-            }
-
-        } catch (Exception ex) {
-            response.setStatus(400);
-            map.put("error", ex.getMessage());
-        }
-        responseJson = gson.toJson(map);
-        response.getWriter().write(responseJson);
-    }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> map = new HashMap<>();
         String responseJson;
-
         if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
             try {
-                if (uptakeImpl.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
+                if (uptakeMtd.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
                     map.put("deleted", true);
-                    //audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + uptake.getId()));
+                    audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + request.getPathInfo().substring(1)));
                 } else {
                     map.put("deleted", false);
                 }
+
             } catch (Exception ex) {
-                response.sendError(400);
+                response.setStatus(400);
+                map.put("error", ex.getMessage());
             }
         } else {
-            response.setStatus(404);
+            response.sendError(404);
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);

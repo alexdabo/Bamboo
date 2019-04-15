@@ -53,12 +53,20 @@ public class UptakeDtoMethod {
         return saved;
     }
 
-    public boolean update(UptakeDto uptakeDto, int measurerId) throws Exception {
+    public boolean update(UptakeDto uptakeDto) throws Exception {
         boolean updated = false;
         UptakeImpl uptakeImpl = new UptakeImpl();
         Uptake uptake = getUptake(uptakeDto);
-        uptake.setMeasurer(measurerId);
         if (uptakeImpl.update(uptake)) {
+            updated = true;
+        }
+        return updated;
+    }
+
+    public boolean delete(int id) throws Exception {
+        boolean updated = false;
+        UptakeImpl uptakeImpl = new UptakeImpl();
+        if (uptakeImpl.delete(id)) {
             updated = true;
         }
         return updated;

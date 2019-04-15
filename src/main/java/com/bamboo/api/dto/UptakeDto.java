@@ -36,20 +36,6 @@ public class UptakeDto {
         this.billed = billed;
     }
 
-    public UptakeDto(int id, String dateTaked, double lastValueTaken, double currentValueTaken, double baseVolume, double basePrice, double extraPrice, double volumeExceeded, double volumeConsumed, double totalPrice, boolean billed) throws ParseException {
-        this.id = id;
-        toDate(dateTaked);
-        this.lastValueTaken = lastValueTaken;
-        this.currentValueTaken = currentValueTaken;
-        this.baseVolume = baseVolume;
-        this.basePrice = basePrice;
-        this.extraPrice = extraPrice;
-        this.volumeExceeded = volumeExceeded;
-        this.volumeConsumed = volumeConsumed;
-        this.totalPrice = totalPrice;
-        this.billed = billed;
-    }
-
 
     public int getId() {
         return id;
@@ -139,17 +125,5 @@ public class UptakeDto {
         this.billed = billed;
     }
 
-    public void setDatetaked(String date) throws ParseException {
-        toDate(date);
-    }
-
-    private void toDate(String dateTaked) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            this.dateTaked = sdf.parse(dateTaked);
-        } catch (ParseException e) {
-            throw e;
-        }
-    }
 
 }
