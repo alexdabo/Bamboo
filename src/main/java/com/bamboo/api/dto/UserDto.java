@@ -1,8 +1,7 @@
 package com.bamboo.api.dto;
 
-import com.bamboo.model.entity.Role;
+import com.bamboo.api.dto.RoleDto;
 import com.bamboo.model.entity.User;
-import com.bamboo.model.method.RoleImpl;
 
 public class UserDto {
 
@@ -16,12 +15,12 @@ public class UserDto {
     private String lastName;
     private String telephone;
     private String address;
-    private Role role;
+    private RoleDto role;
 
     public UserDto() {
     }
 
-    public UserDto(int id, String userName, String password, String email, String dni, String firstName, String lastName, String telephone, String address, Role role) {
+    public UserDto(int id, String userName, String password, String email, String dni, String firstName, String lastName, String telephone, String address, RoleDto role) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -107,12 +106,16 @@ public class UserDto {
         this.address = address;
     }
 
-    public Role getRole() {
+    public RoleDto getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(RoleDto role) {
         this.role = role;
+    }
+
+    public String getFullName() {
+        return lastName + " " + firstName;
     }
 
 }
