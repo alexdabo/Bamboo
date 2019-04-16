@@ -21,6 +21,20 @@ public class MeasurerDtoMethod {
         return measurerDto1;
     }
 
+    // Return simple
+    public List<MeasurerDto> find() throws Exception {
+        List<MeasurerDto> list = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        try {
+            for (Measurer measurer : measurerImpl.find()) {
+                list.add(getMeasurerDto(measurer));
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
+    }
+
     public MeasurerDto findById(int id) throws Exception {
         MeasurerDto measurerDto = null;
         MeasurerImpl measurerImpl = new MeasurerImpl();
@@ -71,13 +85,68 @@ public class MeasurerDtoMethod {
         return list;
     }
 
-    public List<MeasurerDto> find() throws Exception {
+    public List<MeasurerDto> findByBeneficiary(int beneficiaryId) throws Exception {
         List<MeasurerDto> list = new ArrayList<>();
         MeasurerImpl measurerImpl = new MeasurerImpl();
         try {
-            for (Measurer measurer : measurerImpl.find()) {
+            for (Measurer measurer : measurerImpl.findByBeneficiary(beneficiaryId)) {
+                list.add(getMeasurerDto(measurer));
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
+    }
+
+
+    // Return with all uptakes
+    public MeasurerDto findByIdWithUptakes(int id) throws Exception {
+        MeasurerDto measurerDto = null;
+        try {
+            measurerDto = getMeasurerDto(new MeasurerImpl().findById(id));
+            measurerDto.setUptakes(new UptakeDtoMethod().findByMeasurer(id));
+
+        } catch (Exception e) {
+            throw e;
+        }
+        return measurerDto;
+    }
+
+    public List<MeasurerDto> findByBeneficiaryWithUptakes(int beneficiaryId) throws Exception {
+        List<MeasurerDto> list = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        try {
+            for (Measurer measurer : measurerImpl.findByBeneficiary(beneficiaryId)) {
                 MeasurerDto measurerDto = getMeasurerDto(measurer);
                 measurerDto.setUptakes(new UptakeDtoMethod().findByMeasurer(measurer.getId()));
+                list.add(measurerDto);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
+    }
+    // Return with uptakes not billed
+
+    public MeasurerDto findByIdUptakeNotBilled(int id) throws Exception {
+        MeasurerDto measurerDto = null;
+        try {
+            measurerDto = getMeasurerDto(new MeasurerImpl().findById(id));
+            measurerDto.setUptakes(new UptakeDtoMethod().findNotBilled(id));
+
+        } catch (Exception e) {
+            throw e;
+        }
+        return measurerDto;
+    }
+
+    public List<MeasurerDto> findByBeneficiaryUptakeNotBilled(int beneficiaryId) throws Exception {
+        List<MeasurerDto> list = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        try {
+            for (Measurer measurer : measurerImpl.findByBeneficiary(beneficiaryId)) {
+                MeasurerDto measurerDto = getMeasurerDto(measurer);
+                measurerDto.setUptakes(new UptakeDtoMethod().findNotBilled(measurer.getId()));
                 list.add(measurerDto);
             }
         } catch (Exception e) {
