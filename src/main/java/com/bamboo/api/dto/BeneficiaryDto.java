@@ -10,12 +10,12 @@ public class BeneficiaryDto {
     private String address;
     private String telephone;
     private String placeReference;
-    private Village village;
+    private VillageDto village;
 
     public BeneficiaryDto() {
     }
 
-    public BeneficiaryDto(int id, String dni, String lastName, String firstName, String address, String telephone, Village village, String placeReference) {
+    public BeneficiaryDto(int id, String dni, String lastName, String firstName, String address, String telephone, VillageDto village, String placeReference) {
         this.id = id;
         this.dni = dni;
         this.lastName = lastName;
@@ -74,11 +74,11 @@ public class BeneficiaryDto {
         this.telephone = telephone;
     }
 
-    public Village getVillage() {
+    public VillageDto getVillage() {
         return village;
     }
 
-    public void setVillage(Village village) {
+    public void setVillage(VillageDto village) {
         this.village = village;
     }
 
@@ -88,5 +88,9 @@ public class BeneficiaryDto {
 
     public void setPlaceReference(String placeReference) {
         this.placeReference = placeReference;
+    }
+
+    public String getFullName() {
+        return getLastName() + " " + getFirstName();
     }
 }
