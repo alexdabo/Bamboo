@@ -13,7 +13,6 @@ public class MeasurerDtoMethod {
     public MeasurerDto save(MeasurerDto measurerDto) throws Exception {
         MeasurerDto measurerDto1 = null;
         MeasurerImpl measurerImpl = new MeasurerImpl();
-        UptakeDtoMethod uptakeDtoMethod = new UptakeDtoMethod();
         try {
             measurerDto1 = getMeasurerDto(measurerImpl.save(getMeasurer(measurerDto)));
         } catch (Exception e) {
@@ -22,16 +21,54 @@ public class MeasurerDtoMethod {
         return measurerDto1;
     }
 
-
     public MeasurerDto findById(int id) throws Exception {
         MeasurerDto measurerDto = null;
         MeasurerImpl measurerImpl = new MeasurerImpl();
         try {
             measurerDto = getMeasurerDto(measurerImpl.findById(id));
+            measurerDto.setUptakes(new UptakeDtoMethod().findByMeasurer(id));
         } catch (Exception e) {
             throw e;
         }
         return measurerDto;
+    }
+
+    public MeasurerDto findNotBilled(int id) throws Exception {
+        MeasurerDto measurerDto = null;
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        try {
+            measurerDto = getMeasurerDto(measurerImpl.findById(id));
+            measurerDto.setUptakes(new UptakeDtoMethod().findNotBilled(id));
+        } catch (Exception e) {
+            throw e;
+        }
+        return measurerDto;
+    }
+
+    public List<MeasurerDto> findBySap(int id) throws Exception {
+        List<MeasurerDto> list = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        try {
+            for (Measurer measurer : measurerImpl.findBySap(id)) {
+                list.add(getMeasurerDto(measurer));
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
+    }
+
+    public List<MeasurerDto> findByStatus(int id) throws Exception {
+        List<MeasurerDto> list = new ArrayList<>();
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        try {
+            for (Measurer measurer : measurerImpl.findByStatus(id)) {
+                list.add(getMeasurerDto(measurer));
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
     }
 
     public List<MeasurerDto> find() throws Exception {
@@ -39,7 +76,9 @@ public class MeasurerDtoMethod {
         MeasurerImpl measurerImpl = new MeasurerImpl();
         try {
             for (Measurer measurer : measurerImpl.find()) {
-                list.add(getMeasurerDto(measurer));
+                MeasurerDto measurerDto = getMeasurerDto(measurer);
+                measurerDto.setUptakes(new UptakeDtoMethod().findByMeasurer(measurer.getId()));
+                list.add(measurerDto);
             }
         } catch (Exception e) {
             throw e;

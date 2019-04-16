@@ -2,6 +2,7 @@ package com.bamboo.api.Rest;
 
 import com.bamboo.api.dto.MeasurerDto;
 import com.bamboo.api.dto.UptakeDto;
+import com.bamboo.api.method.MeasurerDtoMethod;
 import com.bamboo.model.entity.Measurer;
 import com.bamboo.model.entity.Uptake;
 import com.bamboo.model.method.MeasurerImpl;
@@ -21,7 +22,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MeasurerRestO", urlPatterns = {"/api/measurerad/o"})
+@WebServlet(
+        name = "MeasurerRest",
+        urlPatterns = {
+                "/api/measurer/*",
+                "/api/measurer/notbilled/*",
+                "/api/measurer/sap/*",
+                "/api/measurer/status/*",
+        }
+)
 public class MearurerRest extends HttpServlet {
 
     private final Gson gson = new Gson();
@@ -30,89 +39,58 @@ public class MearurerRest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        MeasurerImpl measurerImpl = new MeasurerImpl();
+        MeasurerDtoMethod measurerMtd = new MeasurerDtoMethod();
         String responseJson = "";
         try {
-            responseJson = gson.toJson(measurerImpl.find());
+            switch (request.getServletPath()) {
 
-            List<MeasurerDto> measurers = new ArrayList<>();
-            for (Measurer measurer : measurerImpl.find()) {
-                MeasurerDto measurerDto = getMeasurerDto(measurer);
-                measurerDto.setUptakes(getUpdateDto(measurer.getId()));
-                measurers.add(measurerDto);
-            }
-            responseJson = gson.toJson(measurers);
+                case "/api/measurer":
 
+                    // Get all measurers
+                    if (request.getPathInfo() == null) {
+                        responseJson = gson.toJson(measurerMtd.find());
+                    }
 
-            if (request.getParameter("id") != null) {
-                responseJson = gson.toJson(
-                        getMeasurerDto(measurerImpl.findById(Integer.parseInt(request.getParameter("id"))))
-                );
-            }
-            if (request.getParameter("number") != null) {
-                responseJson = gson.toJson(
-                        getMeasurerDto(measurerImpl.findByNumber(request.getParameter("number")))
-                );
-            }
-            if (request.getParameter("sapId") != null) {
-                measurers = new ArrayList<>();
-                for (Measurer measurer : measurerImpl.findBySap(Integer.parseInt(request.getParameter("sapId")))) {
-                    measurers.add(getMeasurerDto(measurer));
-                }
-                responseJson = gson.toJson(measurers);
+                    // Get measurer by id
+                    else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
+                    }
 
-            }
-            if (request.getParameter("statusId") != null) {
-                measurers = new ArrayList<>();
-                for (Measurer measurer : measurerImpl.findByStatus(Integer.parseInt(request.getParameter("statusId")))) {
-                    measurers.add(getMeasurerDto(measurer));
-                }
-                responseJson = gson.toJson(measurers);
+                    // Route not found
+                    else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/measurer/notbilled":
+                    // Get all measurers with not billed uptketes
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findNotBilled(Integer.parseInt(request.getPathInfo().substring(1))));
+                    }
 
-            }
+                    // Route not found
+                    else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/measurer/sap":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findBySap(Integer.parseInt(request.getPathInfo().substring(1))));
+                    }
+                    break;
+                case "/api/measurer/status":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findByStatus(Integer.parseInt(request.getPathInfo().substring(1))));
+                    }
+                    break;
 
-            if (request.getParameter("measurerPerService") != null) {
-                responseJson = gson.toJson(measurerImpl.findMeasurerPerService());
-            }
-            if (request.getParameter("measurerPerStatus") != null) {
-                responseJson = gson.toJson(measurerImpl.findMeasurerPerStatus());
             }
         } catch (Exception ex) {
             response.sendError(400);
             map.put("error", ex.getMessage());
+            responseJson = gson.toJson(map);
         }
         response.getWriter().write(responseJson);
     }
 
-    private MeasurerDto getMeasurerDto(Measurer measurer) {
-        SapImpl sapImpl = new SapImpl();
-        StatusImpl statusImpl = new StatusImpl();
-        MeasurerDto measurerDto = new MeasurerDto();
-        measurerDto.setId(measurer.getId());
-        measurerDto.setNumber(measurer.getNumber());
-        measurerDto.setInstallationDate(measurer.getInstallationDate());
 
-        return measurerDto;
-    }
-    private List<UptakeDto> getUpdateDto(int measurerId) throws Exception {
-        List<UptakeDto> uptakesDto = new ArrayList<>();
-        UptakeImpl uptakeImpl =new UptakeImpl();
-        for (Uptake uptake :uptakeImpl.findByMeasurer(measurerId) ){
-            UptakeDto uptakeDto = new UptakeDto();
-            uptakeDto.setId(uptake.getId());
-            uptakeDto.setDateTaked(uptake.getDatetaked());
-            uptakeDto.setLastValueTaken(uptake.getLastValueTaken());
-            uptakeDto.setCurrentValueTaken(uptake.getCurrentValueTaken());
-            uptakeDto.setBaseVolume(uptake.getBaseVolume());
-            uptakeDto.setBasePrice(uptake.getBasePrice());
-            uptakeDto.setExtraPrice(uptake.getExtraPrice());
-            uptakeDto.setVolumeExceeded(uptake.getVolumeExceeded());
-            uptakeDto.setVolumeConsumed(uptake.getVolumeConsumed());
-            uptakeDto.setTotalPrice(uptake.getTotalPrice());
-            uptakeDto.setBilled(uptake.isBilled());
-            uptakesDto.add(uptakeDto);
-        }
-
-        return uptakesDto;
-    }
 }
