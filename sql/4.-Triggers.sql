@@ -3,10 +3,14 @@
 ********************************************************************/
 CREATE OR REPLACE FUNCTION public.fun_calc_uptake() RETURNS TRIGGER AS $BODY$
 declare
-  meter_status  integer;
+  meter_status  INTEGER ;
+  assigned_id INTEGER;
+  assigned_debt DOUBLE PRECISION;
 BEGIN
 
   meter_status = (select statusid from measurer where id = new.measurerid);
+  assigned_id= (select id from assigned where measurerid = new.measurerid and status = 'enable');
+  assigned_debt= (select debt from assigned where id = assigned_id);
 
   new.lastvaluetaken = (select currentvaluetaken from uptake where measurerid=new.measurerid order by id  desc limit 1);
   if new.lastvaluetaken is null then
@@ -28,9 +32,11 @@ BEGIN
         if new.volumeconsumed > new.basevolume then
           new.volumeexceeded = (new.volumeconsumed - new.basevolume);
           new.totalprice = (new.baseprice + (new.volumeexceeded * new.extraprice));
+          update assigned set debt = assigned_debt+new.totalprice where id=assigned_id;
         else
           new.totalprice = new.baseprice;
           new.volumeexceeded = 0;
+          update assigned set debt = (assigned_debt+new.totalprice) where id=assigned_id;
         end if;
       else
           RAISE EXCEPTION 'Medida actual menor a la anterior';
@@ -48,6 +54,7 @@ BEGIN
       new.volumeexceeded = 0;
       new.volumeconsumed = new.basevolume;
       new.totalprice = new.baseprice;
+      update assigned set debt = (assigned_debt+new.totalprice) where id=assigned_id;
     end if;
 
     if meter_status > 3 then
