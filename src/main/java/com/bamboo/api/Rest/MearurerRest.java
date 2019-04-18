@@ -25,10 +25,25 @@ import java.util.Map;
 @WebServlet(
         name = "MeasurerRest",
         urlPatterns = {
-                "/api/measurer/*",
-                "/api/measurer/notbilled/*",
-                "/api/measurer/sap/*",
-                "/api/measurer/status/*",
+                // Simple search of all the meters
+                "/api/measurer/simple",
+                // Simple search for meter by id
+                "/api/measurer/simple/*",
+                // Simple meter search by SAP.
+                "/api/measurer/simple/by/sap/*",
+                // Simple meter search by status.
+                "/api/measurer/simple/by/status/*",
+                //Simple meter search from a beneficiary.
+                "/api/measurer/simple/from/beneficiary/*",
+                //Search for meter by id with all its uptakes
+                "/api/measurer/with/uptakes/from/measurer/*",
+                //Search for meter by beneficiary with all its uptakes
+                "/api/measurer/with/uptakes/from/beneficiary/*",
+                //Meter search by id with all your not billed uptakes.
+                "/api/measurer/with/unbilled/uptakes/from/measurer/*",
+                //Meter search by beneficiary with all your not billed uptakes.
+                "/api/measurer/with/unbilled/uptakes/from/beneficiary/*",
+
         }
 )
 public class MearurerRest extends HttpServlet {
@@ -44,7 +59,7 @@ public class MearurerRest extends HttpServlet {
         try {
             switch (request.getServletPath()) {
 
-                case "/api/measurer":
+                case "/api/measurer/simple":
 
                     // Get all measurers
                     if (request.getPathInfo() == null) {
@@ -61,28 +76,56 @@ public class MearurerRest extends HttpServlet {
                         response.sendError(404);
                     }
                     break;
-                case "/api/measurer/notbilled":
-                    // Get all measurers with not billed uptketes
-                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
-                        responseJson = gson.toJson(measurerMtd.findNotBilled(Integer.parseInt(request.getPathInfo().substring(1))));
-                    }
 
-                    // Route not found
-                    else {
+                case "/api/measurer/simple/by/sap":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findBySap(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
                         response.sendError(404);
                     }
                     break;
-                case "/api/measurer/sap":
-                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
-                        responseJson = gson.toJson(measurerMtd.findBySap(Integer.parseInt(request.getPathInfo().substring(1))));
-                    }
-                    break;
-                case "/api/measurer/status":
+                case "/api/measurer/simple/by/status":
                     if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                         responseJson = gson.toJson(measurerMtd.findByStatus(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
                     }
                     break;
-
+                case "/api/measurer/simple/from/beneficiary":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findByBeneficiary(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/measurer/with/uptakes/from/measurer":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findByIdWithUptakes(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/measurer/with/uptakes/from/beneficiary":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findByBeneficiaryWithUptakes(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/measurer/with/unbilled/uptakes/from/measurer":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findByIdUnbilledUptakes(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/measurer/with/unbilled/uptakes/from/beneficiary":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(measurerMtd.findByBeneficiaryUnbilledUptakes(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
+                    break;
             }
         } catch (Exception ex) {
             response.sendError(400);

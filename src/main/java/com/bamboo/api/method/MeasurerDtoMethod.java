@@ -10,6 +10,10 @@ import java.util.List;
 
 public class MeasurerDtoMethod {
 
+    /*
+
+
+     */
     public MeasurerDto save(MeasurerDto measurerDto) throws Exception {
         MeasurerDto measurerDto1 = null;
         MeasurerImpl measurerImpl = new MeasurerImpl();
@@ -41,18 +45,6 @@ public class MeasurerDtoMethod {
         try {
             measurerDto = getMeasurerDto(measurerImpl.findById(id));
             measurerDto.setUptakes(new UptakeDtoMethod().findByMeasurer(id));
-        } catch (Exception e) {
-            throw e;
-        }
-        return measurerDto;
-    }
-
-    public MeasurerDto findNotBilled(int id) throws Exception {
-        MeasurerDto measurerDto = null;
-        MeasurerImpl measurerImpl = new MeasurerImpl();
-        try {
-            measurerDto = getMeasurerDto(measurerImpl.findById(id));
-            measurerDto.setUptakes(new UptakeDtoMethod().findNotBilled(id));
         } catch (Exception e) {
             throw e;
         }
@@ -98,7 +90,6 @@ public class MeasurerDtoMethod {
         return list;
     }
 
-
     // Return with all uptakes
     public MeasurerDto findByIdWithUptakes(int id) throws Exception {
         MeasurerDto measurerDto = null;
@@ -128,7 +119,7 @@ public class MeasurerDtoMethod {
     }
     // Return with uptakes not billed
 
-    public MeasurerDto findByIdUptakeNotBilled(int id) throws Exception {
+    public MeasurerDto findByIdUnbilledUptakes(int id) throws Exception {
         MeasurerDto measurerDto = null;
         try {
             measurerDto = getMeasurerDto(new MeasurerImpl().findById(id));
@@ -140,7 +131,7 @@ public class MeasurerDtoMethod {
         return measurerDto;
     }
 
-    public List<MeasurerDto> findByBeneficiaryUptakeNotBilled(int beneficiaryId) throws Exception {
+    public List<MeasurerDto> findByBeneficiaryUnbilledUptakes(int beneficiaryId) throws Exception {
         List<MeasurerDto> list = new ArrayList<>();
         MeasurerImpl measurerImpl = new MeasurerImpl();
         try {
