@@ -19,8 +19,8 @@ export default new Router({
         { path: '', redirect: 'home' },
         {
           path: 'home',
-          name: 'home'
-          // component: () => import('@/views/admin/HomeComponent.vue')
+          name: 'home',
+          component: () => import('@/views/admin/home/HomeView.vue')
         },
         {
           path: 'dashboard',

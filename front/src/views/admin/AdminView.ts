@@ -4,32 +4,32 @@ import Component from 'vue-class-component'
 interface Item {
   icon: string;
   title: string;
-  name: string;
+  routerName: string;
 }
 
 @Component({ name: 'admin-view' })
 export default class AdminView extends Vue {
   public drawer: boolean = true;
   public sideBarItems: Item[] = [
-    { icon: 'home', title: 'Principal', name: 'home' },
-    { icon: 'dashboard', title: 'Dashboard', name: 'dashboard' },
-    { icon: 'account_balance_wallet', title: 'Cuentas', name: 'accounts' },
-    { icon: 'person', title: 'Usuarios', name: 'users' },
-    { icon: 'people', title: 'Beneficiarios', name: 'beneficiaries' },
-    { icon: 'timer', title: 'Medidores', name: 'measurers' },
-    { icon: 'format_list_bulleted', title: 'Servicios', name: 'services' },
-    { icon: 'description', title: 'Reportes', name: 'reports' }
+    { icon: 'home', title: 'Principal', routerName: 'home' },
+    { icon: 'dashboard', title: 'Dashboard', routerName: 'dashboard' },
+    { icon: 'account_balance_wallet', title: 'Cuentas', routerName: 'accounts' },
+    { icon: 'person', title: 'Usuarios', routerName: 'users' },
+    { icon: 'people', title: 'Beneficiarios', routerName: 'beneficiaries' },
+    { icon: 'timer', title: 'Medidores', routerName: 'measurers' },
+    { icon: 'format_list_bulleted', title: 'Servicios', routerName: 'services' },
+    { icon: 'description', title: 'Reportes', routerName: 'reports' }
   ];
   public optionItems: Item[] = [
-    { icon: 'settings', title: 'Configuraciones', name: 'adminsettings' },
-    { icon: 'info', title: 'Ayuda', name: 'adminhelp' },
-    { icon: 'logout', title: 'Salir', name: 'login' }
+    { icon: 'settings', title: 'Configuraciones', routerName: 'adminsettings' },
+    { icon: 'info', title: 'Ayuda', routerName: 'adminhelp' },
+    { icon: 'logout', title: 'Salir', routerName: 'login' }
   ];
 
-  public changeView (name: string): void {
-    if (name === 'measurers') {
-      this.$router.push({ name: name, params: { beneficiaryId: '0' } })
+  public changeView (routerName: string): void {
+    if (routerName === 'measurers') {
+      this.$router.push({ name: routerName, params: { beneficiaryId: '0' } })
     }
-    this.$router.push({ name })
+    this.$router.push({ name: routerName })
   }
 }

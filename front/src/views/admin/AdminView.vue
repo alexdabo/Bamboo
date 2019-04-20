@@ -11,7 +11,7 @@
           <v-list-tile
             v-for="(item,index) in sideBarItems"
             :key="index"
-            @click="changeView(item.name)"
+            @click="changeView(item.routerName)"
           >
             <v-list-tile-action>
               <v-icon>{{item.icon}}</v-icon>
@@ -45,7 +45,7 @@
                 <v-list-tile
                   v-for="(item,index) in optionItems"
                   :key="index"
-                  @click="changeView(item.name)"
+                  @click="changeView(item.routerName)"
                 >
                   <v-list-tile-action>
                     <v-icon>{{item.icon}}</v-icon>
