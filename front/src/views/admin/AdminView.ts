@@ -20,16 +20,33 @@ export default class AdminView extends Vue {
     { icon: 'format_list_bulleted', title: 'Servicios', routerName: 'services' },
     { icon: 'description', title: 'Reportes', routerName: 'reports' }
   ];
+
   public optionItems: Item[] = [
     { icon: 'settings', title: 'Configuraciones', routerName: 'adminsettings' },
     { icon: 'info', title: 'Ayuda', routerName: 'adminhelp' },
     { icon: 'logout', title: 'Salir', routerName: 'login' }
   ];
 
+  public created (): void {
+    this.$router.push({ name: 'home' })
+  }
+
   public changeView (routerName: string): void {
-    if (routerName === 'measurers') {
-      this.$router.push({ name: routerName, params: { beneficiaryId: '0' } })
+    switch (routerName) {
+      case 'measurers':
+        this.$router.push({ name: routerName, params: { beneficiaryId: '0' } })
+        break
+
+      case 'login':
+        localStorage.removeItem('user')
+        localStorage.logged = false
+        this.$router.push({ name: routerName })
+
+        break
+
+      default:
+        this.$router.push({ name: routerName })
+        break
     }
-    this.$router.push({ name: routerName })
   }
 }

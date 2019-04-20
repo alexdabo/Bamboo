@@ -16,7 +16,6 @@ export default new Router({
       name: 'admin',
       component: () => import('@/views/admin/AdminView.vue'),
       children: [
-        { path: '', redirect: 'home' },
         {
           path: 'home',
           name: 'home',

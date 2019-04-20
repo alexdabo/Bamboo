@@ -33,7 +33,7 @@ export default new Vuex.Store({
     loaderStart (state: any) {
       state.loader = true
     },
-    loaderEnd (state: any) {
+    loaderFinish (state: any) {
       state.loader = false
     }
   },
