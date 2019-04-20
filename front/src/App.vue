@@ -1,19 +1,24 @@
 <template>
-
-<router-view />
+  <div>
+    <Notify/>
+    <router-view/>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import Notify from '@/components/notify/NotifyWidget.vue'
 
-export default {
+@Component({
   name: 'App',
   components: {
-
-  },
-  data () {
-    return {
-      //
-    }
+    Notify
+  }
+})
+export default class LoginView extends Vue {
+  public created (): void {
+    console.log('App created')
   }
 }
 </script>

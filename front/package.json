@@ -13,7 +13,8 @@
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
     "vue-shortkey": "^3.1.6",
-    "vuetify": "^1.5.5"
+    "vuetify": "^1.5.5",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "^3.6.0",

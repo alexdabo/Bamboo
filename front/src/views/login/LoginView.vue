@@ -11,25 +11,24 @@
                     <img src="@/assets/logo.svg" alt="Bamboo" width="120" height="120">
                     <h1 class="flex my-4 primary--text">Bamboo</h1>
                   </div>
-                  <v-form>
+
                     <v-text-field
                       color="primary"
                       append-icon="person"
-                      name="login"
                       label="Usuario"
                       type="text"
+                      required
                       v-model="username"
                     ></v-text-field>
                     <v-text-field
                       color="primary"
                       append-icon="lock"
-                      name="password"
                       label="Contraseña"
-                      id="password"
                       type="password"
+                      required
                       v-model="password"
                     ></v-text-field>
-                  </v-form>
+
                 </v-card-text>
                 <v-card-actions>
                   <v-btn block color="primary white--text" type="submit">entrar</v-btn>
@@ -43,10 +42,10 @@
   </v-app>
 </template>
 
-<!--script lang="ts">
-import LoginView from '@/views/login/LoginView.ts';
-export default LoginView;
-</script-->
+<script lang="ts">
+import LoginView from '@/views/login/LoginView.ts'
+export default LoginView
+</script>
 
 <style lang="sass">
     @import "@/views/login/LoginView.sass";
