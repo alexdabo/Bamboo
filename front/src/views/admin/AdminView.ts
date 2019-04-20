@@ -27,8 +27,8 @@ export default class AdminView extends Vue {
     { icon: 'logout', title: 'Salir', routerName: 'login' }
   ];
 
-  public created (): void {
-    this.$router.push({ name: 'home' })
+  created () {
+    this.$router.push({ name: localStorage.lastRouteName })
   }
 
   public changeView (routerName: string): void {

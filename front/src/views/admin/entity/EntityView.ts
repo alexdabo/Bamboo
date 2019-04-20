@@ -8,10 +8,10 @@ import EntityService from '@/model/service/EntityService'
 export default class EntityComponent extends Page {
   public entity: Entity = new Entity();
 
-  created() {
+  created () {
     this.getEntity()
   }
-  public getEntity(): void {
+  public getEntity (): void {
     const entityService: EntityService = new EntityService()
     entityService.get()
       .then((res: any) => {
@@ -21,7 +21,7 @@ export default class EntityComponent extends Page {
         this.error('Error al cargar información')
       })
   }
-  public save(): void {
+  public save (): void {
     const entityService: EntityService = new EntityService(this.getUser().id)
     entityService.put(this.entity)
       .then((res: any) => {

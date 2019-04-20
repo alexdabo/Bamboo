@@ -6,9 +6,7 @@ import UserService from '@/model/service/UserService'
 export default class LoginView extends Vue {
   public username: string = '';
   public password: string = '';
-  public created (): void {
-    console.log('login')
-  }
+
   public login (): void {
     const userService: UserService = new UserService()
     userService.getLogged(this.username, this.password)
@@ -18,6 +16,7 @@ export default class LoginView extends Vue {
           localStorage.user = JSON.stringify(res.data.user)
           switch (res.data.user.role.id) {
             case 1:
+              localStorage.lastRouteName = 'home'
               this.$router.push({ name: 'admin' })
               break
             case 2:
