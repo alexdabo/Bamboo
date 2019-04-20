@@ -69,6 +69,6 @@
 </template>
 
 <script lang="ts">
-import AdminView from "@/views/admin/AdminView.ts";
-export default AdminView;
+import AdminView from '@/views/admin/AdminView.ts'
+export default AdminView
 </script>

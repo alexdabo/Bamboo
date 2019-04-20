@@ -26,9 +26,9 @@ export default class AdminView extends Vue {
     { icon: 'logout', title: 'Salir', name: 'login' }
   ];
 
-  public changeView(name: string): void {
+  public changeView (name: string): void {
     if (name === 'measurers') {
-      this.$router.push({ name: name, params: { beneficiaryId: '0' } });
+      this.$router.push({ name: name, params: { beneficiaryId: '0' } })
     }
     this.$router.push({ name })
   }
