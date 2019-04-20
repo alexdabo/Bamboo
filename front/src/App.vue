@@ -8,7 +8,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import Notify from '@/components/notify/NotifyWidget.vue'
+import Notify from '@/components/widget/notify/NotifyWidget.vue'
 
 @Component({
   name: 'App',

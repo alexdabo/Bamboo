@@ -38,9 +38,9 @@
 </template>
 
 <script lang="ts">
-import NotifyWidget from '@/components/notify/NotifyWidget.ts'
+import NotifyWidget from '@/components/widget/notify/NotifyWidget.ts'
 export default NotifyWidget
 </script>
 <style lang="sass">
-    @import "@/components/notify/NotifyWidget.sass";
+    @import "@/components/widget/notify/NotifyWidget.sass";
 </style>
