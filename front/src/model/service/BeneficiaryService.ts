@@ -32,6 +32,6 @@ export default class BeneficiaryService extends Service {
   }
 
   public delete (beneficiary: Beneficiary) {
-    return Axios.delete(this.url, { data: beneficiary, headers: this.headers })
+    return Axios.delete(`${this.url}/${beneficiary.id}`, { headers: this.headers })
   }
 }

@@ -3,7 +3,7 @@ import Component from 'vue-class-component'
 import Entity from '@/model/entity/Entity'
 import EntityService from '@/model/service/EntityService'
 
-@Component({ name: 'entity-component' })
+@Component({ name: 'view-entity' })
 
 export default class EntityComponent extends Page {
   public entity: Entity = new Entity();
