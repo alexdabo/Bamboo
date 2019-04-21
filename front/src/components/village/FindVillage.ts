@@ -2,55 +2,52 @@ import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
 import { Prop, Watch, Emit } from 'vue-property-decorator'
 
-import Beneficiary from '@/model/entity/Beneficiary'
-import BeneficiaryService from '@/model/service/BeneficiaryService'
+import Village from '@/model/entity/Village'
+import VillageService from '@/model/service/VillageService'
 
-@Component({ name: 'find-beneficiary' })
+@Component({ name: 'find-village' })
 
-export default class FindBeneficiary extends Page {
+export default class FindVillage extends Page {
   @Prop({ default: 'object' }) public return!: string;
-  @Prop({ default: 'Buscar beneficiario' }) public label!: string;
+  @Prop({ default: 'Buscar comunidad' }) public label!: string;
   @Prop() public code!: number;
-  @Prop() public show!: Beneficiary;
+  @Prop() public show!: Village;
   @Prop({ default: false }) public readonly!: boolean;
   @Prop({ default: false }) public initialized!: boolean;
   public isLoading: boolean = false;
   public search: any = null;
   public selected: any = null;
-  public beneficiaries: Beneficiary[] = [];
+  public villages: Village[] = [];
 
-  public created(): void {
+  public created (): void {
     if ((this.code !== undefined) && this.code > 0) {
       this.findById()
     }
-    console.log('init: '+this.initialized)
     if (this.initialized===true) {
       this.find()
     }
   }
 
   @Watch('show')
-  public showBeneficiary(): void {
+  public showVillage (): void {
     if (this.show !== undefined) {
-      this.beneficiaries = []
-      this.beneficiaries.push(this.show)
+      this.villages = []
+      this.villages.push(this.show)
       this.selected = this.show
     }
   }
 
-  public filter(item: any, queryText: any): any {
+  public filter (item: any, queryText: any): any {
     const result =
-      item.dni.toLowerCase().indexOf(queryText.toLowerCase()) > -1 ||
-      item.lastName.toLowerCase().indexOf(queryText.toLowerCase()) > -1 ||
-      item.firstName.toLowerCase().indexOf(queryText.toLowerCase()) > -1
+      item.name.toLowerCase().indexOf(queryText.toLowerCase()) > -1
     return result
   }
 
-  public findById(): void {
+  public findById (): void {
     this.isLoading = true
-    const service: BeneficiaryService = new BeneficiaryService()
+    const service: VillageService = new VillageService()
     service.getById(this.code).then((res: any) => {
-      this.beneficiaries.push(res.data)
+      this.villages.push(res.data)
       this.selected = res.data
     }).catch((err) => {
       this.error('Error al buscar beneficiarios', err.response.data.error)
@@ -59,23 +56,23 @@ export default class FindBeneficiary extends Page {
   }
 
   @Watch('search')
-  public find(): void {
-    if (this.beneficiaries.length === 1) {
-      this.beneficiaries = []
+  public find (): void {
+    if (this.villages.length === 1) {
+      this.villages = []
     }
-    if (this.beneficiaries.length > 0) { return }
+    if (this.villages.length > 0) { return }
 
     this.isLoading = true
-    const service: BeneficiaryService = new BeneficiaryService(1)
+    const service: VillageService = new VillageService(1)
     service.getAll().then((res) => {
-      this.beneficiaries = res.data
+      this.villages = res.data
     }).catch((err) => {
       this.error('Error al buscar beneficiarios', err.response.data.error)
     })
       .finally(() => (this.isLoading = false))
   }
   @Emit('selected')
-  public returnSelected() {
+  public returnSelected () {
     let element: any
     if (this.selected !== undefined) {
       switch (this.return) {
@@ -85,12 +82,9 @@ export default class FindBeneficiary extends Page {
         case 'id':
           element = this.selected.id
           break
-        case 'dni':
-          element = this.selected.dni
-          break
 
         default:
-          element = new Beneficiary()
+          element = new Village()
           break
       }
     }
@@ -98,7 +92,7 @@ export default class FindBeneficiary extends Page {
   }
 
   @Watch('selected')
-  public onChangeSelected() {
+  public onChangeSelected () {
     this.returnSelected()
   }
 }

@@ -20,7 +20,7 @@ export default class VillageService extends Service {
   }
 
   public getById (id: number) {
-    return Axios.get(`${this.url}?id=${id}`)
+    return Axios.get(`${this.url}/${id}`)
   }
 
   public delete (village: Village) {
