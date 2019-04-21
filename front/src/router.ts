@@ -48,8 +48,8 @@ export default new Router({
         },
         {
           path: 'services',
-          name: 'services'
-          // component: () => import('@/views/admin/ServiceComponent.vue')
+          name: 'services',
+          component: () => import('@/views/admin/service/ServiceView.vue')
         },
         {
           path: 'reports',
