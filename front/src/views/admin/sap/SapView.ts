@@ -38,8 +38,9 @@ export default class SapView extends Page {
       const sapService: SapService = new SapService(this.getUser().id)
       sapService.post(this.editedItem).then((res: any) => {
         if (res.data.saved === true) {
-          this.saps.push(this.editedItem)
+          this.saps.push(res.data.sap)
           this.success('Servicio guardado')
+          this.close()
         }
       }).catch((err: any) => {
         this.error('Servicio sin guardar', err.response.data.error)
@@ -52,6 +53,7 @@ export default class SapView extends Page {
         if (res.data.updated === true) {
           this.saps[this.editedIndex] = this.editedItem
           this.success('Servicio actualizado')
+          this.close()
         }
       }).catch((err: any) => {
         this.error('Servicio sin actualizar', err.response.data.error)
@@ -64,7 +66,6 @@ export default class SapView extends Page {
       } else {
         this.save()
       }
-      this.close()
     }
 
     public remove (sap: Sap): void {
