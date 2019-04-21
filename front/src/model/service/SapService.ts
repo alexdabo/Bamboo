@@ -24,6 +24,6 @@ export default class SapService extends Service {
   }
 
   public delete (sap: Sap) {
-    return Axios.delete(this.url, { data: sap, headers: this.headers })
+    return Axios.delete(`${this.url}/${sap.id}`, { headers: this.headers })
   }
 }
