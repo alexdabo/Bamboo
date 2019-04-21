@@ -57,6 +57,11 @@ export default new Router({
           // component: () => import('@/views/admin/MainReports.vue')
         },
         {
+          path: 'villages',
+          name: 'villages',
+          component: () => import('@/views/admin/village/VillageView.vue')
+        },
+        {
           path: 'settings',
           name: 'adminsettings'
           // component: () => import('@/views/admin/AdminSettingsComponent.vue')

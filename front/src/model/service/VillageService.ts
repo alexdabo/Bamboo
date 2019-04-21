@@ -24,6 +24,6 @@ export default class VillageService extends Service {
   }
 
   public delete (village: Village) {
-    return Axios.delete(this.url, { data: village, headers: this.headers })
+    return Axios.delete(`${this.url}/${village.id}`, { headers: this.headers })
   }
 }
