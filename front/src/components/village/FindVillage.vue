@@ -36,6 +36,6 @@
   </v-autocomplete>
 </template>
 <script lang="ts">
-import FindVillage from "@/components/village/FindVillage.ts";
-export default FindVillage;
+import FindVillage from '@/components/village/FindVillage.ts'
+export default FindVillage
 </script>

@@ -23,7 +23,7 @@ export default class FindVillage extends Page {
     if ((this.code !== undefined) && this.code > 0) {
       this.findById()
     }
-    if (this.initialized===true) {
+    if (this.initialized === true) {
       this.find()
     }
   }

@@ -1,43 +1,41 @@
 <template>
   <v-autocomplete
     v-model="selected"
-    :items="beneficiaries"
+    :items="roles"
     :loading="isLoading"
     :search-input.sync="search"
     :filter="filter"
     :label="label"
+    clearable
     hide-details
     hide-selected
     return-object
-    clearable
     solo
     :readonly="readonly"
   >
     <template slot="no-data">
       <v-list-tile>
         <v-list-tile-title>
-          Buscar por
-          <strong>cédula</strong> o por
-          <strong>nombres</strong>
+          Buscar por el
+          <strong>nombre</strong> de la comunidad
         </v-list-tile-title>
       </v-list-tile>
     </template>
     <template slot="selection" slot-scope="{ item  }">
-      <span v-text="`${item.lastName}  ${item.firstName}`"></span>
+      <span v-text="`${item.name}`"></span>
     </template>
     <template slot="item" slot-scope="{ item}">
       <v-list-tile-avatar
         color="primary"
         class="headline font-weight-light white--text"
-      >{{ item.lastName.charAt(0) }}</v-list-tile-avatar>
+      >{{ item.name.charAt(0) }}</v-list-tile-avatar>
       <v-list-tile-content>
-        <v-list-tile-title v-text="item.dni"></v-list-tile-title>
-        <v-list-tile-sub-title v-text="`${item.lastName}  ${item.firstName}`"></v-list-tile-sub-title>
+        <v-list-tile-title v-text="item.name"></v-list-tile-title>
       </v-list-tile-content>
     </template>
   </v-autocomplete>
 </template>
 <script lang="ts">
-import FindBeneficiary from '@/components/beneficiary/FindBeneficiary.ts'
-export default FindBeneficiary
+import FindRole from '@/components/role/FindRole.ts'
+export default FindRole
 </script>
