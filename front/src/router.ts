@@ -34,7 +34,7 @@ export default new Router({
         {
           path: 'beneficiaries',
           name: 'beneficiaries',
-           component: () => import('@/views/admin/beneficiary/BeneficiaryView.vue')
+          component: () => import('@/views/admin/beneficiary/BeneficiaryView.vue')
         },
         {
           path: 'users',

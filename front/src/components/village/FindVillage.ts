@@ -14,6 +14,8 @@ export default class FindVillage extends Page {
   @Prop() public show!: Village;
   @Prop({ default: false }) public readonly!: boolean;
   @Prop({ default: false }) public initialized!: boolean;
+  @Prop({ default: false }) public solo!: boolean;
+
   public isLoading: boolean = false;
   public search: any = null;
   public selected: any = null;

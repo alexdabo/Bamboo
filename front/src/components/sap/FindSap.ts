@@ -14,6 +14,7 @@ export default class FindSap extends Page {
   @Prop() public show!: Sap;
   @Prop({ default: false }) public readonly!: boolean;
   @Prop({ default: false }) public initialized!: boolean;
+  @Prop({ default: false }) public solo!: boolean;
   public isLoading: boolean = false;
   public search: any = null;
   public selected: any = null;

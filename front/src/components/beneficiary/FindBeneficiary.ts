@@ -14,6 +14,7 @@ export default class FindBeneficiary extends Page {
   @Prop() public show!: Beneficiary;
   @Prop({ default: false }) public readonly!: boolean;
   @Prop({ default: false }) public initialized!: boolean;
+  @Prop({ default: false }) public solo!: boolean;
   public isLoading: boolean = false;
   public search: any = null;
   public selected: any = null;

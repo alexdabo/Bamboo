@@ -6,12 +6,12 @@
     :search-input.sync="search"
     :filter="filter"
     :label="label"
+    :solo="solo"
+    :readonly="readonly"
     hide-details
     hide-selected
     return-object
     clearable
-    solo
-    :readonly="readonly"
   >
     <template slot="no-data">
       <v-list-tile>
