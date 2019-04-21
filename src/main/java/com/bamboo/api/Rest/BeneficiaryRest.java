@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @WebServlet(
         name = "BeneficiaryRest",
         urlPatterns = {
-                "/api/beneficiary/*"
+            "/api/beneficiary/*"
         }
 )
 public class BeneficiaryRest extends HttpServlet {
@@ -46,14 +46,10 @@ public class BeneficiaryRest extends HttpServlet {
             // Get all beneficiaries
             if (request.getPathInfo() == null) {
                 responseJson = gson.toJson(beneficiaryMtd.find());
-            }
-
-            // Get beneficiary by id
+            } // Get beneficiary by id
             else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                 responseJson = gson.toJson(beneficiaryMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-            }
-
-            // Route not found
+            } // Route not found
             else {
                 response.sendError(404);
             }
@@ -74,9 +70,10 @@ public class BeneficiaryRest extends HttpServlet {
         if (request.getPathInfo() == null) {
             try {
                 BeneficiaryDto beneficiaryDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), BeneficiaryDto.class);
-
-                if (beneficiaryMtd.save(beneficiaryDto)) {
+                beneficiaryDto = beneficiaryMtd.save(beneficiaryDto);
+                if (beneficiaryDto != null) {
                     map.put("saved", true);
+                    map.put("beneficiary", beneficiaryDto);
                     audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + beneficiaryDto.getFullName()));
                 } else {
                     map.put("saved", false);

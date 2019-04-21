@@ -15,24 +15,33 @@ public class AssignedImpl implements AssignedInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(Assigned assigned) throws Exception {
-        boolean affected = false;
-        String sql = "insert into public.assigned(beneficiaryid, measurerid ) values(?, ?)";
+    public Assigned save(Assigned assigned) throws Exception {
+        Assigned newAssigned = null;
+        String sql = "insert into public.assigned(beneficiaryid, measurerid ) values(?, ?) "
+                + "RETURNING id, beneficiaryid, measurerid, debt, assignmentdate, status;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, assigned.getBeneficiary()));
         dbos.add(new DBObject(2, assigned.getMeasurer()));
         if (assigned.getId() != 0) {
-            sql = "insert into public.assigned(beneficiaryid, measurerid, id) values(?, ?, ?)";
+            sql = "insert into public.assigned(beneficiaryid, measurerid, id) values(?, ?, ?) "
+                    + "RETURNING id, beneficiaryid, measurerid, debt, assignmentdate, status;";
             dbos.add(new DBObject(3, assigned.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newAssigned = new Assigned();
+                newAssigned.setId(result.getInt("id"));
+                newAssigned.setBeneficiary(result.getInt("beneficiaryid"));
+                newAssigned.setMeasurer(result.getInt("measurerid"));
+                newAssigned.setAssignmentDate(result.getDate("assignmentdate"));
+                newAssigned.setStatus(result.getString("status"));
+                newAssigned.setDebt(result.getDouble("debt"));
             }
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newAssigned;
     }
 
     @Override

@@ -1,28 +1,22 @@
 package com.bamboo.api.method;
 
 import com.bamboo.api.dto.AssignedDto;
-import com.bamboo.api.dto.BeneficiaryDto;
-import com.bamboo.api.dto.MeasurerDto;
 import com.bamboo.model.entity.Assigned;
 import com.bamboo.model.method.AssignedImpl;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AssignedDtoMethod {
 
-    public boolean save(AssignedDto assignedDto) throws Exception {
-        boolean affected = false;
+    public AssignedDto save(AssignedDto assignedDto) throws Exception {
+        AssignedDto newAssigned = null;
         AssignedImpl assignedImpl = new AssignedImpl();
         try {
-            if (assignedImpl.save(getAssigned(assignedDto))) {
-                affected = true;
-            }
+           newAssigned = getAssignedDto(assignedImpl.save(getAssigned(assignedDto)));
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newAssigned;
     }
 
 

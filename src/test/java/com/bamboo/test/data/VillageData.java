@@ -22,8 +22,8 @@ public final class VillageData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = villageImpl.save(village);
-            if (saved) {
+            if (villageImpl.save(village)!=null) {
+                saved=true;
                 System.out.println("Saved:   " + village);
             }
         } catch (Exception e) {

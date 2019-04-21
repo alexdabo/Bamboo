@@ -16,36 +16,52 @@ public class UptakeImpl implements UptakeInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(Uptake uptake) throws Exception {
-        boolean affected = false;
-        String sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken) VALUES (?, ?, ?)";
-        if (uptake.getDatetaked()==null) {
+    public Uptake save(Uptake uptake) throws Exception {
+        Uptake newUptake = null;
+        String sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken) VALUES (?, ?, ?) "
+                + "RETURNING  id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, "
+                + "extraprice, volumeconsumed, volumeexceeded, totalprice, billed;";
+        if (uptake.getDatetaked() == null) {
             uptake.setDatetaked(new Date());
         }
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, uptake.getMeasurer()));
-        dbos.add(new DBObject(2,uptake.getDatetaked()));
+        dbos.add(new DBObject(2, uptake.getDatetaked()));
         dbos.add(new DBObject(3, uptake.getCurrentValueTaken()));
 
         if (uptake.getId() != 0) {
-            sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken, id) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken, id) VALUES (?, ?, ?, ?) "
+                    + "RETURNING  id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, "
+                    + "extraprice, volumeconsumed, volumeexceeded, totalprice, billed;";
             dbos.add(new DBObject(4, uptake.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newUptake = new Uptake();
+                newUptake.setId(result.getInt("id"));
+                newUptake.setMeasurer(result.getInt("measurerid"));
+                newUptake.setDatetaked(result.getDate("datetaked"));
+                newUptake.setLastValueTaken(result.getDouble("lastvaluetaken"));
+                newUptake.setCurrentValueTaken(result.getDouble("currentvaluetaken"));
+                newUptake.setBaseVolume(result.getDouble("basevolume"));
+                newUptake.setBasePrice(result.getDouble("baseprice"));
+                newUptake.setExtraPrice(result.getDouble("extraprice"));
+                newUptake.setVolumeConsumed(result.getDouble("volumeconsumed"));
+                newUptake.setVolumeExceeded(result.getDouble("volumeexceeded"));
+                newUptake.setTotalPrice(result.getDouble("totalprice"));
+                newUptake.setBilled(result.getBoolean("billed"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return newUptake;
     }
 
     @Override
     public Uptake findById(int id) throws Exception {
         Uptake uptake = null;
-        MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "SELECT id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, extraprice, volumeconsumed, volumeexceeded, totalprice, billed "
                 + "FROM public.uptake where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
@@ -77,7 +93,6 @@ public class UptakeImpl implements UptakeInterface {
     @Override
     public List<Uptake> find() throws Exception {
         List<Uptake> uptakes = new ArrayList<>();
-        MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "SELECT id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, extraprice, volumeconsumed, volumeexceeded, totalprice, billed "
                 + "FROM public.uptake ORDER BY datetaked ASC;";
         try {
@@ -98,7 +113,7 @@ public class UptakeImpl implements UptakeInterface {
                 uptake.setBilled(result.getBoolean("billed"));
                 uptakes.add(uptake);
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
         return uptakes;
@@ -106,7 +121,7 @@ public class UptakeImpl implements UptakeInterface {
 
     @Override
     public boolean update(Uptake uptake) throws Exception {
-        throw new UnsupportedOperationException("This method is not supported yet.");
+        throw new UnsupportedOperationException("Update uptake method is not supported yet.");
     }
 
     @Override
@@ -129,7 +144,6 @@ public class UptakeImpl implements UptakeInterface {
     @Override
     public List<Uptake> findNotBilled(int measurerId) throws Exception {
         List<Uptake> uptakes = new ArrayList<>();
-        MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "SELECT id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, extraprice, volumeconsumed, volumeexceeded, totalprice, billed "
                 + "FROM public.uptake where (measurerid = ? and billed =false) ORDER BY datetaked ASC;";
         List<DBObject> dbos = new ArrayList<>();
@@ -161,7 +175,6 @@ public class UptakeImpl implements UptakeInterface {
     @Override
     public List<Uptake> findByMeasurer(int measurerId) throws Exception {
         List<Uptake> uptakes = new ArrayList<>();
-        MeasurerImpl measurerImpl = new MeasurerImpl();
         String sql = "SELECT id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, extraprice, volumeconsumed, volumeexceeded, totalprice, billed "
                 + "FROM public.uptake where measurerid = ? ORDER BY id DESC lIMIT 10;";
         List<DBObject> dbos = new ArrayList<>();
@@ -193,14 +206,13 @@ public class UptakeImpl implements UptakeInterface {
     @Override
     public List<Uptake> findByInvoice(int invoiceId) throws Exception {
         List<Uptake> uptakes = new ArrayList<>();
-        MeasurerImpl measurerImpl = new MeasurerImpl();
-        String sql = "SELECT uptake.id, uptake.measurerid, uptake.datetaked, uptake.lastvaluetaken, uptake.currentvaluetaken, " +
-                "uptake.basevolume, uptake.baseprice, uptake.extraprice, uptake.volumeconsumed, uptake.volumeexceeded, " +
-                "uptake.totalprice, uptake.billed " +
-                "FROM public.sapdetail as detail " +
-                "INNER JOIN public.uptake on detail.uptakeid = uptake.id " +
-                "INNER JOIN public.invoice on detail.invoiceid = invoice.id " +
-                "WHERE invoice.id=?";
+        String sql = "SELECT uptake.id, uptake.measurerid, uptake.datetaked, uptake.lastvaluetaken, uptake.currentvaluetaken, "
+                + "uptake.basevolume, uptake.baseprice, uptake.extraprice, uptake.volumeconsumed, uptake.volumeexceeded, "
+                + "uptake.totalprice, uptake.billed "
+                + "FROM public.sapdetail as detail "
+                + "INNER JOIN public.uptake on detail.uptakeid = uptake.id "
+                + "INNER JOIN public.invoice on detail.invoiceid = invoice.id "
+                + "WHERE invoice.id=?";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, invoiceId));
         try {
@@ -225,5 +237,23 @@ public class UptakeImpl implements UptakeInterface {
             throw e;
         }
         return uptakes;
+    }
+
+    @Override
+    public boolean updateToBilled(int uptakeId) throws Exception {
+        boolean affected = false;
+        String sql = "UPDATE public.uptake SET billed=true WHERE id=?";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, uptakeId));
+
+        try {
+            if (DBC.querySet(sql, dbos)) {
+                affected = true;
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+
+        return affected;
     }
 }

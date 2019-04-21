@@ -30,7 +30,7 @@ public final class SapDetailData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = sapDetailImpl.save(sapDetail);
+            saved = sapDetailImpl.save(sapDetail)!=null;
             if (saved) {
                 System.out.println("Saved:   " + sapDetail);
             }

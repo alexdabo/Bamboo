@@ -27,10 +27,10 @@ import java.util.stream.Collectors;
 @WebServlet(
         name = "AssignedRest",
         urlPatterns = {
-                "/api/assigned/*",
-                "/api/assigned/beneficiary/*",
-                "/api/assigned/notbilled/beneficiry/*",
-                "/api/assigned/measurer/*"
+            "/api/assigned/*",
+            "/api/assigned/beneficiary/*",
+            "/api/assigned/notbilled/beneficiry/*",
+            "/api/assigned/measurer/*"
         }
 )
 public class AssignedRest extends HttpServlet {
@@ -51,14 +51,10 @@ public class AssignedRest extends HttpServlet {
                     // Get all assigneds
                     if (request.getPathInfo() == null) {
                         responseJson = gson.toJson(assignedMtd.find());
-                    }
-
-                    // Get assigned by id
+                    } // Get assigned by id
                     else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                         responseJson = gson.toJson(assignedMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-                    }
-
-                    // Route not found
+                    } // Route not found
                     else {
                         response.sendError(404);
                     }
@@ -70,7 +66,6 @@ public class AssignedRest extends HttpServlet {
                 case "/api/assigned/measurer":
                     break;
             }
-
 
         } catch (Exception ex) {
             response.sendError(400);
@@ -89,9 +84,10 @@ public class AssignedRest extends HttpServlet {
         if (request.getPathInfo() == null) {
             try {
                 AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
-
-                if (assignedMtd.save(assignedDto)) {
+                assignedDto = assignedMtd.save(assignedDto);
+                if (assignedDto != null) {
                     map.put("saved", true);
+                    map.put("assigned", assignedDto);
                     audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "Beneficiario: " + assignedDto.getBeneficiary().getFullName()));
                 } else {
                     map.put("saved", false);

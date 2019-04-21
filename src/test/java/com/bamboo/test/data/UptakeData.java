@@ -32,7 +32,7 @@ public final class UptakeData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = uptakeImpl.save(uptake);
+            saved = uptakeImpl.save(uptake)!=null;
             if (saved) {
                 System.out.println("Saved:   " + uptake);
             }
@@ -71,19 +71,6 @@ public final class UptakeData {
         return uptake1;
     }
 
-    public boolean update() {
-        boolean updated = false;
-        uptake.setCurrentValueTaken(75);
-        try {
-            updated = uptakeImpl.update(uptake);
-            if (updated) {
-                System.out.println("Updated: " + uptake);
-            }
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-        return updated;
-    }
 
     public boolean delete() {
         boolean deleted = false;

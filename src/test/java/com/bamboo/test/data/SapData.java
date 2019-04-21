@@ -22,7 +22,7 @@ public final class SapData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = sapImpl.save(sap);
+            saved = sapImpl.save(sap) != null;
             if (saved) {
                 System.out.println("Saved:   " + sap);
             }

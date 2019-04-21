@@ -13,7 +13,8 @@ import java.util.List;
  */
 public interface CRUD<E> {
 
-    public boolean save(E element) throws Exception;
+//    public boolean save(E element) throws Exception;
+    public E save(E element) throws Exception;
 
     public E findById(int id) throws Exception;
 

@@ -15,24 +15,27 @@ public class StatusImpl implements StatusInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(Status status) throws Exception {
-        boolean affected = false;
-        String sql = "insert into public.status(name) values(?)";
+    public Status save(Status status) throws Exception {
+        Status newStatus = null;
+        String sql = "insert into public.status(name) values(?)  RETURNING id, name;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, status.getName()));
         if (status.getId() != 0) {
-            sql = "insert into public.status(name,id) values(?, ?)";
+            sql = "insert into public.status(name,id) values(?, ?)  RETURNING id, name;";
             dbos.add(new DBObject(2, status.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newStatus = new Status();
+                newStatus.setId(result.getInt("id"));
+                newStatus.setName(result.getString("name"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return status;
     }
 
     @Override

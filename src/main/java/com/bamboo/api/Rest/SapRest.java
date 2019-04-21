@@ -27,8 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(
         name = "SapRest",
         urlPatterns = {
-                "/api/sap",
-                "/api/sap/*"
+            "/api/sap/*"
         }
 )
 public class SapRest extends HttpServlet {
@@ -47,14 +46,10 @@ public class SapRest extends HttpServlet {
             // Get all saps
             if (request.getPathInfo() == null) {
                 responseJson = gson.toJson(sapMtd.find());
-            }
-
-            // Get sap by id
+            } // Get sap by id
             else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                 responseJson = gson.toJson(sapMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-            }
-
-            // Route not found
+            } // Route not found
             else {
                 response.sendError(404);
             }
@@ -76,9 +71,10 @@ public class SapRest extends HttpServlet {
         if (request.getPathInfo() == null) {
             try {
                 SapDto sapDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), SapDto.class);
-
-                if (sapMtd.save(sapDto)) {
+                sapDto = sapMtd.save(sapDto);
+                if (sapDto != null) {
                     map.put("saved", true);
+                    map.put("sap", sapDto);
                     audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sapDto.getName()));
                 } else {
                     map.put("saved", false);

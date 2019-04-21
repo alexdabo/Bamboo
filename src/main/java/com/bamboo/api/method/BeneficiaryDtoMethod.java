@@ -9,19 +9,16 @@ import java.util.List;
 
 public class BeneficiaryDtoMethod {
 
-    public boolean save(BeneficiaryDto beneficiaryDto) throws Exception {
-        boolean affected = false;
+    public BeneficiaryDto save(BeneficiaryDto beneficiaryDto) throws Exception {
+        BeneficiaryDto newBeneficiary = null;
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
         try {
-            if (beneficiaryImpl.save(getBeneficiary(beneficiaryDto))) {
-                affected = true;
-            }
+            newBeneficiary = getBeneficiaryDto(beneficiaryImpl.save(getBeneficiary(beneficiaryDto)));
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newBeneficiary;
     }
-
 
     public BeneficiaryDto findById(int id) throws Exception {
         BeneficiaryDto beneficiaryDto = null;

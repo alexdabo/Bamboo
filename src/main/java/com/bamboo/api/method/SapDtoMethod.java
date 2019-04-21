@@ -9,19 +9,16 @@ import java.util.List;
 
 public class SapDtoMethod {
 
-    public boolean save(SapDto sapDto) throws Exception {
-        boolean affected = false;
+    public SapDto save(SapDto sapDto) throws Exception {
+        SapDto newSap = null;
         SapImpl sapImpl = new SapImpl();
         try {
-            if (sapImpl.save(getSap(sapDto))) {
-                affected = true;
-            }
+            newSap = getSapDto(sapImpl.save(getSap(sapDto)));
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newSap;
     }
-
 
     public SapDto findById(int id) throws Exception {
         SapDto sapDto = null;

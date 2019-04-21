@@ -9,19 +9,16 @@ import java.util.List;
 
 public class AnotherServiceDtoMethod {
 
-    public boolean save(AnotherServiceDto anotherServiceDto) throws Exception {
-        boolean affected = false;
+    public AnotherServiceDto save(AnotherServiceDto anotherServiceDto) throws Exception {
+        AnotherServiceDto newAnotherService = null;
         AnotherServiceImpl anotherServiceImpl = new AnotherServiceImpl();
         try {
-            if (anotherServiceImpl.save(getAnotherService(anotherServiceDto))) {
-                affected = true;
-            }
+            newAnotherService = getAnotherServiceDto(anotherServiceImpl.save(getAnotherService(anotherServiceDto)));
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newAnotherService;
     }
-
 
     public AnotherServiceDto findById(int id) throws Exception {
         AnotherServiceDto anotherServiceDto = null;

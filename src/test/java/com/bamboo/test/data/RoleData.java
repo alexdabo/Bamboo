@@ -15,14 +15,14 @@ import java.util.List;
  * @author alexander
  */
 public final class RoleData {
-    
+
     private final RoleImpl roleImpl = new RoleImpl();
     private final Role role = new Role(1000000, "Auditor");
-    
+
     public boolean save() {
         boolean saved = false;
         try {
-            saved = roleImpl.save(role);
+            saved = roleImpl.save(role) != null;
             if (saved) {
                 System.out.println("Saved:   " + role);
             }
@@ -31,7 +31,7 @@ public final class RoleData {
         }
         return saved;
     }
-    
+
     public List<Role> find() {
         List<Role> list = new ArrayList<>();
         try {
@@ -46,7 +46,7 @@ public final class RoleData {
         }
         return list;
     }
-    
+
     public Role findById() {
         Role role1 = null;
         try {
@@ -58,7 +58,7 @@ public final class RoleData {
         }
         return role1;
     }
-    
+
     public boolean update() {
         boolean updated = false;
         role.setName("Auditor Encargado");
@@ -72,7 +72,7 @@ public final class RoleData {
         }
         return updated;
     }
-    
+
     public boolean delete() {
         boolean deleted = false;
         try {
@@ -84,6 +84,6 @@ public final class RoleData {
             System.err.println(e);
         }
         return deleted;
-        
+
     }
 }

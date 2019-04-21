@@ -6,7 +6,6 @@
 package com.bamboo.test;
 
 import com.bamboo.test.data.SapDetailData;
-import com.bamboo.test.data.VillageData;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 

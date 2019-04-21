@@ -9,17 +9,16 @@ import java.util.List;
 
 public class VillageDtoMethod {
 
-    public boolean save(VillageDto villageDto) throws Exception {
-        boolean affected = false;
+    public VillageDto save(VillageDto villageDto) throws Exception {
+        VillageDto newVillage = null;
         VillageImpl villageImpl = new VillageImpl();
         try {
-            if (villageImpl.save(getVillage(villageDto))) {
-                affected = true;
-            }
+            newVillage =  getVillageDto(villageImpl.save(getVillage(villageDto)));
+                
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newVillage;
     }
 
 

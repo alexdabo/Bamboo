@@ -17,10 +17,11 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
     private DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(Beneficiary beneficiary) throws Exception {
-        boolean affected = false;
+    public Beneficiary save(Beneficiary beneficiary) throws Exception {
+        Beneficiary newBeneficiary = null;
         String sql = "INSERT INTO public.beneficiary(dni, lastname, firstname, address, placereference, villageid, telephone) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?) "
+                + "RETURNING id, dni, lastname, firstname, address, placereference, villageid, telephone;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, beneficiary.getDni()));
         dbos.add(new DBObject(2, beneficiary.getLastName().toLowerCase()));
@@ -32,18 +33,28 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
 
         if (beneficiary.getId() != 0) {
             sql = "INSERT INTO public.beneficiary(dni, lastname, firstname, address, placereference, villageid, telephone, id) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?) "
+                    + "RETURNING id, dni, lastname, firstname, address, placereference, villageid, telephone;";
             dbos.add(new DBObject(8, beneficiary.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newBeneficiary = new Beneficiary();
+                newBeneficiary.setId(result.getInt("id"));
+                newBeneficiary.setDni(result.getString("dni"));
+                newBeneficiary.setLastName(capitalize(result.getString("lastname")));
+                newBeneficiary.setFirstName(capitalize(result.getString("firstname")));
+                newBeneficiary.setAddress(result.getString("address"));
+                newBeneficiary.setPlaceReference(result.getString("placereference"));
+                newBeneficiary.setVillage(result.getInt("villageid"));
+                newBeneficiary.setTelephone(result.getString("telephone"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return newBeneficiary;
     }
 
     @Override
@@ -62,10 +73,7 @@ public class BeneficiaryImpl implements BeneficiaryInterface {
                 beneficiary.setFirstName(capitalize(result.getString("firstname")));
                 beneficiary.setAddress(result.getString("address"));
                 beneficiary.setPlaceReference(result.getString("placereference"));
-                try {
-                    beneficiary.setVillage(result.getInt("villageid"));
-                } catch (Exception e) {
-                }
+                beneficiary.setVillage(result.getInt("villageid"));
                 beneficiary.setTelephone(result.getString("telephone"));
             }
         } catch (Exception e) {

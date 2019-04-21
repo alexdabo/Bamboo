@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(
         name = "VillageRest",
         urlPatterns = {
-                "/api/village",
                 "/api/village/*"
         }
 )
@@ -75,9 +74,10 @@ public class VillageRest extends HttpServlet {
         if (request.getPathInfo() == null) {
             try {
                 VillageDto villageDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), VillageDto.class);
-
-                if (villageMtd.save(villageDto)) {
+                villageDto = villageMtd.save(villageDto);
+                if (villageDto!=null) {
                     map.put("saved", true);
+                    map.put("village", villageDto);
                     audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + villageDto.getName()));
                 } else {
                     map.put("saved", false);

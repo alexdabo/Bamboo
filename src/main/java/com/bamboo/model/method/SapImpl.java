@@ -15,27 +15,35 @@ public class SapImpl implements SapInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(Sap sap) throws Exception {
-        boolean affected = false;
-        String sql = "insert into public.sap(name, basevolume, baseprice, extraprice) values(?, ?, ?, ?)";
+    public Sap save(Sap sap) throws Exception {
+        Sap newSap = null;
+        String sql = "insert into public.sap(name, basevolume, baseprice, extraprice) values(?, ?, ?, ?) "
+                + "RETURNING id, name, basevolume, baseprice, extraprice";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, sap.getName()));
         dbos.add(new DBObject(2, sap.getBaseVolume()));
         dbos.add(new DBObject(3, sap.getBasePrice()));
         dbos.add(new DBObject(4, sap.getExtraPrice()));
         if (sap.getId() != 0) {
-            sql = "insert into public.sap(name, basevolume, baseprice, extraprice, id) values(?, ?, ?, ?, ?)";
+            sql = "insert into public.sap(name, basevolume, baseprice, extraprice, id) values(?, ?, ?, ?, ?) "
+                    + "RETURNING id, name, basevolume, baseprice, extraprice";
             dbos.add(new DBObject(5, sap.getId()));
         }
-        try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+       try {
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newSap = new Sap();
+                newSap.setId(result.getInt("id"));
+                newSap.setName(result.getString("name"));
+                newSap.setBaseVolume(result.getInt("basevolume"));
+                newSap.setBasePrice(result.getDouble("baseprice"));
+                newSap.setExtraPrice(result.getDouble("extraprice"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return newSap;
     }
 
     @Override

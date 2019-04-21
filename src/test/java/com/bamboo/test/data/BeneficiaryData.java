@@ -31,7 +31,7 @@ public final class BeneficiaryData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = beneficiaryImpl.save(beneficiary);
+            saved = beneficiaryImpl.save(beneficiary) != null;
             if (saved) {
                 System.out.println("Saved:   " + beneficiary);
             }

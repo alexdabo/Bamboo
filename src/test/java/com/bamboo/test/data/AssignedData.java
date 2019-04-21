@@ -32,7 +32,7 @@ public final class AssignedData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = assignedImpl.save(assigned);
+            saved = assignedImpl.save(assigned) != null;
             if (saved) {
                 System.out.println("Saved:   " + assigned);
             }
@@ -56,8 +56,8 @@ public final class AssignedData {
         }
         return list;
     }
-    
-        public List<Assigned> findByBeneficiary() {
+
+    public List<Assigned> findByBeneficiary() {
         List<Assigned> list = new ArrayList<>();
         try {
             list = assignedImpl.findByBeneficiary(assigned.getBeneficiary());

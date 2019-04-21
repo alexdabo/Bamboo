@@ -22,7 +22,7 @@ public final class AnotherServiceData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = serviceImpl.save(service);
+            saved = serviceImpl.save(service) != null;
             if (saved) {
                 System.out.println("Saved:   " + service);
             }

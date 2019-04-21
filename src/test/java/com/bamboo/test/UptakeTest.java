@@ -27,7 +27,6 @@ public class UptakeTest {
         assertTrue(uptakeData.find().size() > 0);
         assertTrue(uptakeData.findNotBilled().size() > 0);
         assertTrue(uptakeData.findById() != null);
-        assertTrue(uptakeData.update());
         assertTrue(uptakeData.delete());
         System.out.println("\n\n");
     }

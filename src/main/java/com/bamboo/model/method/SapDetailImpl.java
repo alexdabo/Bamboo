@@ -15,31 +15,39 @@ public class SapDetailImpl implements SapDetailInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(SapDetail detail) throws Exception {
-        boolean affected = false;
+    public SapDetail save(SapDetail detail) throws Exception {
+        SapDetail newSapDetail = null;
 
         UptakeImpl uptakeImp = new UptakeImpl();
-        InvoiceImpl invoiceImpl = new InvoiceImpl();
-        String sql = "insert into public.sapdetail(invoiceid, uptakeid ) values(?, ?)";
+        String sql = "insert into public.sapdetail(invoiceid, uptakeid ) values(?, ?) "
+                + "RETURNING id, invoiceid, uptakeid;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, detail.getInvoice()));
         dbos.add(new DBObject(2, detail.getUptake()));
         if (detail.getId() != 0) {
-            sql = "insert into public.sapdetail(invoiceid, uptakeid, id) values(?, ?, ?)";
+            sql = "insert into public.sapdetail(invoiceid, uptakeid, id) values(?, ?, ?) "
+                    + "RETURNING id, invoiceid, uptakeid;";
             dbos.add(new DBObject(3, detail.getId()));
         }
         try {
 
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
-                Uptake uptake = uptakeImp.findById(detail.getUptake());
-                uptake.setBilled(true);
-                uptakeImp.update(uptake);
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newSapDetail = new SapDetail();
+                newSapDetail.setId(result.getInt("id"));
+                newSapDetail.setInvoice(result.getInt("invoiceid"));
+                newSapDetail.setUptake(result.getInt("uptakeid"));
             }
+            if (newSapDetail != null) {
+                Uptake uptake = uptakeImp.findById(newSapDetail.getUptake());
+                uptake.setBilled(true);
+                uptakeImp.updateToBilled(uptake.getId());
+            }
+
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newSapDetail;
     }
 
     @Override

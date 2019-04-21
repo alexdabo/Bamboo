@@ -15,11 +15,12 @@ public class UserImpl implements UserInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(User user) throws Exception {
-        boolean affected = false;
+    public User save(User user) throws Exception {
+        User newUser = null;
         String sql = "INSERT INTO public.operator"
                 + "(roleid, username, password, email, dni, firstname, lastname, telephone, address) "
-                + "VALUES (?, ?, md5(?), ?, ?, ?, ?, ?, ?);";
+                + "VALUES (?, ?, md5(?), ?, ?, ?, ?, ?, ?) RETURNING "
+                + "id, roleid, username, email, dni, firstname, lastname, telephone, address";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, user.getRole()));
         dbos.add(new DBObject(2, user.getUserName().toLowerCase()));
@@ -30,22 +31,32 @@ public class UserImpl implements UserInterface {
         dbos.add(new DBObject(7, user.getLastName().toLowerCase()));
         dbos.add(new DBObject(8, user.getTelephone()));
         dbos.add(new DBObject(9, user.getAddress()));
-
         if (user.getId() != 0) {
             sql = "INSERT INTO public.operator"
                     + "(roleid, username, password, email, dni, firstname, lastname, telephone, address, id) "
-                    + "VALUES (?, ?, md5(?), ?, ?, ?, ?, ?, ?, ?);";
+                    + "VALUES (?, ?, md5(?), ?, ?, ?, ?, ?, ?, ?) RETURNING "
+                    + "id, roleid, username, email, dni, firstname, lastname, telephone, address";
             dbos.add(new DBObject(10, user.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newUser = new User();
+                newUser.setId(result.getInt("id"));
+                newUser.setRole(result.getInt("roleid"));
+                newUser.setUserName(result.getString("username"));
+                newUser.setEmail(result.getString("email"));
+                newUser.setDni(result.getString("dni"));
+                newUser.setFirstName(capitalize(result.getString("firstname")));
+                newUser.setLastName(capitalize(result.getString("lastname")));
+                newUser.setTelephone(result.getString("telephone"));
+                newUser.setAddress(result.getString("address"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return newUser;
     }
 
     @Override
@@ -62,7 +73,6 @@ public class UserImpl implements UserInterface {
                 user.setId(result.getInt("id"));
                 user.setRole(result.getInt("roleid"));
                 user.setUserName(result.getString("username"));
-                //user.setPassword(result.getString("password"));
                 user.setEmail(result.getString("email"));
                 user.setDni(result.getString("dni"));
                 user.setFirstName(capitalize(result.getString("firstname")));

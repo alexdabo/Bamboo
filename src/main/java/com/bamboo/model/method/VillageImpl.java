@@ -15,24 +15,27 @@ public class VillageImpl implements VillageInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(Village village) throws Exception {
-        boolean affected = false;
-        String sql = "insert into public.village(name) values(?)";
+    public Village save(Village village) throws Exception {
+        Village newVillage = null;
+        String sql = "insert into public.village(name) values(?) RETURNING id, name;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, village.getName()));
         if (village.getId() != 0) {
-            sql = "insert into public.village(name,id) values(?, ?)";
+            sql = "insert into public.village(name,id) values(?, ?)  RETURNING id, name;";
             dbos.add(new DBObject(2, village.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newVillage = new Village();
+                newVillage.setId(result.getInt("id"));
+                newVillage.setName(result.getString("name"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return newVillage;
     }
 
     @Override

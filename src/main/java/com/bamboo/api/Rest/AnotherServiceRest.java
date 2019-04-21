@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @WebServlet(
         name = "AnotherServiceRest",
         urlPatterns = {
-                "/api/anotherservice/*"
+            "/api/anotherservice/*"
         }
 )
 public class AnotherServiceRest extends HttpServlet {
@@ -46,14 +46,10 @@ public class AnotherServiceRest extends HttpServlet {
             // Get all anotherServices
             if (request.getPathInfo() == null) {
                 responseJson = gson.toJson(anotherServiceMtd.find());
-            }
-
-            // Get anotherService by id
+            } // Get anotherService by id
             else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                 responseJson = gson.toJson(anotherServiceMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-            }
-
-            // Route not found
+            } // Route not found
             else {
                 response.sendError(404);
             }
@@ -74,9 +70,10 @@ public class AnotherServiceRest extends HttpServlet {
         if (request.getPathInfo() == null) {
             try {
                 AnotherServiceDto anotherServiceDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AnotherServiceDto.class);
-
-                if (anotherServiceMtd.save(anotherServiceDto)) {
+                anotherServiceDto = anotherServiceMtd.save(anotherServiceDto);
+                if (anotherServiceDto != null) {
                     map.put("saved", true);
+                    map.put("anotherService", anotherServiceDto);
                     audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + anotherServiceDto.getName()));
                 } else {
                     map.put("saved", false);

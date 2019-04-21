@@ -2,7 +2,6 @@ package com.bamboo.api.method;
 
 import com.bamboo.api.dto.StatusDto;
 import com.bamboo.model.entity.Status;
-import com.bamboo.model.entity.Status;
 import com.bamboo.model.method.StatusImpl;
 
 import java.util.ArrayList;
@@ -10,19 +9,16 @@ import java.util.List;
 
 public class StatusDtoMethod {
 
-    public boolean save(StatusDto statusDto) throws Exception {
-        boolean affected = false;
+    public StatusDto save(StatusDto statusDto) throws Exception {
+        StatusDto newStatus = null;
         StatusImpl statusImpl = new StatusImpl();
         try {
-            if (statusImpl.save(getStatus(statusDto))) {
-                affected = true;
-            }
+            newStatus = getStatusDto(statusImpl.save(getStatus(statusDto)));
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newStatus;
     }
-
 
     public StatusDto findById(int id) throws Exception {
         StatusDto statusDto = null;

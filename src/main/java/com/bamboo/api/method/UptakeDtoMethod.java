@@ -42,15 +42,17 @@ public class UptakeDtoMethod {
         return uptakesDto;
     }
 
-    public boolean save(UptakeDto uptakeDto, int measurerId) throws Exception {
-        boolean saved = false;
+    public UptakeDto save(UptakeDto uptakeDto, int measurerId) throws Exception {
+        UptakeDto newUptake = null;
         UptakeImpl uptakeImpl = new UptakeImpl();
         Uptake uptake = getUptake(uptakeDto);
         uptake.setMeasurer(measurerId);
-        if (uptakeImpl.save(uptake)) {
-            saved = true;
+        try {
+            newUptake = getUptakeDto(uptakeImpl.save(uptake));
+        } catch (Exception e) {
+            throw e;
         }
-        return saved;
+        return newUptake;
     }
 
     public boolean update(UptakeDto uptakeDto) throws Exception {

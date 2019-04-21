@@ -9,19 +9,16 @@ import java.util.List;
 
 public class UserDtoMethod {
 
-    public boolean save(UserDto userDto) throws Exception {
-        boolean affected = false;
+    public UserDto save(UserDto userDto) throws Exception {
+        UserDto newUser = null;
         UserImpl userImpl = new UserImpl();
         try {
-            if (userImpl.save(getUser(userDto))) {
-                affected = true;
-            }
+            newUser = getUserDto(userImpl.save(getUser(userDto)));
         } catch (Exception e) {
             throw e;
         }
-        return affected;
+        return newUser;
     }
-
 
     public UserDto findById(int id) throws Exception {
         UserDto userDto = null;
@@ -33,11 +30,12 @@ public class UserDtoMethod {
         }
         return userDto;
     }
+
     public UserDto findAndLogin(String credential, String password) throws Exception {
         UserDto userDto = null;
         UserImpl userImpl = new UserImpl();
         try {
-            userDto = getUserDto(userImpl.findAndLogin(credential,password));
+            userDto = getUserDto(userImpl.findAndLogin(credential, password));
         } catch (Exception e) {
             throw e;
         }

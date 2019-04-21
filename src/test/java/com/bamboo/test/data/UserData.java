@@ -28,7 +28,7 @@ public final class UserData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = userImpl.save(user);
+            saved = userImpl.save(user)!=null;
             if (saved) {
                 System.out.println("Saved:   " + user);
             }

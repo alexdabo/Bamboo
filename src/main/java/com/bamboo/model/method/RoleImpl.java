@@ -15,24 +15,27 @@ public class RoleImpl implements RoleInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(Role role) throws Exception {
-        boolean affected = false;
-        String sql = "insert into public.role(name) values(?)";
+    public Role save(Role role) throws Exception {
+        Role newRole = null;
+        String sql = "insert into public.role(name) values(?)  RETURNING id, name;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, role.getName()));
         if (role.getId() != 0) {
-            sql = "insert into public.role(name,id) values(?, ?)";
+            sql = "insert into public.role(name,id) values(?, ?) RETURNING id, name;";
             dbos.add(new DBObject(2, role.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newRole = new Role();
+                newRole.setId(result.getInt("id"));
+                newRole.setName(result.getString("name"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return newRole;
     }
 
     @Override

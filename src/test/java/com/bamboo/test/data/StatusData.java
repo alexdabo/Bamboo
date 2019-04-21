@@ -22,7 +22,7 @@ public final class StatusData {
     public boolean save() {
         boolean saved = false;
         try {
-            saved = statusImpl.save(status);
+            saved = statusImpl.save(status) != null;
             if (saved) {
                 System.out.println("Saved:   " + status);
             }

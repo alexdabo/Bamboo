@@ -15,25 +15,29 @@ public class AnotherServiceImpl implements AnotherServiceInterface {
     private final DBConnection DBC = new DBConnection();
 
     @Override
-    public boolean save(AnotherService service) throws Exception {
-        boolean affected = false;
-        String sql = "INSERT INTO public.anotherservice(name, price) VALUES (?, ?);";
+    public AnotherService save(AnotherService service) throws Exception {
+        AnotherService newService = null;
+        String sql = "INSERT INTO public.anotherservice(name, price) VALUES (?, ?) RETURNING id, name, price;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, service.getName()));
         dbos.add(new DBObject(2, service.getPrice()));
         if (service.getId() != 0) {
-            sql = "INSERT INTO public.anotherservice(name, price, id)	VALUES (?, ?, ?);";
+            sql = "INSERT INTO public.anotherservice(name, price, id)	VALUES (?, ?, ?) RETURNING id, name, price;";
             dbos.add(new DBObject(3, service.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                affected = true;
+             ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newService = new AnotherService();
+                newService.setId(result.getInt("id"));
+                newService.setName(result.getString("name"));
+                newService.setPrice(result.getDouble("price"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return affected;
+        return newService;
     }
 
     @Override

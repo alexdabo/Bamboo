@@ -8,7 +8,6 @@ package com.bamboo.api.Rest;
 import com.bamboo.api.dto.UserDto;
 import com.bamboo.api.method.UserDtoMethod;
 import com.bamboo.model.entity.Audit;
-import com.bamboo.model.entity.User;
 import com.bamboo.model.method.AuditImpl;
 import com.google.gson.Gson;
 
@@ -28,9 +27,9 @@ import java.util.stream.Collectors;
 @WebServlet(
         name = "UserRest",
         urlPatterns = {
-                "/api/user/*",
-                "/api/user/login",
-                "/api/user/password"
+            "/api/user/*",
+            "/api/user/login",
+            "/api/user/password"
         }
 )
 public class UserRest extends HttpServlet {
@@ -46,20 +45,20 @@ public class UserRest extends HttpServlet {
         String responseJson = "";
         try {
 
-            if (request.getServletPath().equals("/api/user"))
-                // Get all users
-                if (request.getPathInfo() == null)
+            if (request.getServletPath().equals("/api/user")) // Get all users
+            {
+                if (request.getPathInfo() == null) {
                     responseJson = gson.toJson(userMtd.find());
-
-
-                    // Get user by id
-                else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2)
+                } // Get user by id
+                else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                     responseJson = gson.toJson(userMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-
-
-                    // Route not found
-                else response.sendError(404);
-            else response.sendError(404);
+                } // Route not found
+                else {
+                    response.sendError(404);
+                }
+            } else {
+                response.sendError(404);
+            }
 
         } catch (Exception ex) {
             response.sendError(400);
@@ -80,9 +79,10 @@ public class UserRest extends HttpServlet {
                 if (request.getPathInfo() == null) {
                     try {
                         UserDto userDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), UserDto.class);
-
-                        if (userMtd.save(userDto)) {
+                        userDto = userMtd.save(userDto);
+                        if (userDto != null) {
                             map.put("saved", true);
+                            map.put("user", userDto);
                             audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + userDto.getFullName()));
                         } else {
                             map.put("saved", false);
@@ -165,7 +165,6 @@ public class UserRest extends HttpServlet {
                 break;
         }
 
-
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
@@ -175,7 +174,7 @@ public class UserRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Map<String, Object> map = new HashMap<>();
         String responseJson;
-        if (request.getServletPath().equals("/api/user"))
+        if (request.getServletPath().equals("/api/user")) {
             if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                 try {
                     if (userMtd.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
@@ -191,7 +190,9 @@ public class UserRest extends HttpServlet {
             } else {
                 response.sendError(404);
             }
-        else response.sendError(404);
+        } else {
+            response.sendError(404);
+        }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
