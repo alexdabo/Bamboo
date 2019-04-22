@@ -19,9 +19,9 @@ export default class UserService extends Service {
     return Axios.put(this.url, user, { headers: this.headers })
   }
 
-  public putPassword (currentPass: string, newPass: string, username: string) {
+  public changePassword (currentPass: string, newPass: string, username: string) {
     return Axios.put(
-      `${this.url}?currentPass=${currentPass}&newPass=${newPass}&username=${username}`,
+      `${this.url}/password?currentPass=${currentPass}&newPass=${newPass}&credential=${username}`,
       { headers: this.headers }
     )
   }

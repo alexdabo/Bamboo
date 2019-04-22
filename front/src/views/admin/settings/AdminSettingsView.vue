@@ -19,7 +19,7 @@
         <b>Cambiar Contraseña</b>
       </v-tab>
       <v-tab-item class="pa-5">
-        <!--Password/-->
+        <ChangePassword/>
       </v-tab-item>
     </v-tabs>
   </div>
