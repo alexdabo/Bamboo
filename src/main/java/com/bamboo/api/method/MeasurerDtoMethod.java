@@ -44,7 +44,7 @@ public class MeasurerDtoMethod {
         MeasurerImpl measurerImpl = new MeasurerImpl();
         try {
             measurerDto = getMeasurerDto(measurerImpl.findById(id));
-            measurerDto.setUptakes(new UptakeDtoMethod().findByMeasurer(id));
+
         } catch (Exception e) {
             throw e;
         }

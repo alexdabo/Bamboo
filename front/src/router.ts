@@ -43,8 +43,8 @@ export default new Router({
         },
         {
           path: 'measurers/:beneficiaryId',
-          name: 'measurers'
-          // component: () => import('@/views/admin/MeasurerComponent.vue')
+          name: 'measurers',
+          component: () => import('@/views/admin/measurer/MeasurerView.vue')
         },
         {
           path: 'services',

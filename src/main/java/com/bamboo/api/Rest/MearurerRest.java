@@ -10,6 +10,7 @@ import com.bamboo.model.method.SapImpl;
 import com.bamboo.model.method.StatusImpl;
 import com.bamboo.model.method.UptakeImpl;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,8 +49,14 @@ import java.util.Map;
 )
 public class MearurerRest extends HttpServlet {
 
-    private final Gson gson = new Gson();
+    private Gson gson = new Gson();
     private Map<String, Object> map = new HashMap<>();
+
+    public MearurerRest() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd");
+        gson = gsonBuilder.create();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

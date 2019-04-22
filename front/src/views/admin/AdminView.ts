@@ -29,7 +29,14 @@ export default class AdminView extends Vue {
   ];
 
   created () {
-    this.$router.push({ name: localStorage.lastRouteName })
+    switch (localStorage.lastRouteName) {
+      case 'measurers':
+        this.$router.push({ name: localStorage.lastRouteName, params: { beneficiaryId: '0' } })
+        break
+      default:
+        this.$router.push({ name: localStorage.lastRouteName })
+        break
+    }
   }
 
   public changeView (routerName: string): void {

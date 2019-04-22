@@ -42,11 +42,11 @@ export default class BeneficiaryReport extends Page {
   public beneficiaries: Beneficiary[] = [];
   public entity: Entity = new Entity();
 
-  public created(): void {
+  public created (): void {
     this.findVillages()
     this.getEntity()
   }
-  public getEntity(): void {
+  public getEntity (): void {
     const entityService: EntityService = new EntityService()
     entityService.get()
       .then((res: any) => {
@@ -57,7 +57,7 @@ export default class BeneficiaryReport extends Page {
       })
   }
 
-  public findVillages(): void {
+  public findVillages (): void {
     const service: VillageService = new VillageService()
     service.getAll().then((res: any) => {
       for (const item of res.data) {
@@ -68,7 +68,7 @@ export default class BeneficiaryReport extends Page {
     })
   }
 
-  public createPdf(option: string = 'open'): void {
+  public createPdf (option: string = 'open'): void {
     const service: BeneficiaryService = new BeneficiaryService()
     service.getByData(this.config.data, this.config.village.id).then((res: any) => {
       const content: any[] = []
@@ -125,7 +125,7 @@ export default class BeneficiaryReport extends Page {
     })
   }
 
-  public createPdfByVillage(option: string = 'open'): void {
+  public createPdfByVillage (option: string = 'open'): void {
     const service: BeneficiaryService = new BeneficiaryService()
     service.getByData(this.config.data, this.config.village.id).then((res: any) => {
       const content: any[] = []
@@ -181,8 +181,8 @@ export default class BeneficiaryReport extends Page {
       })
   }
 
-  public openPdf(): void {
-    this.loadingOpen = true;
+  public openPdf (): void {
+    this.loadingOpen = true
     if (this.config.village.id === 0) {
       this.createPdf()
     } else {
@@ -190,7 +190,7 @@ export default class BeneficiaryReport extends Page {
     }
   }
 
-  public downloadPdf(): void {
+  public downloadPdf (): void {
     this.loadingDownload = true
     if (this.config.village.id === 0) {
       this.createPdf('download')
