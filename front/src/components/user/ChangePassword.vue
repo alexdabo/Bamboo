@@ -19,6 +19,6 @@
   </div>
 </template>
 <script lang="ts">
-import ChangePassword from '@/components/beneficiary/ChangePassword.ts'
+import ChangePassword from '@/components/user/ChangePassword.ts'
 export default ChangePassword
 </script>

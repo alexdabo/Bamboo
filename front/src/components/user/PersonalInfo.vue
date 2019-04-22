@@ -22,6 +22,6 @@
   </div>
 </template>
 <script lang="ts">
-import PersonalInfo from '@/components/beneficiary/PersonalInfo.ts'
+import PersonalInfo from '@/components/user/PersonalInfo.ts'
 export default PersonalInfo
 </script>
