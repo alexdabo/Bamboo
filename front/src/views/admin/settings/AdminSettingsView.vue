@@ -12,7 +12,7 @@
         <b>Información Personal</b>
       </v-tab>
       <v-tab-item class="pr-5 pl-5">
-        <!--PersonalInfo/-->
+        <PersonalInfo/>
       </v-tab-item>
 
       <v-tab ripple>
