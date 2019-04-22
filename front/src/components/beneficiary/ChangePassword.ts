@@ -31,7 +31,7 @@ export default class ChangePassword extends Page {
               this.error('Contraseña no actualizada', err.response.data.error)
             })
         } else {
-          this.error('Contraseña es muy débil','La nueva contraseña debe tener al menos 10 caracteres')
+          this.error('Contraseña es muy débil', 'La nueva contraseña debe tener al menos 10 caracteres')
           this.repeatedPass = ''
           this.newPass = ''
         }

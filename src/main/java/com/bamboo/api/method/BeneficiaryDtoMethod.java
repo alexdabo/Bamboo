@@ -44,6 +44,19 @@ public class BeneficiaryDtoMethod {
         return list;
     }
 
+    public List<BeneficiaryDto> findByData(String dataQuery, int villageId) throws Exception {
+        List<BeneficiaryDto> list = new ArrayList<>();
+        BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();
+        try {
+            for (Beneficiary beneficiary : beneficiaryImpl.findByData(dataQuery, villageId)) {
+                list.add(getBeneficiaryDto(beneficiary));
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return list;
+    }
+
     public boolean update(BeneficiaryDto beneficiaryDto) throws Exception {
         boolean affected = false;
         BeneficiaryImpl beneficiaryImpl = new BeneficiaryImpl();

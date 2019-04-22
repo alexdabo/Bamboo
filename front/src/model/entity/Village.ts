@@ -1,4 +1,8 @@
+
 export default class Village {
-    public id?: number
-    public name?: string
+  // eslint-disable-next-line
+  constructor (
+        public id?: number,
+        public name?: string
+  ) { }
 }

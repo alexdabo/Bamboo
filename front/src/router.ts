@@ -53,8 +53,8 @@ export default new Router({
         },
         {
           path: 'reports',
-          name: 'reports'
-          // component: () => import('@/views/admin/MainReports.vue')
+          name: 'reports',
+          component: () => import('@/views/admin/reports/ReportView.vue')
         },
         {
           path: 'villages',

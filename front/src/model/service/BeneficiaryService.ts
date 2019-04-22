@@ -24,7 +24,7 @@ export default class BeneficiaryService extends Service {
   }
 
   public getByData (data: string, villageId: number) {
-    return Axios.get(`${this.url}?data=${data}&villageId=${villageId}`)
+    return Axios.get(`${this.url}/data?dataQuery=${data}&villageId=${villageId}`)
   }
 
   public getFromVillage () {

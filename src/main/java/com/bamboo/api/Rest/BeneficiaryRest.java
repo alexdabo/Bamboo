@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
 @WebServlet(
         name = "BeneficiaryRest",
         urlPatterns = {
-            "/api/beneficiary/*"
+                "/api/beneficiary/*",
+                "/api/beneficiary/data"
         }
 )
 public class BeneficiaryRest extends HttpServlet {
@@ -42,16 +43,25 @@ public class BeneficiaryRest extends HttpServlet {
         Map<String, Object> map = new HashMap<>();
         String responseJson = "";
         try {
+            switch (request.getServletPath()) {
 
-            // Get all beneficiaries
-            if (request.getPathInfo() == null) {
-                responseJson = gson.toJson(beneficiaryMtd.find());
-            } // Get beneficiary by id
-            else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
-                responseJson = gson.toJson(beneficiaryMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-            } // Route not found
-            else {
-                response.sendError(404);
+                case "/api/beneficiary":
+
+
+                    // Get all beneficiaries
+                    if (request.getPathInfo() == null) {
+                        responseJson = gson.toJson(beneficiaryMtd.find());
+                    } // Get beneficiary by id
+                    else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(beneficiaryMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } // Route not found
+                    else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/beneficiary/data":
+                    responseJson = gson.toJson(beneficiaryMtd.findByData(request.getParameter("dataQuery"),Integer.parseInt(request.getParameter("villageId"))));
+                    break;
             }
         } catch (Exception ex) {
             response.sendError(400);
