@@ -23,8 +23,8 @@ export default new Router({
         },
         {
           path: 'dashboard',
-          name: 'dashboard'
-          // component: () => import('@/views/admin/DashboardComponent.vue')
+          name: 'dashboard',
+          component: () => import('@/views/admin/dashboard/DashboardView.vue')
         },
         {
           path: 'accounts',
