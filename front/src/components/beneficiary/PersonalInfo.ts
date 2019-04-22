@@ -16,6 +16,7 @@ export default class PersonalInfo extends Page {
         .then((res: any) => {
           if (res.data.updated === true) {
             this.success('Información personal actualizada')
+            localStorage.user = JSON.stringify(this.user)
           }
         })
         .catch((err: any) => {
