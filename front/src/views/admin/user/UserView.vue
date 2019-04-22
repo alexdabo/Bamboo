@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat color="white">
-      <v-toolbar-title>BENEFICIARIOS</v-toolbar-title>
+      <v-toolbar-title>USUARIOS</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <v-text-field
@@ -14,15 +14,16 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-btn
-        v-shortkey="['alt', 'r']"
-        @shortkey="findBeneficiaries()"
+        v-shortkey="[ 'alt', 'r']"
+        @shortkey="findUsers()"
         color="primary"
         class="mb-2"
         icon
-        @click="findBeneficiaries()"
+        @click="findUsers()"
       >
         <v-icon>refresh</v-icon>
       </v-btn>
+
       <v-dialog v-model="dialog" persistent max-width="700px">
         <v-btn
           v-shortkey="['alt', 'n']"
@@ -36,8 +37,8 @@
         </v-btn>
         <v-card>
           <v-card-title class="primary lighten-3 white--text">
-            <span class="headline" v-if="editedIndex === -1">Nuevo Beneficiario</span>
-            <span class="headline" v-else>Editar Beneficiario</span>
+            <span class="headline" v-if="editedIndex === -1">Nuevo Usuario</span>
+            <span class="headline" v-else>Editar Usuario</span>
           </v-card-title>
           <form @submit.prevent="submit">
             <v-container grid-list-sm class="pa-4">
@@ -61,23 +62,13 @@
                   />
                 </v-flex>
                 <v-flex xs12>
-                  <FindVillage
-                    class="mb-3"
-                    :show="editedItem.village"
-                    label="Comunidad"
-                    @selected="setVillage"
-                    :initialized="true"
-                  />
+                  <v-text-field type="email" label="Correo electrónico" required v-model="editedItem.email"/>
+                </v-flex>
+                <v-flex xs12>
+                  <FindRole class="pb-3" label="Rol de usuario" :show="editedItem.role" :initialized="true" @selected="setRole"/>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field label="Dirrección" required v-model="editedItem.address"/>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field
-                    label="Lugar de referencia"
-                    required
-                    v-model="editedItem.placeReference"
-                  />
                 </v-flex>
               </v-layout>
             </v-container>
@@ -96,7 +87,7 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="beneficiaries"
+      :items="users"
       :search="search"
       hide-actions
       class="elevation-1"
@@ -105,12 +96,11 @@
         <td>{{ props.item.lastName }}</td>
         <td>{{ props.item.firstName }}</td>
         <td class="text-xs-left">{{ props.item.dni }}</td>
-        <td class="text-xs-left">{{ props.item.village.name }}</td>
+        <td class="text-xs-left">{{ props.item.role.name }}</td>
+        <td class="text-xs-left">{{ props.item.email }}</td>
         <td class="text-xs-left">{{ props.item.telephone }}</td>
         <td class="text-xs-left">{{ props.item.address }}</td>
-        <td class="text-xs-left">{{ props.item.placeReference }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="$router.push(`measurers/${props.item.id}`)">timer</v-icon>
           <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
           <v-icon small @click="remove(props.item)">delete</v-icon>
         </td>
@@ -126,6 +116,6 @@
 </template>
 
 <script lang="ts">
-import BeneficiaryView from '@/views/admin/beneficiary/BeneficiaryView.ts'
-export default BeneficiaryView
+import UserView from '@/views/admin/user/UserView.ts'
+export default UserView
 </script>

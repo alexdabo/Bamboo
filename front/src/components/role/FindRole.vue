@@ -16,8 +16,7 @@
     <template slot="no-data">
       <v-list-tile>
         <v-list-tile-title>
-          Buscar por el
-          <strong>nombre</strong> de la comunidad
+          Buscar <strong>role</strong> de usuario
         </v-list-tile-title>
       </v-list-tile>
     </template>

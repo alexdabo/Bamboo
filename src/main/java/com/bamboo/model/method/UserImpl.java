@@ -23,8 +23,8 @@ public class UserImpl implements UserInterface {
                 + "id, roleid, username, email, dni, firstname, lastname, telephone, address";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, user.getRole()));
-        dbos.add(new DBObject(2, user.getUserName().toLowerCase()));
-        dbos.add(new DBObject(3, user.getPassword()));
+        dbos.add(new DBObject(2, user.getEmail().toLowerCase()));
+        dbos.add(new DBObject(3, user.getDni()));
         dbos.add(new DBObject(4, user.getEmail()));
         dbos.add(new DBObject(5, user.getDni()));
         dbos.add(new DBObject(6, user.getFirstName().toLowerCase()));

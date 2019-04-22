@@ -31,10 +31,10 @@ export default class UserService extends Service {
   }
 
   public getById (id: number) {
-    return Axios.get(`${this.url}?id=${id}`)
+    return Axios.get(`${this.url}/=${id}`)
   }
 
   public delete (user: User) {
-    return Axios.delete(this.url, { data: user, headers: this.headers })
+    return Axios.delete(`${this.url}/${user.id}`, { headers: this.headers })
   }
 }

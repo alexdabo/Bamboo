@@ -38,8 +38,8 @@ export default new Router({
         },
         {
           path: 'users',
-          name: 'users'
-          // component: () => import('@/views/admin/UserComponent.vue')
+          name: 'users',
+          component: () => import('@/views/admin/user/UserView.vue')
         },
         {
           path: 'measurers/:beneficiaryId',
