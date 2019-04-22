@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import '@/plugins/chartkick'
 import '@/plugins/vuetify'
 import '@/plugins/shortkey'
 import '@/plugins/vuex'
