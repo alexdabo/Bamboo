@@ -94,6 +94,30 @@ public class AssignedImpl implements AssignedInterface {
     }
 
     @Override
+    public List<Assigned> findDistinctBeneficiary() throws Exception {
+        List<Assigned> assigneds = new ArrayList<>();
+        String sql = "SELECT DISTINCT ON (beneficiaryid) id, beneficiaryid, measurerid, debt, assignmentdate, status FROM public.assigned;";
+
+        try {
+            ResultSet result = DBC.queryGet(sql);
+            while (result.next()) {
+                Assigned assigned = new Assigned();
+                assigned.setId(result.getInt("id"));
+                assigned.setBeneficiary(result.getInt("beneficiaryid"));
+                assigned.setMeasurer(result.getInt("measurerid"));
+                assigned.setAssignmentDate(result.getDate("assignmentdate"));
+                assigned.setStatus(result.getString("status"));
+                assigned.setDebt(result.getDouble("debt"));
+                assigneds.add(assigned);
+
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            throw e;
+        }
+        return assigneds;
+    }
+
+    @Override
     public boolean update(Assigned assigned) throws Exception {
         boolean affected = false;
         String sql = "UPDATE public.assigned SET debt=?, assignmentdate=?, status=? WHERE beneficiaryid=? and measurerid=?;";

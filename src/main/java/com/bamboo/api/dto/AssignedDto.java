@@ -1,57 +1,18 @@
 package com.bamboo.api.dto;
 
-import java.util.Date;
+import java.util.List;
 
 public class AssignedDto {
-    private int id;
-    private Date assignmentDate;
-    private String status;
-    private double debt;
     private BeneficiaryDto beneficiary;
-    private MeasurerDto measurer;
+    private List<SimpleAssignedDto> assigneds;
 
     public AssignedDto() {
+
     }
 
-    public AssignedDto(int id, Date assignmentDate, String status, double debt, BeneficiaryDto beneficiary, MeasurerDto measurer) {
-        this.id = id;
-        this.assignmentDate = assignmentDate;
-        this.status = status;
-        this.debt = debt;
+    public AssignedDto(BeneficiaryDto beneficiary, List<SimpleAssignedDto> assigneds) {
         this.beneficiary = beneficiary;
-        this.measurer = measurer;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getAssignmentDate() {
-        return assignmentDate;
-    }
-
-    public void setAssignmentDate(Date assignmentDate) {
-        this.assignmentDate = assignmentDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public double getDebt() {
-        return debt;
-    }
-
-    public void setDebt(double debt) {
-        this.debt = debt;
+        this.assigneds = assigneds;
     }
 
     public BeneficiaryDto getBeneficiary() {
@@ -62,11 +23,16 @@ public class AssignedDto {
         this.beneficiary = beneficiary;
     }
 
-    public MeasurerDto getMeasurer() {
-        return measurer;
+    public List<SimpleAssignedDto> getAssigneds() {
+        return assigneds;
     }
 
-    public void setMeasurer(MeasurerDto measurer) {
-        this.measurer = measurer;
+    public void setAssigneds(List<SimpleAssignedDto> assigneds) {
+        this.assigneds = assigneds;
     }
+
+    public void addAssigned(SimpleAssignedDto assigned) {
+        this.assigneds.add(assigned);
+    }
+
 }

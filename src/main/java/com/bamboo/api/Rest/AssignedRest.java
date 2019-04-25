@@ -7,6 +7,7 @@ package com.bamboo.api.Rest;
 
 import com.bamboo.api.dto.AssignedDto;
 import com.bamboo.api.method.AssignedDtoMethod;
+import com.bamboo.api.method.SimpleAssignedDtoMethod;
 import com.bamboo.model.entity.Audit;
 import com.bamboo.model.method.AuditImpl;
 import com.google.gson.Gson;
@@ -27,10 +28,10 @@ import java.util.stream.Collectors;
 @WebServlet(
         name = "AssignedRest",
         urlPatterns = {
-            "/api/assigned/*",
-            "/api/assigned/beneficiary/*",
-            "/api/assigned/notbilled/beneficiry/*",
-            "/api/assigned/measurer/*"
+                "/api/assigned",
+                "/api/assigned/beneficiary/*",
+                "/api/assigned/beneficiary/unbilled/*",
+                "/api/assigned/beneficiary/with/uptakes/*"
         }
 )
 public class AssignedRest extends HttpServlet {
@@ -48,22 +49,32 @@ public class AssignedRest extends HttpServlet {
 
             switch (request.getServletPath()) {
                 case "/api/assigned":
-                    // Get all assigneds
                     if (request.getPathInfo() == null) {
                         responseJson = gson.toJson(assignedMtd.find());
-                    } // Get assigned by id
-                    else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
-                        responseJson = gson.toJson(assignedMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-                    } // Route not found
-                    else {
+                    } else {
                         response.sendError(404);
                     }
                     break;
                 case "/api/assigned/beneficiary":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(assignedMtd.findByBeneficiary(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
                     break;
-                case "/api/assigned/notbilled/beneficiry":
+                case "/api/assigned/beneficiary/unbilled":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(assignedMtd.findByBeneficiaryUnbilledUptakes(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
                     break;
-                case "/api/assigned/measurer":
+                case "/api/assigned/beneficiary/with/uptakes":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(assignedMtd.findByBeneficiaryWithUptakes(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
                     break;
             }
 
@@ -84,7 +95,7 @@ public class AssignedRest extends HttpServlet {
         if (request.getPathInfo() == null) {
             try {
                 AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
-                assignedDto = assignedMtd.save(assignedDto);
+                // assignedDto = assignedMtd.save(assignedDto);
                 if (assignedDto != null) {
                     map.put("saved", true);
                     map.put("assigned", assignedDto);
@@ -109,7 +120,7 @@ public class AssignedRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Map<String, Object> map = new HashMap<>();
         String responseJson;
-
+/*
         if (request.getPathInfo() == null) {
             try {
                 AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
@@ -126,7 +137,7 @@ public class AssignedRest extends HttpServlet {
             }
         } else {
             response.sendError(404);
-        }
+*/
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }
@@ -139,12 +150,12 @@ public class AssignedRest extends HttpServlet {
 
         if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
             try {
-                if (assignedMtd.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
+                /*if (assignedMtd.delete(Integer.parseInt(request.getPathInfo().substring(1)))) {
                     map.put("deleted", true);
                     audit.delete(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + request.getPathInfo().substring(1)));
                 } else {
                     map.put("deleted", false);
-                }
+                }*/
             } catch (Exception ex) {
                 response.setStatus(400);
                 map.put("error", ex.getMessage());
