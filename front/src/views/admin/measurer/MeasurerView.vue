@@ -6,8 +6,8 @@
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <FindBeneficiary
-        return="object"
-        @selected="setBeneficiary"
+        return="id"
+        @selected="findAssignedByBeneficiary"
         :code="$route.params.beneficiaryId"
         solo
       />
@@ -15,11 +15,11 @@
       <v-spacer></v-spacer>
       <v-btn
         v-shortkey="[ 'alt', 'r']"
-        @shortkey="findAssigned(assigned.beneficiary.id)"
+        @shortkey="findAssignedByBeneficiary(assigned.beneficiary.id)"
         color="primary"
         class="mb-2"
         icon
-        @click="findAssigned(assigned.beneficiary.id)"
+        @click="findAssignedByBeneficiary(assigned.beneficiary.id)"
       >
         <v-icon>refresh</v-icon>
       </v-btn>
@@ -77,11 +77,9 @@
         /-->
       </v-dialog>
     </v-toolbar>
-
     <v-card>
-      <InfoBeneficiary :beneficiary="beneficiary"/>
-      <!--InfoBeneficiary :beneficiary="assigned.beneficiary"/-->
-      <!--v-data-table-- :headers="headers" :items="assigned.assigneds" hide-actions>
+      <InfoBeneficiary :beneficiary="assigned.beneficiary"/>
+      <v-data-table :headers="headers" :items="assigned.assigneds" hide-actions>
         <template slot="items" slot-scope="props">
           <td>{{ props.item.measurer.number }}</td>
           <td>{{ props.item.measurer.sap.name }}</td>
@@ -110,7 +108,7 @@
             </v-btn>
           </td>
         </template>
-      </v-data-table-->
+      </v-data-table>
     </v-card>
   </div>
 </template>
@@ -120,9 +118,9 @@ import MeasurerView from '@/views/admin/measurer/MeasurerView.ts'
 export default MeasurerView
 </script>
 <style lang="scss" scoped>
-  td span {
-    border-radius: 5px;
-    padding: 2px 5px;
-    color: white;
-  }
+td span {
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: white;
+}
 </style>

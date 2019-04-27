@@ -1,6 +1,6 @@
 import Status from '@/model/entity/Status'
 import Sap from '@/model/entity/Sap'
-import Uptake from './Uptake';
+import Uptake from './Uptake'
 
 export default class Measurer {
   // eslint-disable-next-line

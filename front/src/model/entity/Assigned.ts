@@ -1,9 +1,10 @@
-import Measurer from '@/model/entity/Measurer';
-import AssignedSimple from './AssignedSimple';
+import AssignedSimple from '@/model/entity/AssignedSimple'
+import Beneficiary from './Beneficiary'
 
 export default class Assigned {
-    constructor(
-        public id?: number,
-        public assigneds: AssignedSimple = new AssignedSimple()
-    ) { }
+  // eslint-disable-next-line
+  constructor (
+        public beneficiary:Beneficiary = new Beneficiary(),
+        public assigneds: AssignedSimple[] = []
+  ) { }
 }

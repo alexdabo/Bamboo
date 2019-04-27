@@ -1,9 +1,9 @@
 import Axios from 'axios'
 import Service from '@/model/service/Service'
 
-export default class RoleService extends Service {
+export default class AssignedService extends Service {
   constructor (userId?: number) {
-    super('/role', userId)
+    super('/assigned', userId)
   }
 
   public getAll () {
@@ -12,5 +12,8 @@ export default class RoleService extends Service {
 
   public getById (id: number) {
     return Axios.get(`${this.url}/${id}`)
+  }
+  public getByBeneficiary (beneficiaryIdd: number) {
+    return Axios.get(`${this.url}/beneficiary/${beneficiaryIdd}`)
   }
 }
