@@ -92,4 +92,14 @@ public class Measurer {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Measurer{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", installationDate=" + installationDate +
+                ", sap=" + sap +
+                ", status=" + status +
+                '}';
+    }
 }

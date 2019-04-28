@@ -78,4 +78,16 @@ public class EntityDto {
         this.ruc = ruc;
     }
 
+    @Override
+    public String toString() {
+        return "EntityDto{" +
+                "province='" + province + '\'' +
+                ", canton='" + canton + '\'' +
+                ", community='" + community + '\'' +
+                ", address='" + address + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", ruc='" + ruc + '\'' +
+                '}';
+    }
 }

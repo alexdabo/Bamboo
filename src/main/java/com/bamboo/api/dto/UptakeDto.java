@@ -125,5 +125,20 @@ public class UptakeDto {
         this.billed = billed;
     }
 
-
+    @Override
+    public String toString() {
+        return "UptakeDto{" +
+                "id=" + id +
+                ", dateTaked=" + dateTaked +
+                ", lastValueTaken=" + lastValueTaken +
+                ", currentValueTaken=" + currentValueTaken +
+                ", baseVolume=" + baseVolume +
+                ", basePrice=" + basePrice +
+                ", extraPrice=" + extraPrice +
+                ", volumeExceeded=" + volumeExceeded +
+                ", volumeConsumed=" + volumeConsumed +
+                ", totalPrice=" + totalPrice +
+                ", billed=" + billed +
+                '}';
+    }
 }

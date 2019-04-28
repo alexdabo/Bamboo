@@ -30,4 +30,11 @@ public class RoleDto {
         this.name = name;
     }
 
+    @Override
+    public String stoString() {
+        return "RoleDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

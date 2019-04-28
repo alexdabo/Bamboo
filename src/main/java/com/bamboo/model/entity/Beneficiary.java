@@ -97,4 +97,17 @@ public class Beneficiary {
         this.placeReference = placeReference;
     }
 
+    @Override
+    public String toString() {
+        return "Beneficiary{" +
+                "id=" + id +
+                ", dni='" + dni + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", address='" + address + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", village=" + village +
+                ", placeReference='" + placeReference + '\'' +
+                '}';
+    }
 }

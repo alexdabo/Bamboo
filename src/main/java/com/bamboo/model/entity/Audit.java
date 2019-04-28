@@ -95,7 +95,7 @@ public class Audit {
     public String toString() {
         return "Audit{"
                 + "id=" + id
-                + ", user=" + user
+                + ", user=" + user.getUserName()
                 + ", executedDate=" + executedDate
                 + ", tableAffected='" + tableAffected + '\''
                 + ", actionName='" + actionName + '\''

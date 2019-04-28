@@ -57,4 +57,13 @@ public class AnotherServiceDetail {
         this.total = total;
     }
 
+    @Override
+    public String toString() {
+        return "AnotherServiceDetail{" +
+                "id=" + id +
+                ", invoice=" + invoice +
+                ", service=" + service +
+                ", total=" + total +
+                '}';
+    }
 }

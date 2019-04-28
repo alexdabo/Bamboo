@@ -38,4 +38,11 @@ public class VillageDto {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "VillageDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

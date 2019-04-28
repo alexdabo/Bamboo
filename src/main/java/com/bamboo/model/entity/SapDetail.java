@@ -48,4 +48,13 @@ public class SapDetail {
     public void setUptake(int uptake) {
         this.uptake = uptake;
     }
+
+    @Override
+    public String toString() {
+        return "SapDetail{" +
+                "id=" + id +
+                ", invoice=" + invoice +
+                ", uptake=" + uptake +
+                '}';
+    }
 }

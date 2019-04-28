@@ -60,4 +60,15 @@ public class SimpleAssignedDto {
     public void setMeasurer(MeasurerDto measurer) {
         this.measurer = measurer;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleAssignedDto{" +
+                "id=" + id +
+                ", assignmentDate=" + assignmentDate +
+                ", status='" + status + '\'' +
+                ", debt=" + debt +
+                ", measurer=" + measurer +
+                '}';
+    }
 }

@@ -16,7 +16,8 @@ public class MeasurerDto {
     private StatusDto status;
     private List<UptakeDto> uptakes;
 
-    public MeasurerDto(){}
+    public MeasurerDto() {
+    }
 
     public MeasurerDto(int id, String number, Date installationDate, SapDto sap, StatusDto status, List<UptakeDto> uptakesDtos) {
         this.id = id;
@@ -95,5 +96,17 @@ public class MeasurerDto {
         } catch (ParseException e) {
             throw e;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "MeasurerDto{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", installationDate=" + installationDate +
+                ", sap=" + sap +
+                ", status=" + status +
+                ", uptakes=" + uptakes +
+                '}';
     }
 }

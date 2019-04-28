@@ -6,7 +6,6 @@
 package com.bamboo.api.dto;
 
 /**
- *
  * @author alexander
  */
 public class SapDto {
@@ -68,4 +67,14 @@ public class SapDto {
         this.extraPrice = extraPrice;
     }
 
+    @Override
+    public String toString() {
+        return "SapDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", baseVolume=" + baseVolume +
+                ", basePrice=" + basePrice +
+                ", extraPrice=" + extraPrice +
+                '}';
+    }
 }

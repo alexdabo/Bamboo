@@ -81,4 +81,16 @@ public class Assigned {
     public void setDebt(double debt) {
         this.debt = debt;
     }
+
+    @Override
+    public String toString() {
+        return "Assigned{" +
+                "id=" + id +
+                ", beneficiary=" + beneficiary +
+                ", measurer=" + measurer +
+                ", assignmentDate=" + assignmentDate +
+                ", status='" + status + '\'' +
+                ", debt=" + debt +
+                '}';
+    }
 }

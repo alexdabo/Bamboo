@@ -35,4 +35,11 @@ public class AssignedDto {
         this.assigneds.add(assigned);
     }
 
+    @Override
+    public String toString() {
+        return "AssignedDto{" +
+                "beneficiary=" + beneficiary +
+                ", assigneds=" + assigneds +
+                '}';
+    }
 }

@@ -116,4 +116,17 @@ public class Invoice {
             throw e;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", dateOfIssue=" + dateOfIssue +
+                ", totalToPay=" + totalToPay +
+                ", payed=" + payed +
+                ", beneficiary=" + beneficiary +
+                ", debtcollector=" + debtcollector +
+                '}';
+    }
 }

@@ -47,4 +47,12 @@ public class AnotherServiceDto {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "AnotherServiceDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

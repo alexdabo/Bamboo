@@ -93,4 +93,18 @@ public class BeneficiaryDto {
     public String getFullName() {
         return getLastName() + " " + getFirstName();
     }
+
+    @Override
+    public String toString() {
+        return "BeneficiaryDto{" +
+                "id=" + id +
+                ", dni='" + dni + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", address='" + address + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", placeReference='" + placeReference + '\'' +
+                ", village=" + village +
+                '}';
+    }
 }
