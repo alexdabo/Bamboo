@@ -4,6 +4,7 @@ import com.bamboo.connection.DBConnection;
 import com.bamboo.connection.DBObject;
 import com.bamboo.model.contrat.AssignedInterface;
 import com.bamboo.model.entity.Assigned;
+import com.bamboo.model.entity.Measurer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -180,6 +181,22 @@ public class AssignedImpl implements AssignedInterface {
             throw e;
         }
         return assigneds;
+    }
+
+    @Override
+    public boolean disableByMeasurer(int measurerId) throws Exception {
+        boolean affected = false;
+        String sql = "UPDATE public.assigned SET status='disable' WHERE measurerid=?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, measurerId));
+        try {
+            if (DBC.querySet(sql, dbos)) {
+                affected = true;
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return affected;
     }
 
 }

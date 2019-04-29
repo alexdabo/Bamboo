@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
         name = "AssignedRest",
         urlPatterns = {
                 "/api/assigned",
+                "/api/assigned/new",
+                "/api/assigned/transfer",
                 "/api/assigned/beneficiary/*",
                 "/api/assigned/beneficiary/unbilled/*",
                 "/api/assigned/beneficiary/with/uptakes/*"
@@ -37,7 +39,7 @@ import java.util.stream.Collectors;
 )
 public class AssignedRest extends HttpServlet {
 
-    private  Gson gson = new Gson();
+    private Gson gson = new Gson();
     private final AssignedDtoMethod assignedMtd = new AssignedDtoMethod();
     private final AuditImpl audit = new AuditImpl("Comunidad");
 
@@ -100,24 +102,36 @@ public class AssignedRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Map<String, Object> map = new HashMap<>();
         String responseJson;
-        if (request.getPathInfo() == null) {
-            try {
-                AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
-                assignedDto = assignedMtd.save(assignedDto);
-                if (assignedDto != null) {
-                    map.put("saved", true);
-                    map.put("assigned", assignedDto);
-                    audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "Beneficiario: " + assignedDto.getBeneficiary().getFullName()));
-                } else {
-                    map.put("saved", false);
-                }
+        try {
+            switch (request.getServletPath()) {
+                case "/api/assigned/new":
+                    AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
+                    assignedDto = assignedMtd.save(assignedDto);
+                    if (assignedDto != null) {
+                        map.put("saved", true);
+                        map.put("assigned", assignedDto);
+                        audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "Beneficiario: " + assignedDto.getBeneficiary().getFullName()));
+                    } else {
+                        map.put("saved", false);
+                    }
+                    break;
+                case "/api/assigned/transfer":
+                    assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
+                    assignedDto = assignedMtd.transfer(assignedDto);
+                    if (assignedDto != null) {
 
-            } catch (Exception ex) {
-                response.setStatus(400);
-                map.put("error", ex.getMessage());
+                        map.put("saved", true);
+                        map.put("assigned", assignedDto);
+                        audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "Beneficiario: " + assignedDto.getBeneficiary().getFullName()));
+                    } else {
+                        map.put("saved", false);
+                    }
+                    break;
+
             }
-        } else {
-            response.sendError(404);
+        } catch (Exception ex) {
+            response.setStatus(400);
+            map.put("error", ex.getMessage());
         }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
@@ -140,10 +154,10 @@ public class AssignedRest extends HttpServlet {
                 }
 */
 
-                map.put("body", assignedDto );
+                map.put("body", assignedDto);
             } catch (Exception ex) {
                 response.setStatus(400);
-                map.put("error", "err: "+ex.getMessage());
+                map.put("error", "err: " + ex.getMessage());
             }
         } else {
             response.sendError(404);

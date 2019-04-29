@@ -34,6 +34,24 @@ public class SimpleAssignedDtoMethod {
     }
 
 
+    public SimpleAssignedDto transfer(SimpleAssignedDto simpleAssigned, int beneficiaryId) throws Exception {
+        SimpleAssignedDto newSimpleAssigned = null;
+        AssignedImpl assignedImpl = new AssignedImpl();
+        try {
+            Assigned assigned = getAssigned(simpleAssigned, beneficiaryId);
+            if (assignedImpl.disableByMeasurer(assigned.getMeasurer())){
+                newSimpleAssigned = getSimpleAssignedDto(
+                        assignedImpl.save(assigned)
+                );
+            }
+
+        } catch (Exception e) {
+            throw e;
+        }
+        return newSimpleAssigned;
+    }
+
+
     public List<SimpleAssignedDto> find() throws Exception {
         List<SimpleAssignedDto> list = new ArrayList<>();
         AssignedImpl assignedImpl = new AssignedImpl();

@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface AssignedInterface extends CRUD<Assigned> {
 
+
+    public boolean disableByMeasurer(int measurerId) throws Exception;
+
     public List<Assigned> findByBeneficiary(int beneficiaryId) throws Exception;
 
     public List<Assigned> findDistinctBeneficiary() throws Exception;

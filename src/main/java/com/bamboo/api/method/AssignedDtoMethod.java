@@ -41,6 +41,36 @@ public class AssignedDtoMethod {
         return newAssigned;
     }
 
+    public AssignedDto transfer(AssignedDto assigned) throws Exception {
+        AssignedDto newAssigned = null;
+        try {
+
+            newAssigned = new AssignedDto();
+            newAssigned.setBeneficiary(
+                    new BeneficiaryDtoMethod().findById(assigned.getBeneficiary().getId())
+            );
+
+
+            boolean saved = false;
+            for (SimpleAssignedDto simpleAssigned : assigned.getAssigneds()) {
+                if (simpleAssigned.getMeasurer().getStatus() == null) {
+                    simpleAssigned.getMeasurer().setStatus(new StatusDto(1, null));//default status active
+                }
+                if (new SimpleAssignedDtoMethod().transfer(
+                        simpleAssigned, newAssigned.getBeneficiary().getId()
+                ) != null) saved = true;
+            }
+
+            if (saved)
+                newAssigned.setAssigneds(new SimpleAssignedDtoMethod().findByBeneficiary(
+                        newAssigned.getBeneficiary().getId()
+                ));
+        } catch (Exception e) {
+            throw e;
+        }
+        return newAssigned;
+    }
+
 
     public List<AssignedDto> find() throws Exception {
         List<AssignedDto> assigneds = new ArrayList<>();
