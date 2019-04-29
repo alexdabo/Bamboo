@@ -60,16 +60,16 @@
           :beneficiary="assigned.beneficiary"
           @close="dialogTransferMeasurer=false"
         />
-      </v-dialog>
+        </v-dialog-->
 
-      <v-dialog v-model="dialogNewMeasurer" persistent max-width="400px">
-        <NewMeasurerComponent
-          :beneficiary="assigned.beneficiary"
-          @close="dialogNewMeasurer=false"
-          @saved="findAssigned"
-        />
-      </v-dialog>
-      <v-dialog v-model="dialogEditMeasurer" persistent max-width="400px">
+        <v-dialog v-model="dialogNewMeasurer" persistent max-width="400px">
+          <NewMeasurer
+            :beneficiary="assigned.beneficiary"
+            @close="dialogNewMeasurer=false"
+            @saved="findAssignedByBeneficiary"
+          />
+        </v-dialog>
+        <!--v-dialog v-model="dialogEditMeasurer" persistent max-width="400px">
         <EditMeasurerComponent
           :assigned="editAssigned"
           @close="dialogEditMeasurer=false"

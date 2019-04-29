@@ -4,12 +4,14 @@ import FindBeneficiary from '@/components/beneficiary/FindBeneficiary.vue'
 import InfoBeneficiary from '@/components/beneficiary/InfoBeneficiary.vue'
 import Assigned from '@/model/entity/Assigned'
 import AssignedService from '@/model/service/AssignedService'
+import NewMeasurer from '@/components/measurer/NewMeasurer.vue'
 
 @Component({
   name: 'view-measurer',
   components: {
     FindBeneficiary,
-    InfoBeneficiary
+    InfoBeneficiary,
+    NewMeasurer
   }
 })
 

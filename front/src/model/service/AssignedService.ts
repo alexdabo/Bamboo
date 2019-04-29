@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import Service from '@/model/service/Service'
+import Assigned from '@/model/entity/Assigned'
 
 export default class AssignedService extends Service {
   constructor (userId?: number) {
@@ -13,7 +14,15 @@ export default class AssignedService extends Service {
   public getById (id: number) {
     return Axios.get(`${this.url}/${id}`)
   }
-  public getByBeneficiary (beneficiaryIdd: number) {
-    return Axios.get(`${this.url}/beneficiary/${beneficiaryIdd}`)
+  public getByBeneficiary (beneficiaryId: number) {
+    return Axios.get(`${this.url}/beneficiary/${beneficiaryId}`)
+  }
+
+  public postNew (assigned: Assigned) {
+    return Axios.post(`${this.url}/new`, assigned, { headers: this.headers })
+  }
+
+  public postTransfer (assigned: Assigned) {
+    return Axios.post(`${this.url}/new`, assigned, { headers: this.headers })
   }
 }
