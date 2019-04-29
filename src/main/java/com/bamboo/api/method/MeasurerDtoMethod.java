@@ -15,14 +15,15 @@ public class MeasurerDtoMethod {
 
      */
     public MeasurerDto save(MeasurerDto measurerDto) throws Exception {
-        MeasurerDto measurerDto1 = null;
+        MeasurerDto newMeasurer = null;
         MeasurerImpl measurerImpl = new MeasurerImpl();
         try {
-            measurerDto1 = getMeasurerDto(measurerImpl.save(getMeasurer(measurerDto)));
+            newMeasurer = getMeasurerDto(measurerImpl.save(getMeasurer(measurerDto)));
+
         } catch (Exception e) {
             throw e;
         }
-        return measurerDto1;
+        return newMeasurer;
     }
 
     // Return simple

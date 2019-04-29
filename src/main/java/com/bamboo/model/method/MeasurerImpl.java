@@ -15,26 +15,34 @@ public class MeasurerImpl implements MeasurerInterface {
 
     @Override
     public Measurer save(Measurer measurer) throws Exception {
-        Measurer measurer1 = null;
+        Measurer newMeasurer = null;
         measurer.setNumber(random());
-        String sql = "INSERT INTO public.measurer(number, sapid, installationdate ) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO public.measurer(number, sapid, installationdate ) VALUES (?, ?, ?) " +
+                "RETURNING id, sapid, statusid, number, installationdate;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, measurer.getNumber()));
         dbos.add(new DBObject(2, measurer.getSap()));
         dbos.add(new DBObject(3, measurer.getInstallationDate()));
         if (measurer.getId() != 0) {
-            sql = "INSERT INTO public.measurer(number, sapid, installationdate, id) VALUES (?, ?, ?, ?);";
+            sql = "INSERT INTO public.measurer(number, sapid, installationdate, id) VALUES (?, ?, ?, ?) " +
+                    "RETURNING id, sapid, statusid, number, installationdate;";
             dbos.add(new DBObject(4, measurer.getId()));
         }
         try {
-            if (DBC.querySet(sql, dbos)) {
-                measurer1 = findByNumber(measurer.getNumber());
+            ResultSet result = DBC.queryResultSet(sql, dbos);
+            while (result.next()) {
+                newMeasurer = new Measurer();
+                newMeasurer.setId(result.getInt("id"));
+                newMeasurer.setSap(result.getInt("sapid"));
+                newMeasurer.setStatus(result.getInt("statusid"));
+                newMeasurer.setInstallationDate(result.getDate("installationdate"));
+                newMeasurer.setNumber(result.getString("number"));
             }
         } catch (Exception e) {
             throw e;
         }
 
-        return measurer1;
+        return newMeasurer;
     }
 
     @Override

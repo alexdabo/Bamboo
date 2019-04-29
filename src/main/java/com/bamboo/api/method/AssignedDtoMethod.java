@@ -1,6 +1,8 @@
 package com.bamboo.api.method;
 
 import com.bamboo.api.dto.AssignedDto;
+import com.bamboo.api.dto.SimpleAssignedDto;
+import com.bamboo.api.dto.StatusDto;
 import com.bamboo.model.entity.Assigned;
 import com.bamboo.model.method.AssignedImpl;
 
@@ -8,6 +10,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AssignedDtoMethod {
+
+    public AssignedDto save(AssignedDto assigned) throws Exception {
+        AssignedDto newAssigned = null;
+        try {
+
+            newAssigned = new AssignedDto();
+            newAssigned.setBeneficiary(
+                    new BeneficiaryDtoMethod().findById(assigned.getBeneficiary().getId())
+            );
+
+
+            boolean saved = false;
+            for (SimpleAssignedDto simpleAssigned : assigned.getAssigneds()) {
+                if (simpleAssigned.getMeasurer().getStatus() == null) {
+                    simpleAssigned.getMeasurer().setStatus(new StatusDto(1, null));//default status active
+                }
+                if (new SimpleAssignedDtoMethod().save(
+                        simpleAssigned, newAssigned.getBeneficiary().getId()
+                ) != null) saved = true;
+            }
+
+            if (saved)
+                newAssigned.setAssigneds(new SimpleAssignedDtoMethod().findByBeneficiary(
+                        newAssigned.getBeneficiary().getId()
+                ));
+        } catch (Exception e) {
+            throw e;
+        }
+        return newAssigned;
+    }
 
 
     public List<AssignedDto> find() throws Exception {

@@ -31,7 +31,7 @@ public class RoleDto {
     }
 
     @Override
-    public String stoString() {
+    public String toString() {
         return "RoleDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +

@@ -1,5 +1,6 @@
 package com.bamboo.api.method;
 
+import com.bamboo.api.dto.MeasurerDto;
 import com.bamboo.api.dto.SimpleAssignedDto;
 import com.bamboo.model.entity.Assigned;
 import com.bamboo.model.method.AssignedImpl;
@@ -8,6 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleAssignedDtoMethod {
+
+    public SimpleAssignedDto save(SimpleAssignedDto simpleAssigned, int beneficiaryId) throws Exception {
+        SimpleAssignedDto newSimpleAssigned = null;
+
+        try {
+            MeasurerDto newMeasurer = new MeasurerDtoMethod().save(
+                    simpleAssigned.getMeasurer()
+            );
+            simpleAssigned.setMeasurer(newMeasurer);
+
+            if (newMeasurer != null) {
+                newSimpleAssigned = getSimpleAssignedDto(
+                        new AssignedImpl().save(
+                                getAssigned(simpleAssigned, beneficiaryId)
+                        )
+                );
+
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return newSimpleAssigned;
+    }
 
 
     public List<SimpleAssignedDto> find() throws Exception {
@@ -20,7 +44,6 @@ public class SimpleAssignedDtoMethod {
                 list.add(assignedDto);
             }
         } catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
             throw e;
         }
         return list;
@@ -33,11 +56,10 @@ public class SimpleAssignedDtoMethod {
         try {
             for (Assigned assigned : assignedImpl.findByBeneficiary(beneficiaryId)) {
                 SimpleAssignedDto assignedDto = getSimpleAssignedDto(assigned);
-                assignedDto.setMeasurer(new MeasurerDtoMethod().findById(assigned.getBeneficiary()));
+                assignedDto.setMeasurer(new MeasurerDtoMethod().findById(assigned.getMeasurer()));
                 list.add(assignedDto);
             }
         } catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
             throw e;
         }
         return list;
@@ -50,11 +72,10 @@ public class SimpleAssignedDtoMethod {
         try {
             for (Assigned assigned : assignedImpl.findByBeneficiary(beneficiaryId)) {
                 SimpleAssignedDto assignedDto = getSimpleAssignedDto(assigned);
-                assignedDto.setMeasurer(new MeasurerDtoMethod().findByIdWithUptakes(assigned.getBeneficiary()));
+                assignedDto.setMeasurer(new MeasurerDtoMethod().findByIdWithUptakes(assigned.getMeasurer()));
                 list.add(assignedDto);
             }
         } catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
             throw e;
         }
         return list;
@@ -66,11 +87,10 @@ public class SimpleAssignedDtoMethod {
         try {
             for (Assigned assigned : assignedImpl.findByBeneficiary(beneficiaryId)) {
                 SimpleAssignedDto assignedDto = getSimpleAssignedDto(assigned);
-                assignedDto.setMeasurer(new MeasurerDtoMethod().findByIdUnbilledUptakes(assigned.getBeneficiary()));
+                assignedDto.setMeasurer(new MeasurerDtoMethod().findByIdUnbilledUptakes(assigned.getMeasurer()));
                 list.add(assignedDto);
             }
         } catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
             throw e;
         }
         return list;

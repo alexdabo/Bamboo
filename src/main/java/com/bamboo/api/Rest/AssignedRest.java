@@ -11,6 +11,7 @@ import com.bamboo.api.method.SimpleAssignedDtoMethod;
 import com.bamboo.model.entity.Audit;
 import com.bamboo.model.method.AuditImpl;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,9 +37,16 @@ import java.util.stream.Collectors;
 )
 public class AssignedRest extends HttpServlet {
 
-    private final Gson gson = new Gson();
+    private  Gson gson = new Gson();
     private final AssignedDtoMethod assignedMtd = new AssignedDtoMethod();
     private final AuditImpl audit = new AuditImpl("Comunidad");
+
+
+    public AssignedRest() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd");
+        gson = gsonBuilder.create();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -95,7 +103,7 @@ public class AssignedRest extends HttpServlet {
         if (request.getPathInfo() == null) {
             try {
                 AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
-                // assignedDto = assignedMtd.save(assignedDto);
+                assignedDto = assignedMtd.save(assignedDto);
                 if (assignedDto != null) {
                     map.put("saved", true);
                     map.put("assigned", assignedDto);
@@ -120,24 +128,28 @@ public class AssignedRest extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         Map<String, Object> map = new HashMap<>();
         String responseJson;
-/*
+
         if (request.getPathInfo() == null) {
             try {
                 AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
-                if (assignedMtd.update(assignedDto)) {
+                /*if (assignedMtd.update(assignedDto)) {
                     map.put("updated", true);
                     audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + assignedDto.getId()));
                 } else {
                     map.put("updated", false);
                 }
+*/
 
+                map.put("body", assignedDto );
             } catch (Exception ex) {
                 response.setStatus(400);
-                map.put("error", ex.getMessage());
+                map.put("error", "err: "+ex.getMessage());
             }
         } else {
             response.sendError(404);
-*/
+
+
+        }
         responseJson = gson.toJson(map);
         response.getWriter().write(responseJson);
     }

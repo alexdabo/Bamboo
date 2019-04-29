@@ -1,5 +1,6 @@
 package com.bamboo.api.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssignedDto {
@@ -32,6 +33,7 @@ public class AssignedDto {
     }
 
     public void addAssigned(SimpleAssignedDto assigned) {
+        this.assigneds = new ArrayList<>();
         this.assigneds.add(assigned);
     }
 
