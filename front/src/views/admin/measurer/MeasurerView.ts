@@ -5,13 +5,15 @@ import InfoBeneficiary from '@/components/beneficiary/InfoBeneficiary.vue'
 import Assigned from '@/model/entity/Assigned'
 import AssignedService from '@/model/service/AssignedService'
 import NewMeasurer from '@/components/measurer/NewMeasurer.vue'
+import TransferMeasurer from '@/components/measurer/TransferMeasurer.vue'
 
 @Component({
   name: 'view-measurer',
   components: {
     FindBeneficiary,
     InfoBeneficiary,
-    NewMeasurer
+    NewMeasurer,
+    TransferMeasurer
   }
 })
 

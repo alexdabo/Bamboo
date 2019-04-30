@@ -19,13 +19,14 @@
         color="primary"
         class="mb-2"
         icon
+        :disabled="assigned.beneficiary.id===0"
         @click="findAssignedByBeneficiary(assigned.beneficiary.id)"
       >
         <v-icon>refresh</v-icon>
       </v-btn>
 
-      <v-menu offset-y origin="top bottom" transition="scale-transition">
-        <v-btn slot="activator" color="primary" icon>
+      <v-menu :disabled="assigned.beneficiary.id===0" offset-y origin="top bottom" transition="scale-transition">
+        <v-btn :disabled="assigned.beneficiary.id===0" slot="activator" color="primary" icon>
           <v-icon>more_vert</v-icon>
         </v-btn>
         <v-list>
@@ -48,7 +49,6 @@
           </v-list-tile>
         </v-list>
       </v-menu>
-
       <v-dialog
         v-model="dialogTransferMeasurer"
         fullscreen
@@ -56,11 +56,12 @@
         persistent
         transition="dialog-bottom-transition"
       >
-        <!--TransferMeasurerComponent
+        <TransferMeasurer
           :beneficiary="assigned.beneficiary"
           @close="dialogTransferMeasurer=false"
+          @saved="findAssignedByBeneficiary"
         />
-        </v-dialog-->
+        </v-dialog>
 
         <v-dialog v-model="dialogNewMeasurer" persistent max-width="400px">
           <NewMeasurer
@@ -74,8 +75,8 @@
           :assigned="editAssigned"
           @close="dialogEditMeasurer=false"
           @saved="findAssigned"
-        /-->
-      </v-dialog>
+        />
+      </v-dialog-->
     </v-toolbar>
     <v-card>
       <InfoBeneficiary :beneficiary="assigned.beneficiary"/>
