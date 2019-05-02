@@ -143,16 +143,17 @@ public class AssignedRest extends HttpServlet {
         Map<String, Object> map = new HashMap<>();
         String responseJson;
 
-        if (request.getPathInfo() == null) {
+        if (request.getPathInfo() == null && request.getServletPath().equals("/api/assigned")) {
             try {
                 AssignedDto assignedDto = gson.fromJson(request.getReader().lines().collect(Collectors.joining()), AssignedDto.class);
-                /*if (assignedMtd.update(assignedDto)) {
+                assignedDto = assignedMtd.update(assignedDto);
+                if (assignedDto!=null) {
                     map.put("updated", true);
-                    audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "id: " + assignedDto.getId()));
+                    audit.update(new Audit(Integer.parseInt(request.getHeader("user")), "" ));
                 } else {
                     map.put("updated", false);
                 }
-*/
+
 
                 map.put("body", assignedDto);
             } catch (Exception ex) {

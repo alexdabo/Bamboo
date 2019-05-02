@@ -71,6 +71,31 @@ public class AssignedDtoMethod {
         return newAssigned;
     }
 
+    public AssignedDto update(AssignedDto assigned) throws Exception {
+        AssignedDto newAssigned = null;
+        try {
+
+            newAssigned = new AssignedDto();
+            newAssigned.setBeneficiary(assigned.getBeneficiary());
+
+
+            boolean updated = false;
+            for (SimpleAssignedDto simpleAssigned : assigned.getAssigneds()) {
+                if (new SimpleAssignedDtoMethod().update(
+                        simpleAssigned, newAssigned.getBeneficiary().getId()
+                )) updated = true;
+            }
+
+            if (updated)
+                newAssigned.setAssigneds(new SimpleAssignedDtoMethod().findByBeneficiary(
+                        newAssigned.getBeneficiary().getId()
+                ));
+        } catch (Exception e) {
+            throw e;
+        }
+        return newAssigned;
+    }
+
 
     public List<AssignedDto> find() throws Exception {
         List<AssignedDto> assigneds = new ArrayList<>();

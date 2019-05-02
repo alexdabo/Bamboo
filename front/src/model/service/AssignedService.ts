@@ -25,4 +25,8 @@ export default class AssignedService extends Service {
   public postTransfer (assigned: Assigned) {
     return Axios.post(`${this.url}/transfer`, assigned, { headers: this.headers })
   }
+
+  public put (assigned: Assigned) {
+    return Axios.put(`${this.url}`, assigned, { headers: this.headers })
+  }
 }

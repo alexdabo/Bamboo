@@ -25,7 +25,12 @@
         <v-icon>refresh</v-icon>
       </v-btn>
 
-      <v-menu :disabled="assigned.beneficiary.id===0" offset-y origin="top bottom" transition="scale-transition">
+      <v-menu
+        :disabled="assigned.beneficiary.id===0"
+        offset-y
+        origin="top bottom"
+        transition="scale-transition"
+      >
         <v-btn :disabled="assigned.beneficiary.id===0" slot="activator" color="primary" icon>
           <v-icon>more_vert</v-icon>
         </v-btn>
@@ -61,22 +66,22 @@
           @close="dialogTransferMeasurer=false"
           @saved="findAssignedByBeneficiary"
         />
-        </v-dialog>
+      </v-dialog>
 
-        <v-dialog v-model="dialogNewMeasurer" persistent max-width="400px">
-          <NewMeasurer
-            :beneficiary="assigned.beneficiary"
-            @close="dialogNewMeasurer=false"
-            @saved="findAssignedByBeneficiary"
-          />
-        </v-dialog>
-        <!--v-dialog v-model="dialogEditMeasurer" persistent max-width="400px">
-        <EditMeasurerComponent
+      <v-dialog v-model="dialogNewMeasurer" persistent max-width="400px">
+        <NewMeasurer
+          :beneficiary="assigned.beneficiary"
+          @close="dialogNewMeasurer=false"
+          @saved="findAssignedByBeneficiary"
+        />
+      </v-dialog>
+      <v-dialog v-model="dialogEditMeasurer" persistent max-width="400px">
+        <EditMeasurer
           :assigned="editAssigned"
           @close="dialogEditMeasurer=false"
-          @saved="findAssigned"
+          @saved="findAssignedByBeneficiary"
         />
-      </v-dialog-->
+      </v-dialog>
     </v-toolbar>
     <v-card>
       <InfoBeneficiary :beneficiary="assigned.beneficiary"/>
@@ -85,26 +90,27 @@
           <td>{{ props.item.measurer.number }}</td>
           <td>{{ props.item.measurer.sap.name }}</td>
           <td>{{ props.item.measurer.installationDate }}</td>
-          <td v-if="props.item.status==='enable'" class="text-xs-center">
+          <td class="text-xs-center">
             <span
-              v-if="props.item.measurer.status.name==='Activo'"
+              v-if="props.item.measurer.status.id===1"
               class="success"
             >{{ props.item.measurer.status.name }}</span>
             <span
-              v-if="props.item.measurer.status.name==='Suspendido'"
+              v-if="props.item.measurer.status.id===2"
               class="warning"
             >{{ props.item.measurer.status.name }}</span>
             <span
-              v-if="props.item.measurer.status.name==='Dañado'"
+              v-if="props.item.measurer.status.id===3"
               class="warning"
             >{{ props.item.measurer.status.name }}</span>
-          </td>
-          <td v-else class="text-xs-center">
-            <span class="error">Sin servicio</span>
+            <span
+              v-if="props.item.measurer.status.id===4 && props.item.status==='disable'"
+              class="orange"
+            >{{ props.item.measurer.status.name }}</span>
           </td>
           <td class="text-xs-right">${{ props.item.debt }}</td>
           <td class="text-xs-center">
-            <v-btn icon dark @click="edit(props.item)">
+            <v-btn icon dark @click="toEdit(props.item)">
               <v-icon color="grey">edit</v-icon>
             </v-btn>
           </td>

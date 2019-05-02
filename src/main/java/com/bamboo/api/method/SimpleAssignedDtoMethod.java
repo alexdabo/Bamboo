@@ -4,6 +4,7 @@ import com.bamboo.api.dto.MeasurerDto;
 import com.bamboo.api.dto.SimpleAssignedDto;
 import com.bamboo.model.entity.Assigned;
 import com.bamboo.model.method.AssignedImpl;
+import com.bamboo.model.method.MeasurerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class SimpleAssignedDtoMethod {
         AssignedImpl assignedImpl = new AssignedImpl();
         try {
             Assigned assigned = getAssigned(simpleAssigned, beneficiaryId);
-            if (assignedImpl.disableByMeasurer(assigned.getMeasurer())){
+            if (assignedImpl.disableByMeasurer(assigned.getMeasurer())) {
                 newSimpleAssigned = getSimpleAssignedDto(
                         assignedImpl.save(assigned)
                 );
@@ -49,6 +50,29 @@ public class SimpleAssignedDtoMethod {
             throw e;
         }
         return newSimpleAssigned;
+    }
+
+    public boolean update(SimpleAssignedDto simpleAssigned, int beneficiaryId) throws Exception {
+        boolean affected = false;
+        AssignedImpl assignedImpl = new AssignedImpl();
+        try {
+            Assigned assigned = getAssigned(simpleAssigned, beneficiaryId);
+            if (simpleAssigned.getMeasurer().getStatus().getId()==4){
+                assigned.setStatus("disable");
+            }else{
+                assigned.setStatus("enable");
+            }
+
+            if (new MeasurerDtoMethod().update(simpleAssigned.getMeasurer()))
+                if (assignedImpl.update(assigned)) {
+                    affected = true;
+                }
+
+
+        } catch (Exception e) {
+            throw e;
+        }
+        return affected;
     }
 
 
