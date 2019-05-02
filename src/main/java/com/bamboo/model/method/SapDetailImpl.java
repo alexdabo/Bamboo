@@ -74,6 +74,32 @@ public class SapDetailImpl implements SapDetailInterface {
         return SapDetails;
     }
 
+    public List<SapDetail> findByBeneficiary(int beneficiaryId) throws Exception {
+        List<SapDetail> SapDetails = new ArrayList<>();
+        String sql = "SELECT detail.id, detail.invoiceid, detail.uptakeid FROM sapdetail detail " +
+                "INNER JOIN invoice ON detail.invoiceid = invoice.id " +
+                "INNER JOIN beneficiary ON invoice.beneficiaryid = beneficiary.id " +
+                "WHERE beneficiary.id = ?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, beneficiaryId));
+
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                SapDetail detail = new SapDetail();
+                detail.setId(result.getInt("id"));
+                detail.setInvoice(result.getInt("invoiceid"));
+                detail.setUptake(result.getInt("uptakeid"));
+                SapDetails.add(detail);
+
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            throw e;
+        }
+
+        return SapDetails;
+    }
+
     @Override
     public SapDetail findById(int id) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
