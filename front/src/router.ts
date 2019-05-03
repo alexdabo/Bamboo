@@ -27,9 +27,19 @@ export default new Router({
           component: () => import('@/views/admin/dashboard/DashboardView.vue')
         },
         {
-          path: 'accounts',
-          name: 'accounts'
-          // component: () => import('@/views/admin/AccountsComponent.vue')
+          path: 'invoice/sap',
+          name: 'invoiceSap',
+          component: () => import('@/views/admin/invoicesap/InvoiceSapView.vue')
+        },
+        {
+          path: 'invoice/another',
+          name: 'invoiceAnother',
+          component: () => import('@/views/admin/invoiceanother/InvoiceAnotherView.vue')
+        },
+        {
+          path: 'invoice/balance',
+          name: 'balance',
+          component: () => import('@/views/admin/invoice/DailyBalanceView.vue')
         },
         {
           path: 'beneficiaries',
