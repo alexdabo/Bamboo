@@ -53,7 +53,10 @@ public class SapDetailImpl implements SapDetailInterface {
     @Override
     public List<SapDetail> findByInvoice(int invoiceId) throws Exception {
         List<SapDetail> SapDetails = new ArrayList<>();
-        String sql = "SELECT id, invoiceid, uptakeid FROM public.sapdetail WHERE invoiceid=?;";
+        String sql = "SELECT DISTINCT ON (beneficiary.id) detail.id, detail.invoiceid, detail.uptakeid FROM sapdetail detail " +
+                "INNER JOIN invoice ON detail.invoiceid = invoice.id " +
+                "INNER JOIN beneficiary ON invoice.beneficiaryid = beneficiary.id " +
+                "WHERE detail.invoiceid = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, invoiceId));
 
@@ -76,7 +79,7 @@ public class SapDetailImpl implements SapDetailInterface {
 
     public List<SapDetail> findByBeneficiary(int beneficiaryId) throws Exception {
         List<SapDetail> SapDetails = new ArrayList<>();
-        String sql = "SELECT detail.id, detail.invoiceid, detail.uptakeid FROM sapdetail detail " +
+        String sql = "SELECT DISTINCT ON (beneficiary.id) detail.id, detail.invoiceid, detail.uptakeid FROM sapdetail detail " +
                 "INNER JOIN invoice ON detail.invoiceid = invoice.id " +
                 "INNER JOIN beneficiary ON invoice.beneficiaryid = beneficiary.id " +
                 "WHERE beneficiary.id = ?;";

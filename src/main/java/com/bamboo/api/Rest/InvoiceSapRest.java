@@ -12,7 +12,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "InvoiceSapRest", urlPatterns = {"/api/invoice/sap/*"})
+@WebServlet(
+        name = "InvoiceSapRest",
+        urlPatterns = {
+                "/api/invoice/sap/*",
+                "/api/invoice/sap/beneficiary/*"
+        })
 public class InvoiceSapRest extends HttpServlet {
     private final InvoiceSapDtoMethod invoiceSapMtd = new InvoiceSapDtoMethod();
     private final Gson gson = new Gson();
@@ -23,21 +28,25 @@ public class InvoiceSapRest extends HttpServlet {
         Map<String, Object> map = new HashMap<>();
         String responseJson = "";
         try {
+            switch (request.getServletPath()) {
+                case "/api/invoice/sap":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(invoiceSapMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
+                    break;
+                case "/api/invoice/sap/beneficiary":
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        responseJson = gson.toJson(invoiceSapMtd.findByBeneficiary(Integer.parseInt(request.getPathInfo().substring(1))));
+                    } else {
+                        response.sendError(404);
+                    }
+                    break;
 
-            // Get all invoiceSaps
-            if (request.getPathInfo() == null) {
-                //responseJson = gson.toJson(invoiceSapMtd.findByBeneficiary());
+
             }
 
-            // Get invoiceSap by id
-            else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
-                responseJson = gson.toJson(invoiceSapMtd.findByBeneficiary(Integer.parseInt(request.getPathInfo().substring(1))));
-            }
-
-            // Route not found
-            else {
-                response.sendError(404);
-            }
         } catch (Exception ex) {
             response.sendError(400);
             map.put("error", ex.getMessage());
