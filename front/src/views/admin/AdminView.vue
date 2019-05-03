@@ -8,18 +8,44 @@
           <v-toolbar-title class="white--text">Bamboo</v-toolbar-title>
         </v-toolbar>
         <v-list>
-          <v-list-tile
-            v-for="(item,index) in sideBarItems"
-            :key="index"
-            @click="changeView(item.routerName)"
-          >
-            <v-list-tile-action>
-              <v-icon>{{item.icon}}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{item.title}}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+          <div v-for="(item,index) in sideBarItems" :key="index">
+            <v-list-tile v-if="!item.children" @click="changeView(item.routerName)">
+              <v-list-tile-action>
+                <v-icon>{{item.icon}}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>{{item.title}}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list v-else>
+              <v-list-group no-action>
+                <template v-slot:activator>
+                  <v-list-tile>
+                    <v-list-tile-action>
+                      <v-icon>{{item.icon}}</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                      <v-list-tile-title>{{item.title}}</v-list-tile-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                </template>
+
+                <v-list-tile
+                  v-for="(subitem,subindex) in item.children"
+                  :key="subindex"
+                  @click="changeView(subitem.routerName)"
+                >
+                  <v-list-tile-action v-if="subitem.icon">
+                    <v-icon>{{subitem.icon}}</v-icon>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{subitem.title}}</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-group>
+            </v-list>
+          </div>
         </v-list>
       </v-navigation-drawer>
 

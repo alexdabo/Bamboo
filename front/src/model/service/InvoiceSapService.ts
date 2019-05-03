@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import Service from '@/model/service/Service'
 
-export default class RoleService extends Service {
+export default class InvoiceSapService extends Service {
   constructor (userId?: number) {
     super('/invoice/sap', userId)
   }

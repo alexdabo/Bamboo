@@ -1,10 +1,17 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
+interface Route {
+  icon?: string;
+  title: string;
+  routerName?: string;
+}
+
 interface Item {
   icon: string;
   title: string;
-  routerName: string;
+  routerName?: string;
+  children?: Route[]
 }
 
 @Component({ name: 'admin-view' })
@@ -13,7 +20,15 @@ export default class AdminView extends Vue {
   public sideBarItems: Item[] = [
     { icon: 'home', title: 'Principal', routerName: 'home' },
     { icon: 'dashboard', title: 'Dashboard', routerName: 'dashboard' },
-    { icon: 'account_balance_wallet', title: 'Cuentas', routerName: 'accounts' },
+    {
+      icon: 'account_balance_wallet',
+      title: 'Cuentas',
+      children: [
+        { title: 'Balance Diario', routerName: 'balance' },
+        { title: 'Factura SAP', routerName: 'invoiceSap' },
+        { title: 'Factura Otos Servicios', routerName: 'invoiceAnother' }
+      ]
+    },
     { icon: 'person', title: 'Usuarios', routerName: 'users' },
     { icon: 'people', title: 'Beneficiarios', routerName: 'beneficiaries' },
     { icon: 'timer', title: 'Medidores', routerName: 'measurers' },
