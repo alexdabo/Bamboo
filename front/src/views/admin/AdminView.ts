@@ -32,7 +32,14 @@ export default class AdminView extends Vue {
     { icon: 'person', title: 'Usuarios', routerName: 'users' },
     { icon: 'people', title: 'Beneficiarios', routerName: 'beneficiaries' },
     { icon: 'timer', title: 'Medidores', routerName: 'measurers' },
-    { icon: 'format_list_bulleted', title: 'Servicios', routerName: 'services' },
+    {
+      icon: 'format_list_bulleted',
+      title: 'Servicios',
+      children: [
+        { title: 'SAP', routerName: 'serviceSap' },
+        { title: 'Otros', routerName: 'serviceAnother' }
+      ]
+    },
     { icon: 'map', title: 'Comunidades', routerName: 'villages' },
     { icon: 'description', title: 'Reportes', routerName: 'reports' }
   ];

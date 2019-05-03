@@ -57,9 +57,14 @@ export default new Router({
           component: () => import('@/views/admin/measurer/MeasurerView.vue')
         },
         {
-          path: 'services',
-          name: 'services',
-          component: () => import('@/views/admin/service/ServiceView.vue')
+          path: 'service/sap',
+          name: 'serviceSap',
+          component: () => import('@/views/admin/sap/SapView.vue')
+        },
+        {
+          path: 'service/another',
+          name: 'serviceAnother',
+          component: () => import('@/views/admin/another/AnotherView.vue')
         },
         {
           path: 'reports',
@@ -70,6 +75,11 @@ export default new Router({
           path: 'villages',
           name: 'villages',
           component: () => import('@/views/admin/village/VillageView.vue')
+        },
+        {
+          path: 'help',
+          name: 'adminhelp',
+          component: () => import('@/views/admin/help/AdminHelpView.vue')
         },
         {
           path: 'settings',
