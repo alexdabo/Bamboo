@@ -200,11 +200,14 @@ public class AssignedImpl implements AssignedInterface {
     }
 
     @Override
-    public Assigned findByActiveMeasurer(int measurerId) throws Exception {
+    public Assigned findByActiveMeasurer(String measurerNumber) throws Exception {
         Assigned assigned = null;
-        String sql = "SELECT id, beneficiaryid, measurerid, debt, assignmentdate, status FROM public.assigned WHERE measurerid=? and status='enable' ;";
+        String sql = "SELECT assigned.id, assigned.beneficiaryid, assigned.measurerid, assigned.debt, " +
+                "assigned.assignmentdate, assigned.status FROM public.assigned " +
+                "INNER JOIN measurer ON assigned.measurerid=measurer.id " +
+                "WHERE measurer.number=? and assigned.status='enable';";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, measurerId));
+        dbos.add(new DBObject(1, measurerNumber));
 
         try {
             ResultSet result = DBC.queryGet(sql, dbos);

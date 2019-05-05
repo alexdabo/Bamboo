@@ -57,6 +57,11 @@ export default new Router({
           component: () => import('@/views/admin/measurer/MeasurerView.vue')
         },
         {
+          path: 'uptake',
+          name: 'adminUptake',
+          component: () => import('@/views/admin/uptake/UptakeView.vue')
+        },
+        {
           path: 'service/sap',
           name: 'serviceSap',
           component: () => import('@/views/admin/sap/SapView.vue')

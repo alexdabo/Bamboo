@@ -10,7 +10,7 @@ public interface AssignedInterface extends CRUD<Assigned> {
 
     public boolean disableByMeasurer(int measurerId) throws Exception;
 
-    public Assigned findByActiveMeasurer(int measurerId) throws Exception;
+    public Assigned findByActiveMeasurer(String measurerNumber) throws Exception;
 
     public List<Assigned> findByBeneficiary(int beneficiaryId) throws Exception;
 

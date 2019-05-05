@@ -159,12 +159,12 @@ public class AssignedDtoMethod {
 
     }
 
-    public AssignedDto findByActiveMeasurer(int measurerId) throws Exception {
+    public AssignedDto findByActiveMeasurer(String measurerNumber) throws Exception {
         AssignedDto assignedDto = null;
 
         try {
             assignedDto = new AssignedDto();
-            int beneficiaryId = new AssignedImpl().findByActiveMeasurer(measurerId).getBeneficiary();
+            int beneficiaryId = new AssignedImpl().findByActiveMeasurer(measurerNumber).getBeneficiary();
 
 
             assignedDto = new AssignedDto();

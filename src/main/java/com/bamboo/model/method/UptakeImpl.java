@@ -176,7 +176,7 @@ public class UptakeImpl implements UptakeInterface {
     public List<Uptake> findByMeasurer(int measurerId) throws Exception {
         List<Uptake> uptakes = new ArrayList<>();
         String sql = "SELECT id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, extraprice, volumeconsumed, volumeexceeded, totalprice, billed "
-                + "FROM public.uptake where measurerid = ? ORDER BY id DESC lIMIT 10;";
+                + "FROM public.uptake where measurerid = ? ORDER BY datetaked ASC lIMIT 10;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, measurerId));
         try {

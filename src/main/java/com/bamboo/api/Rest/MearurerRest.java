@@ -5,6 +5,7 @@ import com.bamboo.api.dto.UptakeDto;
 import com.bamboo.api.method.AssignedDtoMethod;
 import com.bamboo.api.method.BeneficiaryDtoMethod;
 import com.bamboo.api.method.MeasurerDtoMethod;
+import com.bamboo.api.method.UptakeDtoMethod;
 import com.bamboo.model.entity.Measurer;
 import com.bamboo.model.entity.Uptake;
 import com.bamboo.model.method.*;
@@ -29,6 +30,7 @@ import java.util.Map;
                 "/api/measurer/simple",
                 // Simple search for meter by id
                 "/api/measurer/simple/*",
+                "/api/measurer/simple/by/number/*",
                 // Simple meter search by SAP.
                 "/api/measurer/simple/by/sap/*",
                 // Simple meter search by status.
@@ -67,7 +69,6 @@ public class MearurerRest extends HttpServlet {
 
                 case "/api/measurer/simple":
 
-                    String pathInfoList[] = request.getPathInfo().split("/");
 
                     // Get all measurers
                     if (request.getPathInfo() == null) {
@@ -75,13 +76,8 @@ public class MearurerRest extends HttpServlet {
                     }
 
                     // Get measurer by id
-                    else if (request.getPathInfo() != null && pathInfoList.length == 2) {
+                    else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                         responseJson = gson.toJson(measurerMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
-                    }
-                    else if (request.getPathInfo() != null && pathInfoList.length >= 2 && pathInfoList[2].equals("andbeneficiary")) {
-                        map.put("measurer",measurerMtd.findById(Integer.parseInt(pathInfoList[1])));
-                        map.put("beneficiary",new AssignedDtoMethod().findByActiveMeasurer(Integer.parseInt(pathInfoList[1])).getBeneficiary());
-                        responseJson=gson.toJson(map);
                     }
 
                     // Route not found
@@ -90,6 +86,19 @@ public class MearurerRest extends HttpServlet {
                     }
                     break;
 
+                case "/api/measurer/simple/by/number":
+System.out.println();
+                    if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                        MeasurerDto measurerDto = measurerMtd.findByNumber(request.getPathInfo().substring(1));
+                        map.put("measurer", measurerDto);
+                        map.put("beneficiary", new AssignedDtoMethod().findByActiveMeasurer(request.getPathInfo().substring(1)).getBeneficiary());
+                        map.put("history", new UptakeDtoMethod().findByMeasurer(measurerDto.getId()));
+                        responseJson = gson.toJson(map);
+                    }  // Route not found
+                    else {
+                        response.sendError(404);
+                    }
+                    break;
                 case "/api/measurer/simple/by/sap":
                     if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
                         responseJson = gson.toJson(measurerMtd.findBySap(Integer.parseInt(request.getPathInfo().substring(1))));

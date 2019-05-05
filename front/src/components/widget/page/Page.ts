@@ -5,6 +5,11 @@ export default class Page extends Vue {
   public success (title: string, msg?: string): void {
     this.$store.commit('showSuccess', { title, msg })
   }
+
+  public warning (title: string, msg?: string): void {
+    this.$store.commit('showWarning', { title, msg })
+  }
+
   public error (title: string, msg?: string): void {
     this.$store.commit('showError', { title, msg })
   }

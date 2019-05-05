@@ -51,6 +51,17 @@ public class MeasurerDtoMethod {
         }
         return measurerDto;
     }
+    public MeasurerDto findByNumber(String number) throws Exception {
+        MeasurerDto measurerDto = null;
+        MeasurerImpl measurerImpl = new MeasurerImpl();
+        try {
+            measurerDto = getMeasurerDto(measurerImpl.findByNumber(number));
+
+        } catch (Exception e) {
+            throw e;
+        }
+        return measurerDto;
+    }
 
     public List<MeasurerDto> findBySap(int id) throws Exception {
         List<MeasurerDto> list = new ArrayList<>();

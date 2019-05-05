@@ -2,7 +2,7 @@
   <div id="app">
     <v-app id="inspire">
       <!--SIDEBAR-->
-      <v-navigation-drawer fixed v-model="drawer" app dark>
+      <v-navigation-drawer fixed v-model="drawer" app dark style="z-index:999">
         <v-toolbar dark @click="changeView('home')" class="home_logo">
           <img src="@/assets/logo.svg" width="53" alt>
           <v-toolbar-title class="white--text">Bamboo</v-toolbar-title>
@@ -50,7 +50,7 @@
       </v-navigation-drawer>
 
       <!--TOOLBAR-->
-      <v-toolbar fixed app class="white content_toolbar">
+      <v-toolbar fixed app clipped-right class="white content_toolbar">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title>Gestión JAP</v-toolbar-title>
         <v-spacer></v-spacer>
