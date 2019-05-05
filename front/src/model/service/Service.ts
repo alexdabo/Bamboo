@@ -4,8 +4,8 @@ export default class Service {
     public headers: any;
     constructor (url: string, userId?: number) {
       this.url = process.env.NODE_ENV === 'development'
-        ? `http://localhost:8080/bamboo/api${url}`
-        : `/bamboo/api${url}`
+        ? `http://localhost:8080/api${url}`
+        : `/api${url}`
 
       this.headers = {
         'Accept': 'application/json',
