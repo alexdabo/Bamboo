@@ -55,7 +55,6 @@
               </v-menu>
             </v-flex>
           </v-layout>
-          {{assigned}}
         </v-container>
       </template>
       <template slot="footer">
