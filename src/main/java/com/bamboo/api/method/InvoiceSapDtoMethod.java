@@ -1,7 +1,9 @@
 package com.bamboo.api.method;
 
 import com.bamboo.api.dto.InvoiceSapDto;
+import com.bamboo.api.dto.UptakeDto;
 import com.bamboo.model.entity.Invoice;
+import com.bamboo.model.entity.Sap;
 import com.bamboo.model.entity.SapDetail;
 import com.bamboo.model.method.InvoiceImpl;
 import com.bamboo.model.method.SapDetailImpl;
@@ -50,6 +52,55 @@ public class InvoiceSapDtoMethod {
             invoiceSapDto.setDetail(new UptakeDtoMethod().findByInvoice(invoice.getId()));
         }
         return invoiceSapDto;
+    }
+
+    public InvoiceSapDto save(InvoiceSapDto invoiceSap) throws Exception {
+        InvoiceSapDto newInvoiceSap = null;
+        boolean saved = false;
+        Invoice invoice = new InvoiceImpl().save(getInvoice(invoiceSap));
+        if (invoice != null && invoice.getId() != 0) {
+            for (UptakeDto uptakeDto : invoiceSap.getDetail()) {
+                SapDetail sapDetail = new SapDetail();
+                sapDetail.setInvoice(invoice.getId());
+                sapDetail.setUptake(uptakeDto.getId());
+                sapDetail = new SapDetailImpl().save(sapDetail);
+                if (sapDetail != null) {
+                    saved = true;
+                }
+            }
+            if (saved) {
+                newInvoiceSap.setDetail(new UptakeDtoMethod().findByInvoice(invoice.getId()));
+            }
+        } else {
+            throw new Exception("La factura no se pudo crear.");
+        }
+
+
+        return newInvoiceSap;
+    }
+
+    private Invoice getInvoice(InvoiceSapDto invoiceSap) {
+        Invoice invoice = new Invoice();
+        invoice.setId(invoiceSap.getId());
+        invoice.setNumber(invoiceSap.getNumber());
+        invoice.setDateOfIssue(invoiceSap.getDateOfIssue());
+        invoice.setTotalToPay(invoice.getTotalToPay());
+        invoice.setIsPayed(invoiceSap.isPayed());
+        invoice.setBeneficiary(invoiceSap.getBeneficiary().getId());
+        invoice.setDebtcollector(invoiceSap.getDebtcollector().getId());
+        return invoice;
+    }
+
+    private InvoiceSapDto getInvoiceSap(Invoice invoice) throws Exception {
+        InvoiceSapDto invoiceSap = new InvoiceSapDto();
+        invoiceSap.setId(invoiceSap.getId());
+        invoiceSap.setNumber(invoiceSap.getNumber());
+        invoiceSap.setDateOfIssue(invoiceSap.getDateOfIssue());
+        invoiceSap.setTotalToPay(invoice.getTotalToPay());
+        invoiceSap.setPayed(invoice.isPayed());
+        invoiceSap.setBeneficiary(new BeneficiaryDtoMethod().findById(invoice.getBeneficiary()));
+        invoiceSap.setDebtcollector(new UserDtoMethod().findById(invoice.getDebtcollector()));
+        return invoiceSap;
     }
 
 }

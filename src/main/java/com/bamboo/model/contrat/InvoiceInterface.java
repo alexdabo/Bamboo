@@ -12,6 +12,8 @@ public interface InvoiceInterface {
 
     public List<Invoice> find() throws Exception;
 
+    public List<Invoice> findByDate(String date) throws Exception;
+
     public boolean update(Invoice invoice) throws Exception;
 
     public boolean delete(Invoice invoice) throws Exception;
