@@ -5,6 +5,7 @@
         <v-text-field v-model="user.firstName" label="Apellidos" required></v-text-field>
         <v-text-field v-model="user.lastName" label="Nombres" required></v-text-field>
         <v-text-field v-model="user.dni" label="Cédula" required></v-text-field>
+        <v-text-field v-model="user.userName" label="Nombre de usuario" required></v-text-field>
         <v-text-field v-model="user.telephone" label="Teléfono" required></v-text-field>
         <v-text-field v-model="user.email" label="Correo Electrónico" required></v-text-field>
         <v-text-field v-model="user.address" label="Dirección"></v-text-field>

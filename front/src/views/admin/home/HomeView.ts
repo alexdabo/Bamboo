@@ -12,11 +12,11 @@ interface Item {
 export default class HomeView extends Vue {
     public viewItems: Item[] = [
       { imageName: 'dashboard', title: 'Dashboard', routerName: 'dashboard' },
-      { imageName: 'invoice', title: 'Cuentas', routerName: 'accounts' },
+      { imageName: 'invoice', title: 'Cuentas', routerName: 'balance' },
       { imageName: 'user', title: 'Usuarios', routerName: 'users' },
       { imageName: 'beneficiaries', title: 'Beneficiarios', routerName: 'beneficiaries' },
       { imageName: 'measurer', title: 'Medidores', routerName: 'measurers' },
-      { imageName: 'services', title: 'Servicios', routerName: 'services' },
+      { imageName: 'services', title: 'Servicios', routerName: 'serviceSap' },
       { imageName: 'reports', title: 'Reportes', routerName: 'reports' }
     ];
 

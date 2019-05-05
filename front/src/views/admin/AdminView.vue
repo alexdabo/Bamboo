@@ -62,7 +62,7 @@
           <v-card class="elevation-0">
             <v-toolbar card dense color="transparent">
               <v-toolbar-title>
-                <!--h5>{{this.$store.state.user.lastName}} {{this.$store.state.user.firstName}}</h5-->
+                <h5>{{userName}}</h5>
               </v-toolbar-title>
             </v-toolbar>
             <v-divider></v-divider>
