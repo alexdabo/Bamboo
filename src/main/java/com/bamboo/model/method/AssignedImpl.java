@@ -199,4 +199,29 @@ public class AssignedImpl implements AssignedInterface {
         return affected;
     }
 
+    @Override
+    public Assigned findByActiveMeasurer(int measurerId) throws Exception {
+        Assigned assigned = null;
+        String sql = "SELECT id, beneficiaryid, measurerid, debt, assignmentdate, status FROM public.assigned WHERE measurerid=? and status='enable' ;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, measurerId));
+
+        try {
+            ResultSet result = DBC.queryGet(sql, dbos);
+            while (result.next()) {
+                assigned = new Assigned();
+                assigned.setId(result.getInt("id"));
+                assigned.setBeneficiary(result.getInt("beneficiaryid"));
+                assigned.setMeasurer(result.getInt("measurerid"));
+                assigned.setAssignmentDate(result.getDate("assignmentdate"));
+                assigned.setStatus(result.getString("status"));
+                assigned.setDebt(result.getDouble("debt"));
+
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return assigned;
+    }
+
 }

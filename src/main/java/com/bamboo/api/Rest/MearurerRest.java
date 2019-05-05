@@ -2,13 +2,12 @@ package com.bamboo.api.Rest;
 
 import com.bamboo.api.dto.MeasurerDto;
 import com.bamboo.api.dto.UptakeDto;
+import com.bamboo.api.method.AssignedDtoMethod;
+import com.bamboo.api.method.BeneficiaryDtoMethod;
 import com.bamboo.api.method.MeasurerDtoMethod;
 import com.bamboo.model.entity.Measurer;
 import com.bamboo.model.entity.Uptake;
-import com.bamboo.model.method.MeasurerImpl;
-import com.bamboo.model.method.SapImpl;
-import com.bamboo.model.method.StatusImpl;
-import com.bamboo.model.method.UptakeImpl;
+import com.bamboo.model.method.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -68,14 +67,21 @@ public class MearurerRest extends HttpServlet {
 
                 case "/api/measurer/simple":
 
+                    String pathInfoList[] = request.getPathInfo().split("/");
+
                     // Get all measurers
                     if (request.getPathInfo() == null) {
                         responseJson = gson.toJson(measurerMtd.find());
                     }
 
                     // Get measurer by id
-                    else if (request.getPathInfo() != null && request.getPathInfo().split("/").length == 2) {
+                    else if (request.getPathInfo() != null && pathInfoList.length == 2) {
                         responseJson = gson.toJson(measurerMtd.findById(Integer.parseInt(request.getPathInfo().substring(1))));
+                    }
+                    else if (request.getPathInfo() != null && pathInfoList.length >= 2 && pathInfoList[2].equals("andbeneficiary")) {
+                        map.put("measurer",measurerMtd.findById(Integer.parseInt(pathInfoList[1])));
+                        map.put("beneficiary",new AssignedDtoMethod().findByActiveMeasurer(Integer.parseInt(pathInfoList[1])).getBeneficiary());
+                        responseJson=gson.toJson(map);
                     }
 
                     // Route not found

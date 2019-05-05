@@ -159,5 +159,22 @@ public class AssignedDtoMethod {
 
     }
 
+    public AssignedDto findByActiveMeasurer(int measurerId) throws Exception {
+        AssignedDto assignedDto = null;
+
+        try {
+            assignedDto = new AssignedDto();
+            int beneficiaryId = new AssignedImpl().findByActiveMeasurer(measurerId).getBeneficiary();
+
+
+            assignedDto = new AssignedDto();
+            assignedDto.setBeneficiary(new BeneficiaryDtoMethod().findById(beneficiaryId));
+        } catch (Exception e) {
+            throw e;
+        }
+        return assignedDto;
+
+    }
+
 
 }
