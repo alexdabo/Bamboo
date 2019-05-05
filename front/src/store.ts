@@ -22,6 +22,12 @@ export default new Vuex.Store({
       state.notify.msg = conf.msg
       state.notify.type = 'error'
     },
+    showWarning (state: any, conf: { title: string, msg: string }): void {
+      state.notify.show = true
+      state.notify.title = conf.title
+      state.notify.msg = conf.msg
+      state.notify.type = 'warning'
+    },
     closeNotify (state: any): void {
       state.notify.show = false
       state.notify.title = null
