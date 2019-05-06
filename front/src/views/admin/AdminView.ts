@@ -87,7 +87,7 @@ export default class AdminView extends Vue {
     }
   }
 
-  public get userName(): string{
+  public get userName (): string {
     return JSON.parse(localStorage.user).userName
   }
 }
