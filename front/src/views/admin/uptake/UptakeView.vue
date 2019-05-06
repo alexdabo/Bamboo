@@ -26,7 +26,7 @@
           @shortkey="search=''"
           @click="drawerHistory=!drawerHistory"
         >
-          <v-icon>history</v-icon>
+          <v-icon>vertical_split</v-icon>
         </v-btn>
       </v-toolbar>
 
@@ -105,7 +105,12 @@
         <v-card-actions>
           <v-spacer/>
 
-          <v-btn type="submit" :disabled="measurer.status.id === 2 && measurer.status.id ===4" color="primary" class="white--text">
+          <v-btn
+            type="submit"
+            :disabled="measurer.status.id === 2 && measurer.status.id ===4"
+            color="primary"
+            class="white--text"
+          >
             Guardar
             <v-icon right dark>cloud_upload</v-icon>
           </v-btn>
@@ -113,29 +118,36 @@
       </form>
     </v-card>
     <v-navigation-drawer fixed v-model="drawerHistory" right clipped app>
-      <v-list>
-        <div v-for="item in history" :key="item.id">
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                Fecha:
-                <span>{{item.dateTaked}}</span>
-                <v-icon v-if="item.billed" class="right" color="green">done</v-icon>
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                Valor marcado
-                {{item.currentValueTaken}}
-                <span>m³</span>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider></v-divider>
-        </div>
-      </v-list>
+      <v-tabs color="primary" dark slider-color="blue-grey darken-2" grow>
+        <v-tab ripple>
+          <b>Historial de medidas</b>
+        </v-tab>
+        <v-tab-item>
+          <v-list>
+            <div v-for="item in history" :key="item.id">
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>
+                    Fecha:
+                    <span>{{item.dateTaked}}</span>
+                    <v-icon v-if="item.billed" class="right" color="green">done</v-icon>
+                  </v-list-tile-title>
+                  <v-list-tile-sub-title>
+                    Valor marcado
+                    {{item.currentValueTaken}}
+                    <span>m³</span>
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider></v-divider>
+            </div>
+          </v-list>
+        </v-tab-item>
+      </v-tabs>
     </v-navigation-drawer>
   </div>
 </template>
 <script lang="ts">
-import UptakeView from '@/views/admin/uptake/UptakeView.ts'
-export default UptakeView
+import UptakeView from "@/views/admin/uptake/UptakeView.ts";
+export default UptakeView;
 </script>
