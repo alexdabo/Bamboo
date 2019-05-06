@@ -58,6 +58,7 @@ public class InvoiceSapDtoMethod {
         InvoiceSapDto newInvoiceSap = null;
         boolean saved = false;
         Invoice invoice = new InvoiceImpl().save(getInvoice(invoiceSap));
+
         if (invoice != null && invoice.getId() != 0) {
             for (UptakeDto uptakeDto : invoiceSap.getDetail()) {
                 SapDetail sapDetail = new SapDetail();
@@ -69,6 +70,8 @@ public class InvoiceSapDtoMethod {
                 }
             }
             if (saved) {
+                newInvoiceSap = getInvoiceSap(invoice);
+                newInvoiceSap.setId(invoice.getId());
                 newInvoiceSap.setDetail(new UptakeDtoMethod().findByInvoice(invoice.getId()));
             }
         } else {
@@ -84,7 +87,7 @@ public class InvoiceSapDtoMethod {
         invoice.setId(invoiceSap.getId());
         invoice.setNumber(invoiceSap.getNumber());
         invoice.setDateOfIssue(invoiceSap.getDateOfIssue());
-        invoice.setTotalToPay(invoice.getTotalToPay());
+        invoice.setTotalToPay(invoiceSap.getTotalToPay());
         invoice.setIsPayed(invoiceSap.isPayed());
         invoice.setBeneficiary(invoiceSap.getBeneficiary().getId());
         invoice.setDebtcollector(invoiceSap.getDebtcollector().getId());
@@ -93,9 +96,9 @@ public class InvoiceSapDtoMethod {
 
     private InvoiceSapDto getInvoiceSap(Invoice invoice) throws Exception {
         InvoiceSapDto invoiceSap = new InvoiceSapDto();
-        invoiceSap.setId(invoiceSap.getId());
-        invoiceSap.setNumber(invoiceSap.getNumber());
-        invoiceSap.setDateOfIssue(invoiceSap.getDateOfIssue());
+        invoiceSap.setInvoiceId(invoice.getId());
+        invoiceSap.setNumber(invoice.getNumber());
+        invoiceSap.setDateOfIssue(invoice.getDateOfIssue());
         invoiceSap.setTotalToPay(invoice.getTotalToPay());
         invoiceSap.setPayed(invoice.isPayed());
         invoiceSap.setBeneficiary(new BeneficiaryDtoMethod().findById(invoice.getBeneficiary()));

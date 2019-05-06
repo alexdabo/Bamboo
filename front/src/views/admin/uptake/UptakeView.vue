@@ -148,6 +148,6 @@
   </div>
 </template>
 <script lang="ts">
-import UptakeView from "@/views/admin/uptake/UptakeView.ts";
-export default UptakeView;
+import UptakeView from '@/views/admin/uptake/UptakeView.ts'
+export default UptakeView
 </script>
