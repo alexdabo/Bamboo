@@ -69,7 +69,7 @@ public class InvoiceSapRest extends HttpServlet {
                 sapDto = invoiceSapMtd.save(sapDto);
                 if (sapDto != null) {
                     map.put("saved", true);
-                    map.put("sap", sapDto);
+                    map.put("invoice", sapDto);
                     //audit.save(new Audit(Integer.parseInt(request.getHeader("user")), "name: " + sapDto.getName()));
                 } else {
                     map.put("saved", false);
