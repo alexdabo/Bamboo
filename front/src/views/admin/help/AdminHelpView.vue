@@ -130,9 +130,37 @@
             <br><center><img src="@/assets/docs/moreopt.png" alt></center>
         </div>
         <!-- DATOS DEL DASHBOARD -->
-
-        <!-- DATOS DE PANTALLA PRINCIPAL -->
-
+        <!-- DATOS DE CUENTAS "-->
+        <div id="baldi">
+          <h1>Factura SAP</h1>
+              <img src="@/assets/docs/facturasap.png" alt>
+            <br>
+            En esta pantalla se mostrara la información estadística que se encuentra en la base de datos
+            del sistema. <br>Podemos cambiar el tipo de gráfico que queremos visualizar haciendo clic en
+            <img src="@/assets/docs/more.png" alt> se mostrara la siguiente ventana en donde elegiremos una opción.
+            <br><center><img src="@/assets/docs/moreopt.png" alt></center>
+        </div>
+        <div id="factsap">
+          <h1>Balance Diario</h1>
+              <img src="@/assets/docs/facturasap.png" alt>
+            <br>
+            En esta pantalla podremos realizar el proceso de facturación de los servicio de agua potable de la junta.
+            Lo primero que deberoms hacer es buscar el beneficiario del cual <br>queremos generar la factura,los datos
+            del usuario se llenaran automaticamente y en la parte derecha apareceran los medidores asignados a dicha persona
+            en el apartado <br><b>"MEDIDORES"</b> y las facturas cobradas en el apartado de <b>"FACTURAS"</b>
+            <br><img src="@/assets/docs/facturasapcob.png" alt> <br>Una vez hecho el cobro podremos generar una factura para la
+            impresion haciendo clic en el boton <b>"IMPRIMIR"</b>.
+        </div>
+        <div id="factot">
+          <h1>Factura Otros Servicios</h1>
+              <img src="@/assets/docs/dashboar.png" alt>
+            <br>
+            En esta pantalla se mostrara la información estadística que se encuentra en la base de datos
+            del sistema. <br>Podemos cambiar el tipo de gráfico que queremos visualizar haciendo clic en
+            <img src="@/assets/docs/more.png" alt> se mostrara la siguiente ventana en donde elegiremos una opción.
+            <br><center><img src="@/assets/docs/moreopt.png" alt></center>
+        </div>
+        <!-- DATOS DE CUENTAS "-->
         <!-- DATOS DE PANTALLA USUARIO -->
         <div id="usuario1" align="justify">
           <h1>Lista de Usuarios</h1>
@@ -317,6 +345,17 @@
           <img src="@/assets/docs/errordeuda.png" alt>
           </center>
         </div>
+        <div id="med4">
+          <h1>Nueva Medida</h1>
+          <img src="@/assets/docs/medidas.png" alt><br>
+          En esta pantalla podremos realizar el proceso de ingreso de medidas.
+          Lo primero que debemos hacer es buscar el medidor del cual queremos ingresar los datos mediante el código <br>del medidor, debemos
+          dar un <b>(Enter)</b> para que los datos del medidor se llenen automáticamente en la parte inferior y en la derecha podremos
+          visualizar un historial de las ultimas <br>10 medidas que se han realizado hasta el momento.<br>
+          Para ingresar la medida al sistema daremos clic en <b>"Valor marcado"</b> y escribiremos el valor, finalmente para almacenar 
+          los datos daremos clic en <img src="@/assets/docs/btn_guardar.png" alt>, caso contrario <br>editaremos los datos anteriormente mencionados
+        </div>
+
         <!-- DATOS DE PANTALLA MEDIDORES -->
 
         <!-- DATOS DE PANTALLA SERVICIOS -->

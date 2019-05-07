@@ -13,7 +13,6 @@ interface Tittle{
     name: string;
     icon: string;
 }
-
 const MenuItems: Item[] = [
   {
     icon: 'home',
@@ -62,11 +61,12 @@ const MenuItems: Item[] = [
   },
   {
     icon: 'timer',
-    name: 'Medidor',
+    name: 'Medidores',
     subitems: [
       { name: 'Listar', id: 'med1' },
       { name: 'Nuevo', id: 'med2' },
-      { name: 'Traspaso', id: 'med3' }
+      { name: 'Traspaso', id: 'med3' },
+      { name: 'Medidas', id: 'med4' }
     ]
   },
   {
