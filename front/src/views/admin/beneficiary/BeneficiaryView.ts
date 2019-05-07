@@ -1,7 +1,6 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
 import sweetalert from 'sweetalert'
-import Role from '@/model/entity/Role'
 import Beneficiary from '@/model/entity/Beneficiary'
 import BeneficiaryService from '@/model/service/BeneficiaryService'
 import VillageService from '@/model/service/VillageService'

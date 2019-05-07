@@ -21,4 +21,7 @@ export default class InvoiceSapService extends Service {
   public post (invoice: InvoiceSap) {
     return Axios.post(this.url, invoice, { headers: this.headers })
   }
+  public getByDate (date: string) {
+    return Axios.get(`${this.url}/date/${date}`)
+  }
 }
