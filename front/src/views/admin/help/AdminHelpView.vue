@@ -40,7 +40,7 @@
       <v-flex xs11 class="pa-2 container page">
           <br>
           <b>(Nota: Para una mejor visualización de esta ventana haga clic en <img src="@/assets/docs/menu.png" alt> para
-          ocultar la bara de menu lateral izquierda)  </b>
+          ocultar la barra de menú lateral izquierdo)  </b>
         <!-- DATOS DE PANTALLA PRINCIPAL-->
         <div id="principal1">
           <h1>Administración</h1>
@@ -54,7 +54,7 @@
               <b>Sección de menú:</b> Permite elegir las actividades rápidamente en cualquier pestaña en la que se encuentre solo con un click.
             </li>
             <li>
-              <b>Sección de título:</b> Permite regresar a la página principal con un click en el Icono, y tambien contiene a la sección del usuario.
+              <b>Sección de título:</b> Permite regresar a la página principal con un click en el Icono, y también contiene a la sección del usuario.
             </li>
             <li>
               <b>Sección de contenido dinámico:</b> Es la sección en la cual se describe con una imagen representativa los principales módulos que se encuentran en el sistema.
@@ -132,7 +132,7 @@
         <!-- DATOS DEL DASHBOARD -->
         <!-- DATOS DE CUENTAS "-->
         <div id="baldi">
-          <h1>Factura SAP</h1>
+          <h1>Balance Diario</h1>
               <img src="@/assets/docs/facturasap.png" alt>
             <br>
             En esta pantalla se mostrara la información estadística que se encuentra en la base de datos
@@ -141,15 +141,15 @@
             <br><center><img src="@/assets/docs/moreopt.png" alt></center>
         </div>
         <div id="factsap">
-          <h1>Balance Diario</h1>
+          <h1>Factura SAP</h1>
               <img src="@/assets/docs/facturasap.png" alt>
             <br>
             En esta pantalla podremos realizar el proceso de facturación de los servicio de agua potable de la junta.
-            Lo primero que deberoms hacer es buscar el beneficiario del cual <br>queremos generar la factura,los datos
-            del usuario se llenaran automaticamente y en la parte derecha apareceran los medidores asignados a dicha persona
+            Lo primero que deberemos hacer es buscar el beneficiario del cual <br>queremos generar la factura,los datos
+            del usuario se llenaran automáticamente y en la parte derecha aparecerán  los medidores asignados a dicha persona
             en el apartado <br><b>"MEDIDORES"</b> y las facturas cobradas en el apartado de <b>"FACTURAS"</b>
             <br><img src="@/assets/docs/facturasapcob.png" alt> <br>Una vez hecho el cobro podremos generar una factura para la
-            impresion haciendo clic en el boton <b>"IMPRIMIR"</b>.
+            impresión haciendo clic en el botón <b>"IMPRIMIR"</b>.
         </div>
         <div id="factot">
           <h1>Factura Otros Servicios</h1>
@@ -168,12 +168,12 @@
           <br>
           Se muestra el registro de los trabajadores obtenidos de la Base de Datos,
           se cargan los campos mostrando sus datos personales como: Apellido, Nombre, Cédula,
-          Rol, Email, Teléfono <br> y Dirección ademas de las acciones que podemos realizar como:
+          Rol, Email, Teléfono <br> y Dirección además de las acciones que podemos realizar como:
           modificar <img src="@/assets/docs/btn_edit.png" alt>, eliminar <img src="@/assets/docs/btn_delete.png" alt> y buscar. <b>(Si pasamos el cursor
           sobre estas palabras aparecera una flecha junto a la palabra <br>como se muestra en "Apellidos↑", y si hacemos clic sobre ella la lista se ordenara
            de manera ascendente o descendente dependiendo de cual elijamos).</b>
            Se puede realizar una busqueda <br>por cualquier campo de los datos personales anteriormente mencionados digitandolos en el buscador.
-           Tambien existen 2 botones los cuales son actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo <img src="@/assets/docs/btn_new.png" alt>.
+           También existen 2 botones los cuales son actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo <img src="@/assets/docs/btn_new.png" alt>.
         </div>
         <div id="usuario2" align="justify">
           <h1>Nuevo Usuario</h1>
@@ -182,7 +182,7 @@
           </center>
           Podemos visualizar los datos requeridos de los trabajadores para un nuevo ingreso, los datos del personal a llenar son: Apellidos, Nombres, Cédula, Teléfono
           Correo, Rol de usuario <br>el cual puede ser "Administrador, Cobros o Recolector" finalmente y Dirección. <b>(Es necesario llenar todos los campos sin
-          excepciones).</b> Una vez que todos los campos se hayan <br>llenado correctamente, se hara clic en <img src="@/assets/docs/btn_guardar.png" alt>
+          excepciones).</b> Una vez que todos los campos se hayan <br>llenado correctamente, se hará clic en <img src="@/assets/docs/btn_guardar.png" alt>
           para almacenar los datos, caso contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
         </div>
 
@@ -191,13 +191,13 @@
           <center>
           <img src="@/assets/docs/useredit.png" alt>
           </center>
-          Luego de dar clic en el boton de editar usuario <img src="@/assets/docs/btn_edit.png" alt> podremos visualizar una ventana en
+          Luego de dar clic en el botón de editar usuario <img src="@/assets/docs/btn_edit.png" alt> podremos visualizar una ventana en
           donde podremos editar la información de aquella persona
           como: Apellidos, Nombres, Cédula, <br>Teléfono
           Correo, Rol de usuario el cual puede ser "Administrador, Cobros o Recolector"
           y la Dirección.
           <b>(Es necesario llenar todos los campos sin excepciones).</b><br>
-          Una vez que todos los campos se hayan llenado correctamente, se hara clic en
+          Una vez que todos los campos se hayan llenado correctamente, se hará clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
         </div>
@@ -207,7 +207,7 @@
           <center>
           <img src="@/assets/docs/userdel.png" alt>
           </center>
-          Luego de dar clic en el boton de eliminar usuario <img src="@/assets/docs/btn_delete.png" alt> nos mostrara un cuadro de dialogo
+          Luego de dar clic en el botón de eliminar usuario <img src="@/assets/docs/btn_delete.png" alt> nos mostrara un cuadro de dialogo
           preguntandonos si estamos seguros de eliminar el usuario seleccionado. <br>
           Si queremos continuar con la eliminación daremos clic en
           <img src="@/assets/docs/btn_ok.png" alt>, caso
@@ -227,7 +227,7 @@
           como: asignar un medidor al beneficiario <img src="@/assets/docs/btn_med.png" alt>, modificar <img src="@/assets/docs/btn_edit.png" alt>,
           eliminar <img src="@/assets/docs/btn_delete.png" alt> y buscar. <br>
           Se puede realizar una busqueda por cualquier campo de los datos personales anteriormente mencionados digitandolos en el buscador.
-          Tambien existen 2 botones los cuales son: <br>actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo <img src="@/assets/docs/btn_new.png" alt>.
+          También existen 2 botones los cuales son: <br>actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo <img src="@/assets/docs/btn_new.png" alt>.
         </div>
         <div id="benef2">
           <h1>Nuevo Beneficiario</h1>
@@ -237,7 +237,7 @@
           Podemos visualizar los datos requeridos de los clientes para un nuevo
           ingreso, los datos a llenar son: Apellidos, Nombres, Cédula, Teléfono,
           Comunidad, Dirección y Lugar de Referencia. <br><b>(Es necesario llenar todos los campos sin excepciones).</b> <br>
-          Una vez que todos los campos se hayan llenado correctamente, se hara clic en
+          Una vez que todos los campos se hayan llenado correctamente, se hará clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
         </div>
@@ -247,11 +247,11 @@
           <center>
           <img src="@/assets/docs/benefedit.png" alt>
           </center>
-          Luego de dar clic en el boton de editar beneficiario <img src="@/assets/docs/btn_edit.png" alt> podremos visualizar una ventana en
+          Luego de dar clic en el botón de editar beneficiario <img src="@/assets/docs/btn_edit.png" alt> podremos visualizar una ventana en
           donde podremos editar la información de aquella persona
           como: Apellidos, Nombres, Cédula,  <br>Teléfono, Comunidad, Dirección y Lugar de Referencia.
           <b>(Es necesario llenar todos los campos sin excepciones).</b><br>
-          Una vez que todos los campos se hayan llenado correctamente, se hara clic en
+          Una vez que todos los campos se hayan llenado correctamente, se hará clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
         </div>
@@ -261,7 +261,7 @@
           <center>
           <img src="@/assets/docs/benefdelet.png" alt>
           </center>
-          Luego de dar clic en el boton de eliminar beneficiario <img src="@/assets/docs/btn_delete.png" alt> nos mostrara un cuadro de dialogo
+          Luego de dar clic en el botón de eliminar beneficiario <img src="@/assets/docs/btn_delete.png" alt> nos mostrara un cuadro de dialogo
           preguntandonos si estamos seguros de eliminar aquel beneficiario. <br>
           Si queremos continuar con la eliminación daremos clic en
           <img src="@/assets/docs/btn_ok.png" alt>, caso
@@ -271,9 +271,9 @@
         <div id="benef5">
           <h1>Asignar medidor al Beneficiario</h1>
           <img src="@/assets/docs/asigmed.png" alt> <br>
-          Despues de hacer clic en el boton de asignar medidor <img src="@/assets/docs/btn_med.png" alt> del beneficiario
+          Despues de hacer clic en el botón de asignar medidor <img src="@/assets/docs/btn_med.png" alt> del beneficiario
           seleccionado, nos redireccionara a la siguiente ventana: ,
-          Todos los campos se llenaran automaticamente,  <br>y estara listo para hacer la asignacion del medidor, daremos clic en <img src="@/assets/docs/more.png" alt>
+          Todos los campos se llenaran automáticamente,  <br>y estará listo para hacer la asignación del medidor, daremos clic en <img src="@/assets/docs/more.png" alt>
           y nos mostrara la siguiente ventana: <br> <center><img src="@/assets/docs/moremed.png" alt></center><br>
           En donde elegiremos <b>"Nuevo Medidor"</b>, aparecera una ventana en donde llenaremos los datos del nuevo medidor
           <center>
@@ -281,7 +281,7 @@
           </center>
           Escogeremos el tipo de servicio que poseera el medidor.
         <b>(Es necesario llenar todos los campos sin excepciones).</b>
-          Una vez que todos los campos se hayan llenado correctamente  <br>se hara clic en
+          Una vez que todos los campos se hayan llenado correctamente  <br>se hará clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
         </div>
@@ -310,7 +310,7 @@
           </center>
           Escogeremos el tipo de servicio que poseera el medidor.
           <b>(Es necesario llenar todos los campos sin excepciones).</b>
-          Una vez que todos los campos se hayan llenado correctamente  <br>se hara clic en
+          Una vez que todos los campos se hayan llenado correctamente  <br>se hará clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
         </div>
@@ -336,7 +336,7 @@
           Si es el medidor que queremos traspasar de beneficiario es correcta, daremos clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en el icono de eliminar medidor  <br>traspasado <img src="@/assets/docs/btn_delete.png" alt>
-          o en su defecto en el boton <img src="@/assets/docs/btn_cancelar.png" alt> para salir de la ventana.
+          o en su defecto en el botón <img src="@/assets/docs/btn_cancelar.png" alt> para salir de la ventana.
 
           <br><br>
           <b>Nota: este procesos se podrá realizar si el medidor que deseamos traspasar no posee ninguna deuda,
@@ -352,7 +352,7 @@
           Lo primero que debemos hacer es buscar el medidor del cual queremos ingresar los datos mediante el código <br>del medidor, debemos
           dar un <b>(Enter)</b> para que los datos del medidor se llenen automáticamente en la parte inferior y en la derecha podremos
           visualizar un historial de las ultimas <br>10 medidas que se han realizado hasta el momento.<br>
-          Para ingresar la medida al sistema daremos clic en <b>"Valor marcado"</b> y escribiremos el valor, finalmente para almacenar 
+          Para ingresar la medida al sistema daremos clic en <b>"Valor marcado"</b> y escribiremos el valor, finalmente para almacenar
           los datos daremos clic en <img src="@/assets/docs/btn_guardar.png" alt>, caso contrario <br>editaremos los datos anteriormente mencionados
         </div>
 
@@ -364,13 +364,13 @@
           <br><img src="@/assets/docs/servsaplist.png" alt> <br>
           Se muestra el registro de los servicios obtenidos de la Base de Datos,
           se cargan los campos mostrando sus datos tales como: Nombre del Servicio,
-           Volumen Base, Precio Base y  <br>Precio Extra ademas  <b>(Si pasamos el cursor sobre estas palabras aparecera
+           Volumen Base, Precio Base y  <br>Precio Extra además  <b>(Si pasamos el cursor sobre estas palabras aparecera
            una flecha junto a la palabra como se muestra en "Nombre del servicio↑", y si hacemos clic sobre ella <br>la lista se
            ordenara de manera ascendente o descendente dependiendo de cual elijamos)</b>.
-           Ademas de las acciones que podemos realizar como: modificar <img src="@/assets/docs/btn_edit.png" alt>, eliminar
+           Además de las acciones que podemos realizar como: modificar <img src="@/assets/docs/btn_edit.png" alt>, eliminar
            <img src="@/assets/docs/btn_delete.png" alt> y buscar. <br>
             Se puede realizar una busqueda por cualquier campo de los datos anteriormente mencionados digitandolos en el buscador.
-            Tambien existen 2 botones los cuales son: actualizar <img src="@/assets/docs/btn_update.png" alt>  <br>y nuevo
+            También existen 2 botones los cuales son: actualizar <img src="@/assets/docs/btn_update.png" alt>  <br>y nuevo
              <img src="@/assets/docs/btn_new.png" alt>.
         </div>
         <div id="serv2">
@@ -381,7 +381,7 @@
            Podemos visualizar los datos requeridos de los servicios para un nuevo
           ingreso, los datos del servicio a llenar son: Nombre del Servicio,
           Volumen Base, Precio Base y Precio extra. <br>
-          Una vez que todos los campos se hayan llenado correctamente, se hara clic en
+          Una vez que todos los campos se hayan llenado correctamente, se hará clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
         </div>
@@ -394,10 +394,10 @@
           Precio <b>(Si pasamos el cursor  <br>sobre estas palabras aparecera
           una flecha junto a la palabra como se muestra en "Nombre del servicio↑", y si hacemos clic sobre ella la lista se
           ordenara de manera ascendente o <br>descendente dependiendo de cual elijamos)</b>.
-          Ademas de las acciones que podemos realizar como: modificar <img src="@/assets/docs/btn_edit.png" alt>, eliminar
+          Además de las acciones que podemos realizar como: modificar <img src="@/assets/docs/btn_edit.png" alt>, eliminar
           <img src="@/assets/docs/btn_delete.png" alt> y buscar.
            Se puede realizar una busqueda por cualquier <br>campo de los datos anteriormente mencionados digitandolos en el buscador.
-           Tambien existen 2 botones los cuales son actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo
+           También existen 2 botones los cuales son actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo
           <img src="@/assets/docs/btn_new.png" alt>.
         </div>
         <div id="otserv2">
@@ -406,10 +406,10 @@
               <img src="@/assets/docs/servotnew.png" alt>
           </center>
            Podemos generar el reporte de todos los beneficiarios dejando en blanco el apartador de <b>"Buscar"</b>
-           , podemos elegir tambien si queremos generar el reporte de todas las comunidades <br>o de una en especifico
+           , podemos elegir también si queremos generar el reporte de todas las comunidades <br>o de una en especifico
            seleccionandola en la pestana, por ultimo se puede generar el reporte de manera vertical u horizontal
            en el apartado de <b>"Orientación"</b>.
-           Una vez que todos los <br>campos se hayan seleccionado correctamente se hara clic en
+           Una vez que todos los <br>campos se hayan seleccionado correctamente se hará clic en
           <img src="@/assets/docs/btn_guardar.png" alt> para abrir el pdf o en <img src="@/assets/docs/btn_cancelar.png" alt>
           para descargarlo.
         </div>
@@ -425,7 +425,7 @@
            <b>(Si hacemos clic sobre estas palabras, la lista se ordenara
            de manera ascendente o descendente dependiendo de cual elijamos).</b> <br>
            Se puede realizar una busqueda por código, o por nombre de la comunidad digitandola en el buscador.
-           Tambien existen 2 botones los cuales son actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo <img src="@/assets/docs/btn_new.png" alt>.
+           También existen 2 botones los cuales son actualizar <img src="@/assets/docs/btn_update.png" alt> y nuevo <img src="@/assets/docs/btn_new.png" alt>.
         </div>
         <!-- DATOS DE PANTALLA REPORTES -->
 
@@ -437,7 +437,7 @@
           </center>
           Podemos visualizar el dato requerido de un nuevo
           ingreso de comunidad, el dato es: Nombre de la Comunidad.
-          Una vez que el campo se hayan llenado correctamente, se hara clic <br>en
+          Una vez que el campo se hayan llenado correctamente, se hará clic <br>en
           <img src="@/assets/docs/btn_guardar.png" alt> para almacenar los datos, caso
           contrario en <img src="@/assets/docs/btn_cancelar.png" alt>
            </div>
