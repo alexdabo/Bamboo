@@ -1,18 +1,18 @@
 <template>
     <div>
         <v-toolbar flat color="white">
-      <v-toolbar-title>BALANCE</v-toolbar-title>
+      <v-toolbar-title>BALANCE DIARIO</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <DateWidget v-model="date"/>
       <v-spacer></v-spacer>
       <v-btn
         v-shortkey="['alt', 'r']"
-        @shortkey="findSaps()"
+        @shortkey="findInvoices()"
         color="primary"
         class="mb-2"
         icon
-        @click="findSaps()"
+        @click="findInvoices()"
       >
         <v-icon>refresh</v-icon>
       </v-btn>
@@ -26,66 +26,40 @@
         >
           <v-icon>open_in_browser</v-icon>
         </v-btn>
-        <!--v-card>
-          <v-card-title class="primary lighten-3 white--text">
-            <span class="headline" v-if="editedIndex === -1">Nuevo Servicio</span>
-            <span class="headline" v-else>Editar Servicio</span>
-          </v-card-title>
-          <form @submit.prevent="submit">
-            <v-container grid-list-sm class="pa-4">
-              <v-layout row wrap>
-                <v-flex xs12>
-                  <v-text-field label="Nombre del servicio" required v-model="editedItem.name"/>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field
-                    label="Volume base"
-                    required
-                    suffix="m³"
-                    v-model="editedItem.baseVolume"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field
-                    label="Precio base"
-                    required
-                    prefix="$"
-                    v-model="editedItem.basePrice"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field
-                    label="Precio extra"
-                    required
-                    prefix="$"
-                    v-model="editedItem.extraPrice"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
-                </v-flex>
-              </v-layout>
-            </v-container>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn v-shortkey="['esc']" @shortkey="close()" color="error" @click.native="close()">
-                <v-icon left>cancel</v-icon>Cancelar
-              </v-btn>
-              <v-btn color="primary" type="submit">
-                <v-icon left>save</v-icon>Guardar
-              </v-btn>
-            </v-card-actions>
-          </form>
-        </v-card-->
-
     </v-toolbar>
-    date: {{date}}
+    <v-data-table
+      :headers="headers"
+      :items="invoices"
+      :search="date"
+      hide-actions
+      class="elevation-1"
+    >
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.invoiceId }}</td>
+        <td class="text-xs-left">{{ props.item.beneficiary.lastName }}</td>
+        <td class="text-xs-left">{{ props.item.debtcollector.firstName }}</td>
+        <td class="text-xs-left">{{ tipo }}</td>
+        <td class="text-xs-left">{{ props.item.totalToPay }}</td>
+      </template>
+      <template slot="footer">
+              <td colspan="3"></td>
+              <td class="primary white--text">
+                <b>TOTAL</b>
+              </td>
+              <td>
+                <span class="grey--text">
+                  <b>$</b>
+                </span>
+                {{dialyTotal}}
+              </td>
+            </template>
+      <v-alert
+        slot="no-results"
+        :value="true"
+        color="error"
+        icon="warning"
+      >No se encontro resultados para "{{ date }}".</v-alert>
+    </v-data-table>
     </div>
 </template>
 <script lang="ts">
