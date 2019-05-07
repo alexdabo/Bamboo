@@ -117,7 +117,6 @@
           <b>Facturas</b>
         </v-tab>
         <v-tab-item>
-          
 
 <v-list>
             <div v-for="item in invoices" :key="item.id">

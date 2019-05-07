@@ -40,7 +40,7 @@ export default class InvoiceSapView extends Page {
     { text: 'Total', sortable: false, align: 'center' }
   ]
 
-  public setInvoice(beneficiary: Beneficiary): void {
+  public setInvoice (beneficiary: Beneficiary): void {
     if (beneficiary === undefined) {
       this.invoice = new InvoiceSap()
       this.invoices = []
@@ -66,7 +66,7 @@ export default class InvoiceSapView extends Page {
       })
   }
 
-  public findInvoices(): void {
+  public findInvoices (): void {
     const invoiceService: InvoiceSapService = new InvoiceSapService()
     invoiceService.getByBeneficiary(this.invoice.beneficiary.id)
       .then((res: any) => {
@@ -75,7 +75,7 @@ export default class InvoiceSapView extends Page {
       .catch((err: any) => { this.error('Error al cargar', err.response.data.error) })
   }
 
-  public setDetail(uptakes: Uptake[]): void {
+  public setDetail (uptakes: Uptake[]): void {
     this.invoice.detail = []
     for (let uptake of uptakes) {
       this.invoice.detail.push(uptake)
@@ -83,7 +83,7 @@ export default class InvoiceSapView extends Page {
     this.drawer = false
   }
 
-  public chargeInvoice(): void {
+  public chargeInvoice (): void {
     if (this.invoice.payed === true) {
       this.warning('Error al cobrar', 'La factura ya existe.')
       return
@@ -107,7 +107,7 @@ export default class InvoiceSapView extends Page {
       })
   }
 
-  public deleteUptake(): void {
+  public deleteUptake (): void {
     if (this.invoice.detail.length > 1) {
       this.warning('Suspención de pago', 'El pago será supendido temporalmente. ')
       this.invoice.detail.pop()
@@ -116,7 +116,7 @@ export default class InvoiceSapView extends Page {
     }
   }
 
-  public totalToPay(): number {
+  public totalToPay (): number {
     let total: number = 0
     for (let item of this.invoice.detail) {
       total = total + item.totalPrice
@@ -124,7 +124,7 @@ export default class InvoiceSapView extends Page {
     return total
   }
 
-  public get getTotal() {
+  public get getTotal () {
     return this.totalToPay()
   }
 }
