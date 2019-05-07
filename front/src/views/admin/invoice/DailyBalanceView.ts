@@ -14,8 +14,7 @@ export default class DailyBalanceView extends Page {
   public invoices: Invoice[] = [];
   public dialog: boolean = false;
   public tipo: string='Servicio de Agua Potable'
-  
-  
+
   public headers: any[] = [
     { text: 'Número de Factura', value: 'invoiceId', align: 'left' },
     { text: 'Beneficiario', value: 'beneficiary.lastName' },
@@ -31,10 +30,10 @@ export default class DailyBalanceView extends Page {
   public findInvoices (): void {
     const invoiceService = new InvoiceService(this.getUser().id)
     this.invoices = []
-    //invoiceService.getByDate(this.date).then((res: any) => {
-      invoiceService.getById(1).then((res: any) => {
+    // invoiceService.getByDate(this.date).then((res: any) => {
+    invoiceService.getById(1).then((res: any) => {
       console.log(this.invoices)
-      //this.invoices=res.data
+      // this.invoices=res.data
       this.invoices.push(res.data)
     }).catch(() => {
       this.error('Error al buscar Facturas')
@@ -44,8 +43,8 @@ export default class DailyBalanceView extends Page {
 
   public get dialyTotal (): number {
     let total:number = 0
-    for (let item of this.invoices){
-      total += item.totalToPay      
+    for (let item of this.invoices) {
+      total += item.totalToPay
     }
     return total
   }
