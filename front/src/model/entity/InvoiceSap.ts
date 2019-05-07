@@ -9,7 +9,7 @@ export default class InvoiceSap {
         public invoiceId?: number,
         public number?: string,
         public dateOfIssue?: string,
-        public totalToPay: number=0,
+        public totalToPay: number = 0,
         public payed: boolean = false,
         public beneficiary: Beneficiary = new Beneficiary(),
         public debtcollector: User = new User(),
