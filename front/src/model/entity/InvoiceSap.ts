@@ -10,7 +10,7 @@ export default class InvoiceSap {
         public number?: string,
         public dateOfIssue?: string,
         public totalToPay?: number,
-        public payed?: boolean,
+        public payed: boolean = false,
         public beneficiary: Beneficiary = new Beneficiary(),
         public debtcollector: User = new User(),
         public detail: Uptake[] = []

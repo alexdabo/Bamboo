@@ -9,7 +9,7 @@ export default class DefinitionReport {
   constructor(private entity: any) {
   }
 
-  public setTableDefinition (definition: any): void {
+  public setTableDefinition(definition: any): void {
     this.entityUpperCase()
     this.definition = {
       pageOrientation: this.orientation,
@@ -32,16 +32,16 @@ export default class DefinitionReport {
         },
         {
           layout: {
-            hLineWidth (i: number, node: any) {
+            hLineWidth(i: number, node: any) {
               return (i === 0 || i === node.table.body.length) ? 1 : 1
             },
-            vLineWidth (i: number, node: any) {
+            vLineWidth(i: number, node: any) {
               return (i === 0 || i === node.table.widths.length) ? 1 : 1
             },
-            hLineColor (i: number, node: any) {
+            hLineColor(i: number, node: any) {
               return (i === 0 || i === node.table.body.length) ? '#bdbdbd' : '#bdbdbd'
             },
-            vLineColor (i: number, node: any) {
+            vLineColor(i: number, node: any) {
               return (i === 0 || i === node.table.widths.length) ? '#bdbdbd' : '#bdbdbd'
             }
           },
@@ -54,7 +54,7 @@ export default class DefinitionReport {
     }
   }
 
-  public setInvoiceDefinition (definition: any): void {
+  public setInvoiceDefinition(definition: any, debtCollector: string, isPayed: boolean): void {
     this.entityUpperCase()
     this.definition = {
       pageOrientation: this.orientation,
@@ -62,6 +62,7 @@ export default class DefinitionReport {
       content: [
         {
           layout: 'noBorders',
+          margin: [-40, -40, -40, 0],
           table: {
             headerRows: 1,
             widths: ['*'],
@@ -74,23 +75,62 @@ export default class DefinitionReport {
               }]
             ]
           }
+        },
+        {
+          /* layout: {
+             hLineWidth: function (i: number, node: any) {
+               return (i === 0 || i === node.table.body.length) ? 1 : 1;
+             },
+             vLineWidth: function (i: number, node: any) {
+               return (i === 0 || i === node.table.widths.length) ? 1 : 1;
+             },
+             hLineColor: function (i: number, node: any) {
+               return (i === 0 || i === node.table.body.length) ? '#bdbdbd' : '#bdbdbd';
+             },
+             vLineColor: function (i: number, node: any) {
+               return (i === 0 || i === node.table.widths.length) ? '#bdbdbd' : '#bdbdbd';
+             }
+           }*/
+          style: 'infoLabel',
+          margin: [0, 10],
+          layout: 'noBorders',
+          table: definition
         }
       ],
-      styles: this.getStyle
+      footer: {
+        style: 'footer',
+        columns: [
+          {
+            width: '*',
+            text: 'Válido como comprobante de pago\nsi tiene el sello de la junta.'
+          },
+          {
+            width: '*',
+            text: 'Emitido por: \n' + debtCollector 
+          },
+          {
+            width: '*',
+            text: (isPayed) ? "Pagada" : "Sin Pagar" //this.invoice.payed?''
+
+          }
+
+        ]
+      },
+      styles: this.getStyle()
     }
   }
 
-  public getDefinition (): any {
+  public getDefinition(): any {
     return this.definition
   }
 
-  private entityUpperCase (): void {
+  private entityUpperCase(): void {
     this.entity.province = this.entity.province.toLocaleUpperCase()
     this.entity.canton = this.entity.canton.toLocaleUpperCase()
     this.entity.community = this.entity.community.toLocaleUpperCase()
   }
 
-  private getStyle (): any {
+  private getStyle(): any {
     return {
       header: {
         fontSize: 14,

@@ -113,8 +113,35 @@
             </div>
           </v-list>
         </v-tab-item>
+        <v-tab ripple>
+          <b>Facturas</b>
+        </v-tab>
+        <v-tab-item>
+          
+
+<v-list>
+            <div v-for="item in invoices" :key="item.id">
+              <v-list-tile @click="invoice = item">
+                <v-list-tile-content>
+                  <v-list-tile-title>
+                    Factura N°
+                    <span>{{item.number}}</span>
+                    <v-icon v-if="item.payed" class="right" color="green">done</v-icon>
+                  </v-list-tile-title>
+                  <v-list-tile-sub-title>
+                    <b>Emitida en</b>
+                    {{item.dateOfIssue}}
+                    <span>m³</span>
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider></v-divider>
+            </div>
+          </v-list>
+        </v-tab-item>
       </v-tabs>
     </v-navigation-drawer>
+    <InvoiceSapReport :invoice="invoice"/>
   </div>
 </template>
 <script lang="ts">

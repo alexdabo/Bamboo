@@ -10,18 +10,21 @@ import Beneficiary from '@/model/entity/Beneficiary'
 import MeasurerService from '@/model/service/MeasurerService'
 import Measurer from '@/model/entity/Measurer'
 import InvoiceSapService from '@/model/service/InvoiceSapService'
+import InvoiceSapReport from '@/components/invoice/InvoiceSapReport'
 
 @Component({
   name: 'invoice-sap-view',
   components: {
     FindBeneficiary,
-    InfoBeneficiary
+    InfoBeneficiary,
+    InvoiceSapReport
   }
 })
 export default class InvoiceSapView extends Page {
   dialogTransferMeasurer: boolean = false
   dialogNewMeasurer: boolean = false
   public invoice: InvoiceSap = new InvoiceSap()
+  public invoices: InvoiceSap[] = []
   public measurers: Measurer[] = []
   public measurer: Measurer = new Measurer()
   public drawer: boolean = false
@@ -36,12 +39,11 @@ export default class InvoiceSapView extends Page {
     { text: 'Excedente', sortable: false, align: 'center' },
     { text: 'Total', sortable: false, align: 'center' }
   ]
-  assigned: Assigned = new Assigned()
-  uptakes: Uptake[] = []
 
-  public setInvoice (beneficiary: Beneficiary): void {
+  public setInvoice(beneficiary: Beneficiary): void {
     if (beneficiary === undefined) {
       this.invoice = new InvoiceSap()
+      this.invoices = []
       this.measurer = new Measurer()
       this.measurers = []
       this.drawer = false
@@ -57,12 +59,23 @@ export default class InvoiceSapView extends Page {
         }
         this.measurers = res.data
         this.invoice.beneficiary = beneficiary
+        this.findInvoices()
       })
       .catch(() => {
         this.error('Error al cargar.')
       })
   }
-  public setDetail (uptakes: Uptake[]): void {
+
+  public findInvoices(): void {
+    const invoiceService: InvoiceSapService = new InvoiceSapService()
+    invoiceService.getByBeneficiary(this.invoice.beneficiary.id)
+      .then((res: any) => {
+        this.invoices = res.data
+      })
+      .catch((err: any) => { this.error('Error al cargar', err.response.data.error) })
+  }
+
+  public setDetail(uptakes: Uptake[]): void {
     this.invoice.detail = []
     for (let uptake of uptakes) {
       this.invoice.detail.push(uptake)
@@ -70,7 +83,7 @@ export default class InvoiceSapView extends Page {
     this.drawer = false
   }
 
-  public chargeInvoice (): void {
+  public chargeInvoice(): void {
     if (this.invoice.payed === true) {
       this.warning('Error al cobrar', 'La factura ya existe.')
       return
@@ -87,13 +100,14 @@ export default class InvoiceSapView extends Page {
       .then((res: any) => {
         this.success('Factura creada')
         this.invoice = res.data.invoice
+        this.invoices.push(res.data.invoice)
       })
       .catch((err: any) => {
         this.error('Error al crear la factura', err.response.data.error)
       })
   }
 
-  public deleteUptake (): void {
+  public deleteUptake(): void {
     if (this.invoice.detail.length > 1) {
       this.warning('Suspención de pago', 'El pago será supendido temporalmente. ')
       this.invoice.detail.pop()
@@ -102,7 +116,7 @@ export default class InvoiceSapView extends Page {
     }
   }
 
-  public totalToPay (): number {
+  public totalToPay(): number {
     let total: number = 0
     for (let item of this.invoice.detail) {
       total = total + item.totalPrice
@@ -110,7 +124,7 @@ export default class InvoiceSapView extends Page {
     return total
   }
 
-  public get getTotal () {
+  public get getTotal() {
     return this.totalToPay()
   }
 }
