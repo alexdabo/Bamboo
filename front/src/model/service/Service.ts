@@ -4,7 +4,7 @@ export default class Service {
     public headers: any;
     constructor (url: string, userId?: number) {
       this.url = process.env.NODE_ENV === 'development'
-        ? `http://localhost:8080/Bamboo/api/${url}`
+        ? `http://localhost:8080/api${url}`
         : `/api${url}`
 
       this.headers = {
