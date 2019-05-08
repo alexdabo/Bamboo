@@ -1,5 +1,7 @@
 <template>
-    <div><v-btn :loading="loading" @click="createReport()">saluda</v-btn></div>
+  <v-btn @click="createReport()" color="primary">
+    <v-icon left>print</v-icon>Imprimir
+  </v-btn>
 </template>
 <script lang="ts">
 import InvoiceSapReport from '@/components/invoice/InvoiceSapReport.ts'

@@ -3,6 +3,7 @@ package com.bamboo.api.Rest;
 import com.bamboo.api.dto.InvoiceSapDto;
 import com.bamboo.api.method.InvoiceSapDtoMethod;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +23,12 @@ import java.util.stream.Collectors;
         })
 public class InvoiceSapRest extends HttpServlet {
     private final InvoiceSapDtoMethod invoiceSapMtd = new InvoiceSapDtoMethod();
-    private final Gson gson = new Gson();
+    private  Gson gson = new Gson();
+    public InvoiceSapRest() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
+        gson = gsonBuilder.create();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

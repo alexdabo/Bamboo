@@ -79,7 +79,7 @@ public class SapDetailImpl implements SapDetailInterface {
 
     public List<SapDetail> findByBeneficiary(int beneficiaryId) throws Exception {
         List<SapDetail> SapDetails = new ArrayList<>();
-        String sql = "SELECT DISTINCT ON (beneficiary.id) detail.id, detail.invoiceid, detail.uptakeid FROM sapdetail detail " +
+        String sql = "SELECT DISTINCT ON (detail.invoiceid) detail.id, detail.invoiceid, detail.uptakeid FROM sapdetail detail " +
                 "INNER JOIN invoice ON detail.invoiceid = invoice.id " +
                 "INNER JOIN beneficiary ON invoice.beneficiaryid = beneficiary.id " +
                 "WHERE beneficiary.id = ?;";

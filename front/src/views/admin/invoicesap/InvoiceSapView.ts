@@ -30,7 +30,7 @@ export default class InvoiceSapView extends Page {
   public drawer: boolean = false
 
   headers: any[] = [
-    { text: 'Fecha de medición', value: 'dateTaked' },
+    { text: 'Mes', value: 'dateTaked' },
     { text: 'Valor marcado', value: 'measurer.sap.name' },
     { text: 'Volume base', value: 'measurer.installationDate' },
     { text: 'Precio base', value: 'measurer.status.name' },
@@ -40,13 +40,12 @@ export default class InvoiceSapView extends Page {
     { text: 'Total', sortable: false, align: 'center' }
   ]
 
-  public setInvoice (beneficiary: Beneficiary): void {
+  public findUptakes (beneficiary: Beneficiary): void {
     if (beneficiary === undefined) {
       this.invoice = new InvoiceSap()
       this.invoices = []
       this.measurer = new Measurer()
       this.measurers = []
-      this.drawer = false
       return
     }
     const measurerService: MeasurerService = new MeasurerService()
@@ -75,12 +74,24 @@ export default class InvoiceSapView extends Page {
       .catch((err: any) => { this.error('Error al cargar', err.response.data.error) })
   }
 
+  public setInvoice (invoice: InvoiceSap): void {
+    this.invoice.beneficiary = invoice.beneficiary
+    this.invoice.dateOfIssue = invoice.dateOfIssue
+    this.invoice.debtcollector = invoice.debtcollector
+    this.invoice.detail = invoice.detail
+    this.invoice.id = invoice.id
+    this.invoice.invoiceId = invoice.invoiceId
+    this.invoice.number = invoice.number
+    this.invoice.payed = invoice.payed
+    this.invoice.totalToPay = invoice.totalToPay
+  }
+
   public setDetail (uptakes: Uptake[]): void {
     this.invoice.detail = []
     for (let uptake of uptakes) {
       this.invoice.detail.push(uptake)
     }
-    this.drawer = false
+    this.invoice.payed = false
   }
 
   public chargeInvoice (): void {
@@ -92,6 +103,11 @@ export default class InvoiceSapView extends Page {
       this.warning('Error al cobrar', 'La factura no poseé detalle.')
       return
     }
+    // en caso de que se carge una factura antes
+    this.invoice.id = undefined
+    this.invoice.number = undefined
+    this.invoice.invoiceId = undefined
+
     const invoiceService: InvoiceSapService = new InvoiceSapService(this.getUser().id)
     this.invoice.debtcollector = this.getUser()
     this.invoice.totalToPay = this.totalToPay()
@@ -103,6 +119,7 @@ export default class InvoiceSapView extends Page {
         this.invoices.push(res.data.invoice)
       })
       .catch((err: any) => {
+        this.invoice.payed = false
         this.error('Error al crear la factura', err.response.data.error)
       })
   }
@@ -121,10 +138,57 @@ export default class InvoiceSapView extends Page {
     for (let item of this.invoice.detail) {
       total = total + item.totalPrice
     }
-    return total
+    return this.round(total)
   }
 
   public get getTotal () {
+    this.invoice.totalToPay = this.totalToPay()
     return this.totalToPay()
+  }
+  public round (value: any) {
+    return parseFloat(value.toFixed(2))
+  }
+
+  public getDate (date: string): string {
+    date = date.substr(0, 7)
+    switch (date.substr(5, 6)) {
+      case '01':
+        date = `Enero ${date.substr(0, 4)}`
+        break
+      case '02':
+        date = `Febrero ${date.substr(0, 4)}`
+        break
+      case '03':
+        date = `Marzo ${date.substr(0, 4)}`
+        break
+      case '04':
+        date = `Abril ${date.substr(0, 4)}`
+        break
+      case '05':
+        date = `Mayo ${date.substr(0, 4)}`
+        break
+      case '06':
+        date = `Junio ${date.substr(0, 4)}`
+        break
+      case '07':
+        date = `Julio ${date.substr(0, 4)}`
+        break
+      case '08':
+        date = `Agosto ${date.substr(0, 4)}`
+        break
+      case '09':
+        date = `Septiembre ${date.substr(0, 4)}`
+        break
+      case '10':
+        date = `Octubre ${date.substr(0, 4)}`
+        break
+      case '11':
+        date = `Noviembre ${date.substr(0, 4)}`
+        break
+      case '12':
+        date = `Diciembre ${date.substr(0, 4)}`
+        break
+    }
+    return date
   }
 }
