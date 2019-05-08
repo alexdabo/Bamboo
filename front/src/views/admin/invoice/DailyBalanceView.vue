@@ -30,19 +30,17 @@
     <v-data-table
       :headers="headers"
       :items="invoices"
-      :search="date"
       hide-actions
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.invoiceId }}</td>
+        <td>{{ props.item.number }}</td>
         <td class="text-xs-left">{{ props.item.beneficiary.lastName }}</td>
         <td class="text-xs-left">{{ props.item.debtcollector.firstName }}</td>
-        <td class="text-xs-left">{{ tipo }}</td>
         <td class="text-xs-left">{{ props.item.totalToPay }}</td>
       </template>
       <template slot="footer">
-              <td colspan="3"></td>
+              <td colspan="2"></td>
               <td class="primary white--text">
                 <b>TOTAL</b>
               </td>

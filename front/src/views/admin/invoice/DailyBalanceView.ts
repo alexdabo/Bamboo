@@ -1,9 +1,8 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
-import sweetalert from 'sweetalert'
+import { Watch } from 'vue-property-decorator'
 import DateWidget from '@/components/widget/date/DateWidget'
-import Invoice from '@/model/entity/InvoiceSap'
-import InvoiceService from '@/model/service/InvoiceSapService'
+import InvoiceService from '@/model/service/BalanceService'
 
 @Component({
   name: 'daily-balance-view',
@@ -11,7 +10,7 @@ import InvoiceService from '@/model/service/InvoiceSapService'
 })
 export default class DailyBalanceView extends Page {
   public date: any = null
-  public invoices: Invoice[] = [];
+  public invoices: any = [];
   public dialog: boolean = false;
   public tipo: string='Servicio de Agua Potable'
 
@@ -19,25 +18,17 @@ export default class DailyBalanceView extends Page {
     { text: 'Número de Factura', value: 'invoiceId', align: 'left' },
     { text: 'Beneficiario', value: 'beneficiary.lastName' },
     { text: 'Responsable', value: 'debtcollector.firstName' },
-    { text: 'Tipo de Factura', value: this.tipo },
     { text: 'Monto', value: 'totalToPay' }
   ];
 
-  public created (): void {
-    this.findInvoices()
-  }
-
+  @Watch('date')
   public findInvoices (): void {
     const invoiceService = new InvoiceService(this.getUser().id)
     this.invoices = []
-    // invoiceService.getByDate(this.date).then((res: any) => {
-    invoiceService.getById(1).then((res: any) => {
-      console.log(this.invoices)
-      // this.invoices=res.data
-      this.invoices.push(res.data)
+    invoiceService.getByDate(this.date).then((res: any) => {
+      this.invoices=res.data
     }).catch(() => {
       this.error('Error al buscar Facturas')
-      console.log('no se pudo encontrar facturas' + this.invoices)
     })
   }
 
