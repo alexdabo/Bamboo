@@ -104,6 +104,8 @@ public final class AssignedData {
             deleted = assignedImpl.delete(assigned.getId());
             if (deleted) {
                 System.out.println("Deleted: " + assigned);
+                beneficiaryData.delete();
+                measurerData.delete();
             }
         } catch (Exception e) {
             System.err.println(e);
