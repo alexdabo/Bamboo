@@ -1,6 +1,11 @@
 
 # build files
-src/main/webapp/
+src/main/webapp/css
+src/main/webapp/fonts
+src/main/webapp/img
+src/main/webapp/js
+src/main/webapp/favicon.ico
+src/main/webapp/index.html
 target/
 
 # server 
