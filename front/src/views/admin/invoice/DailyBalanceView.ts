@@ -26,7 +26,7 @@ export default class DailyBalanceView extends Page {
     const invoiceService = new InvoiceService(this.getUser().id)
     this.invoices = []
     invoiceService.getByDate(this.date).then((res: any) => {
-      this.invoices=res.data
+      this.invoices = res.data
     }).catch(() => {
       this.error('Error al buscar Facturas')
     })

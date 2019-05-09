@@ -17,11 +17,11 @@ export default class InvoiceSapReport extends Page {
   @Prop({}) public invoice!: InvoiceSap
   public entity: Entity = new Entity();
   public loading: boolean = false
-  public created(): void {
+  public created (): void {
     this.getEntity()
   }
 
-  public createReport(): void {
+  public createReport (): void {
     if (!this.invoice.payed) {
       this.invoice.number = ''
       this.invoice.debtcollector = this.getUser()
@@ -50,11 +50,10 @@ export default class InvoiceSapReport extends Page {
             table: {
               widths: ['auto', '*'],
               body: [
-
-                [{ text: 'RUC', style: 'titleLabel' }, this.entity.ruc!==''? this.entity.ruc: 'SIN RUC' ],
+                // eslint-disable-next-line
+                [{ text: 'RUC', style: 'titleLabel' }, this.entity.ruc !== '' ? this.entity.ruc : 'SIN RUC' ],
                 [{ text: 'Fecha de emisión ', style: 'titleLabel' }, this.invoice.dateOfIssue],
                 [{ text: 'Fatura N° ', style: 'titleLabel' }, this.invoice.number]
-
               ]
 
             }
@@ -125,7 +124,7 @@ export default class InvoiceSapReport extends Page {
     this.loading = false
   }
 
-  public getEntity(): void {
+  public getEntity (): void {
     const entityService: EntityService = new EntityService()
     entityService.get()
       .then((res: any) => {
@@ -136,10 +135,10 @@ export default class InvoiceSapReport extends Page {
       })
   }
 
-  public round(value: any) {
+  public round (value: any) {
     return parseFloat(value.toFixed(2))
   }
-  public getDate(date: any): string {
+  public getDate (date: any): string {
     date = date.substr(0, 7)
     switch (date.substr(5, 6)) {
       case '01':
