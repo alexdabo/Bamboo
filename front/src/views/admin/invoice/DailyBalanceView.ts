@@ -3,6 +3,7 @@ import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
 import DateWidget from '@/components/widget/date/DateWidget'
 import InvoiceService from '@/model/service/BalanceService'
+import InvoiceSap from '@/model/entity/InvoiceSap'
 
 @Component({
   name: 'daily-balance-view',
@@ -16,6 +17,7 @@ export default class DailyBalanceView extends Page {
 
   public headers: any[] = [
     { text: 'Número de Factura', value: 'invoiceId', align: 'left' },
+    { text: 'Hora de emision', value: 'dateOfIssue', align: 'left' },
     { text: 'Beneficiario', value: 'beneficiary.lastName' },
     { text: 'Responsable', value: 'debtcollector.firstName' },
     { text: 'Monto', value: 'totalToPay' }
@@ -23,6 +25,8 @@ export default class DailyBalanceView extends Page {
 
   @Watch('date')
   public findInvoices (): void {
+    let a: InvoiceSap = new InvoiceSap()
+
     const invoiceService = new InvoiceService(this.getUser().id)
     this.invoices = []
     invoiceService.getByDate(this.date).then((res: any) => {

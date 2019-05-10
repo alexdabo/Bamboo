@@ -1,8 +1,9 @@
 package com.bamboo.api.Rest;
 
+import com.bamboo.api.method.InvoiceDtoMethod;
 import com.bamboo.api.method.RoleDtoMethod;
-import com.bamboo.model.method.InvoiceImpl;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +22,12 @@ import java.util.Map;
 )
 public class InvoiceRest extends HttpServlet {
     private final RoleDtoMethod roleMtd = new RoleDtoMethod();
-    private final Gson gson = new Gson();
+    private  Gson gson = new Gson();
+    public InvoiceRest() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
+        gson = gsonBuilder.create();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +38,7 @@ public class InvoiceRest extends HttpServlet {
 
             // Get all roles
 
-            responseJson = gson.toJson(new InvoiceImpl().findByDate(request.getParameter("date")));
+            responseJson = gson.toJson(new InvoiceDtoMethod().findByDate(request.getParameter("date")));
         } catch (Exception ex) {
             response.sendError(400);
             map.put("error", ex.getMessage());

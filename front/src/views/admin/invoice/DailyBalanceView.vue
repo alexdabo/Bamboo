@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <v-toolbar flat color="white">
+  <div>
+    <v-toolbar flat color="white">
       <v-toolbar-title>BALANCE DIARIO</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
@@ -16,41 +16,46 @@
       >
         <v-icon>refresh</v-icon>
       </v-btn>
-        <v-btn
-          v-shortkey="['alt', 'n']"
-          @shortkey="dialog=true"
-          slot="activator"
-          color="primary"
-          icon
-          class="mb-2"
-        >
-          <v-icon>open_in_browser</v-icon>
-        </v-btn>
+      <v-btn
+        v-shortkey="['alt', 'n']"
+        @shortkey="dialog=true"
+        slot="activator"
+        color="primary"
+        icon
+        class="mb-2"
+      >
+        <v-icon>open_in_browser</v-icon>
+      </v-btn>
     </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="invoices"
-      hide-actions
-      class="elevation-1"
-    >
+    <v-data-table :headers="headers" :items="invoices" hide-actions class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.number }}</td>
-        <td class="text-xs-left">{{ props.item.beneficiary.lastName }}</td>
-        <td class="text-xs-left">{{ props.item.debtcollector.firstName }}</td>
-        <td class="text-xs-left">{{ props.item.totalToPay }}</td>
+        <td>{{ props.item.dateOfIssue.substr(10) }}</td>
+        <td
+          class="text-xs-left"
+        >{{ props.item.beneficiary.lastName }} {{ props.item.beneficiary.firstName }}</td>
+        <td
+          class="text-xs-left"
+        >{{ props.item.debtcollector.lastName }} {{ props.item.debtcollector.firstName }}</td>
+        <td class="text-xs-left">
+          <span class="grey--text">
+            <b>$</b>
+          </span>
+          {{ props.item.totalToPay }}
+        </td>
       </template>
       <template slot="footer">
-              <td colspan="2"></td>
-              <td class="primary white--text">
-                <b>TOTAL</b>
-              </td>
-              <td>
-                <span class="grey--text">
-                  <b>$</b>
-                </span>
-                {{dialyTotal}}
-              </td>
-            </template>
+        <td colspan="3"></td>
+        <td class="primary white--text">
+          <b>TOTAL</b>
+        </td>
+        <td>
+          <span class="grey--text">
+            <b>$</b>
+          </span>
+          {{dialyTotal}}
+        </td>
+      </template>
       <v-alert
         slot="no-results"
         :value="true"
@@ -58,7 +63,7 @@
         icon="warning"
       >No se encontro resultados para "{{ date }}".</v-alert>
     </v-data-table>
-    </div>
+  </div>
 </template>
 <script lang="ts">
 import DailyBalanceView from '@/views/admin/invoice/DailyBalanceView.ts'
