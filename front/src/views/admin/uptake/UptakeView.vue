@@ -14,9 +14,18 @@
           hide-details
           clearable
         />
-        <button v-shortkey="['enter']" @shortkey="findMeasurer()"/>
 
         <v-spacer></v-spacer>
+        <v-btn
+          color="primary"
+          class="mb-2"
+          icon
+          v-shortkey="['alt' + 'enter']"
+          @shortkey="findMeasurer()"
+          @click="findMeasurer()"
+        >
+          <v-icon>search</v-icon>
+        </v-btn>
         <v-btn
           color="primary"
           class="mb-2"
@@ -59,7 +68,7 @@
             </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex xs12 sm6>
+            <v-flex xs12 sm4>
               <v-dialog
                 ref="dialog"
                 v-model="modal"
@@ -86,7 +95,21 @@
               </v-dialog>
             </v-flex>
 
-            <v-flex xs12 sm6>
+            <v-flex xs12 sm4 class="pl-2 pr-2">
+              <v-text-field
+                box
+                v-model="uptake.lastValueTaken"
+                color="primary"
+                background-color="white"
+                label="Ultimo valor marcado"
+                prepend-inner-icon="bookmark"
+                :disabled="history.length>0"
+                type="number"
+                step="0.01"
+                min="0"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm4>
               <v-text-field
                 box
                 v-model="uptake.currentValueTaken"
@@ -97,7 +120,7 @@
                 :disabled="disableValue(measurer.status.id)"
                 type="number"
                 step="0.01"
-                :min="lastValue"
+                :min="uptake.lastValueTaken"
               ></v-text-field>
             </v-flex>
           </v-layout>
@@ -134,7 +157,7 @@
                   </v-list-tile-title>
                   <v-list-tile-sub-title>
                     Valor marcado
-                    {{item.currentValueTaken}}
+                    {{round(item.currentValueTaken)}}
                     <span>m³</span>
                   </v-list-tile-sub-title>
                 </v-list-tile-content>

@@ -20,7 +20,6 @@ public class InvoiceImpl implements InvoiceInterface {
 
     @Override
     public Invoice save(Invoice invoice) throws Exception {
-        System.out.println(invoice);
         String sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, totaltopay, payed) VALUES (?, ?, ?, ?) " +
                 "RETURNING id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed;";
         List<DBObject> dbos = new ArrayList<>();

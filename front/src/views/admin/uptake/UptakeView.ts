@@ -7,11 +7,13 @@ import InfoBeneficiary from '@/components/beneficiary/InfoBeneficiary.vue'
 import MeasurerService from '@/model/service/MeasurerService'
 import Beneficiary from '@/model/entity/Beneficiary'
 import UptakeService from '@/model/service/UptakeService'
+import DateWidget from '@/components/widget/date/DateWidget.vue'
 
 @Component({
   name: 'uptake-view',
   components: {
-    InfoBeneficiary
+    InfoBeneficiary,
+    DateWidget
   }
 })
 export default class UptakeView extends Page {
@@ -24,6 +26,9 @@ export default class UptakeView extends Page {
   beneficiary: Beneficiary = new Beneficiary()
   history: any[] = []
   uptake: Uptake = new Uptake()
+
+  // @Watch('beneficiary')
+  public setLastValue (): void { }
 
   @Watch('search')
   public reset (newValue?: string): void {
@@ -47,26 +52,29 @@ export default class UptakeView extends Page {
         this.history = res.data.history
         if (this.history.length > 0) {
           this.drawerHistory = true
+          this.uptake.lastValueTaken = this.lastValue()
+        } else {
+          this.uptake.lastValueTaken = 0
         }
       })
       .catch(() => {
         this.error(`Error la cargar`, `Verifique si el medidor N° ${this.search}  existe.`)
       })
   }
-  public get lastValue () : number {
+  public lastValue (): number {
     let value: number = 0
     for (let item of this.history) {
       if (value < item.currentValueTaken) {
         value = item.currentValueTaken
       }
     }
-    return value
+    return this.round(value)
   }
-  public disableValue (statusId:number) {
-    let isDisabled:boolean = false
+  public disableValue (statusId: number) {
+    let isDisabled: boolean = false
     if (statusId === 3) {
       isDisabled = true
-      this.uptake.currentValueTaken = this.lastValue
+      this.uptake.currentValueTaken = this.lastValue()
       this.warning('Medidor dañado', 'Solo se puede generar la cuota base.')
     }
     if (statusId === 2) {
@@ -91,11 +99,17 @@ export default class UptakeView extends Page {
       .then((res: any) => {
         this.history.push(res.data.uptake)
         this.drawerHistory = true
+        this.uptake.lastValueTaken = this.lastValue()
+        this.uptake.currentValueTaken = undefined
         this.success('Medida almacenada')
       })
       .catch((err: any) => {
         console.log(err)
         this.error('Medida no almacenada', err.response.data.error)
       })
+  }
+
+  public round (value: any) {
+    return parseFloat(value.toFixed(2))
   }
 }

@@ -23,7 +23,7 @@ export default class InvoiceSapReport extends Page {
 
   public createReport (): void {
     if (!this.invoice.payed) {
-      this.invoice.number = ''
+      this.invoice.number = 0
       this.invoice.debtcollector = this.getUser()
       this.invoice.dateOfIssue = ''
     }

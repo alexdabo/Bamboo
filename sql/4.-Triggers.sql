@@ -13,8 +13,8 @@ BEGIN
     assigned_id = (select id from assigned where measurerid = new.measurerid and status = 'enable');
     assigned_debt = (select debt from assigned where id = assigned_id);
 
-    new.lastvaluetaken =
-            (select currentvaluetaken from uptake where measurerid = new.measurerid order by id desc limit 1);
+   -- new.lastvaluetaken =
+           -- (select currentvaluetaken from uptake where measurerid = new.measurerid order by id desc limit 1);
 
     if new.lastvaluetaken is null then
         new.lastvaluetaken = 0;

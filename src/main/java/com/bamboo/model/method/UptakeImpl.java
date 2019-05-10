@@ -17,8 +17,9 @@ public class UptakeImpl implements UptakeInterface {
 
     @Override
     public Uptake save(Uptake uptake) throws Exception {
+        System.out.println(uptake);
         Uptake newUptake = null;
-        String sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken) VALUES (?, ?, ?) "
+        String sql = "INSERT INTO public.uptake(measurerid, datetaked, lastvaluetaken, currentvaluetaken) VALUES (?, ?, ?, ?) "
                 + "RETURNING  id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, "
                 + "extraprice, volumeconsumed, volumeexceeded, totalprice, billed;";
         if (uptake.getDatetaked() == null) {
@@ -27,13 +28,14 @@ public class UptakeImpl implements UptakeInterface {
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, uptake.getMeasurer()));
         dbos.add(new DBObject(2, uptake.getDatetaked()));
-        dbos.add(new DBObject(3, uptake.getCurrentValueTaken()));
+        dbos.add(new DBObject(3, uptake.getLastValueTaken()));
+        dbos.add(new DBObject(4, uptake.getCurrentValueTaken()));
 
         if (uptake.getId() != 0) {
-            sql = "INSERT INTO public.uptake(measurerid, datetaked, currentvaluetaken, id) VALUES (?, ?, ?, ?) "
+            sql = "INSERT INTO public.uptake(measurerid, datetaked, lastvaluetaken, currentvaluetaken, id) VALUES (?, ?, ?, ?, ?) "
                     + "RETURNING  id, measurerid, datetaked, lastvaluetaken, currentvaluetaken, basevolume, baseprice, "
                     + "extraprice, volumeconsumed, volumeexceeded, totalprice, billed;";
-            dbos.add(new DBObject(4, uptake.getId()));
+            dbos.add(new DBObject(5, uptake.getId()));
         }
         try {
             ResultSet result = DBC.queryResultSet(sql, dbos);
