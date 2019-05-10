@@ -20,20 +20,19 @@ public class InvoiceImpl implements InvoiceInterface {
 
     @Override
     public Invoice save(Invoice invoice) throws Exception {
-        invoice.setNumber(random());
-        String sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed) VALUES (?, ?, ?, ?, ?) " +
+        System.out.println(invoice);
+        String sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, totaltopay, payed) VALUES (?, ?, ?, ?) " +
                 "RETURNING id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, invoice.getBeneficiary()));
         dbos.add(new DBObject(2, invoice.getDebtcollector()));
-        dbos.add(new DBObject(3, invoice.getNumber()));
-        dbos.add(new DBObject(4, invoice.getTotalToPay()));
-        dbos.add(new DBObject(5, invoice.isPayed()));
+        dbos.add(new DBObject(3, invoice.getTotalToPay()));
+        dbos.add(new DBObject(4, invoice.isPayed()));
 
         if (invoice.getId() != 0) {
-            sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, number, totaltopay, payed, id )	VALUES (?, ?, ?, ?, ?, ?) " +
+            sql = "INSERT INTO public.invoice( beneficiaryid, debtcollectorid, totaltopay, payed, id )	VALUES (?, ?, ?, ?, ?) " +
                     "RETURNING id, beneficiaryid, debtcollectorid, number, TO_CHAR(dateofissue, 'yyyy-MM-dd HH24:MI:SS') as dateofissue, totaltopay, payed;";
-            dbos.add(new DBObject(6, invoice.getId()));
+            dbos.add(new DBObject(5, invoice.getId()));
         }
         invoice = null;
         try {
@@ -43,7 +42,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(result.getInt("beneficiaryid"));
                 invoice.setDebtcollector(result.getInt("debtcollectorid"));
-                invoice.setNumber(result.getString("number"));
+                invoice.setNumber(result.getInt("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
                 invoice.setIsPayed(result.getBoolean("payed"));
@@ -68,7 +67,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(result.getInt("beneficiaryid"));
                 invoice.setDebtcollector(result.getInt("debtcollectorid"));
-                invoice.setNumber(result.getString("number"));
+                invoice.setNumber(result.getInt("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
                 invoice.setIsPayed(result.getBoolean("payed"));
@@ -90,7 +89,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(result.getInt("beneficiaryid"));
                 invoice.setDebtcollector(result.getInt("debtcollectorid"));
-                invoice.setNumber(result.getString("number"));
+                invoice.setNumber(result.getInt("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
                 invoice.setIsPayed(result.getBoolean("payed"));
@@ -118,7 +117,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(result.getInt("beneficiaryid"));
                 invoice.setDebtcollector(result.getInt("debtcollectorid"));
-                invoice.setNumber(result.getString("number"));
+                invoice.setNumber(result.getInt("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
                 invoice.setIsPayed(result.getBoolean("payed"));
@@ -181,7 +180,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(result.getInt("beneficiaryid"));
                 invoice.setDebtcollector(result.getInt("debtcollectorid"));
-                invoice.setNumber(result.getString("number"));
+                invoice.setNumber(result.getInt("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
                 invoice.setIsPayed(result.getBoolean("payed"));
@@ -217,7 +216,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(result.getInt("beneficiaryid"));
                 invoice.setDebtcollector(result.getInt("debtcollectorid"));
-                invoice.setNumber(result.getString("number"));
+                invoice.setNumber(result.getInt("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
                 invoice.setIsPayed(result.getBoolean("payed"));
@@ -242,7 +241,7 @@ public class InvoiceImpl implements InvoiceInterface {
                 invoice.setId(result.getInt("id"));
                 invoice.setBeneficiary(result.getInt("beneficiaryid"));
                 invoice.setDebtcollector(result.getInt("debtcollectorid"));
-                invoice.setNumber(result.getString("number"));
+                invoice.setNumber(result.getInt("number"));
                 invoice.setDateOfIssue(result.getString("dateofissue"));
                 invoice.setTotalToPay(result.getDouble("totaltopay"));
                 invoice.setIsPayed(result.getBoolean("payed"));

@@ -17,7 +17,7 @@ import java.util.Locale;
 public class Invoice {
 
     private int id;
-    private String number;
+    private int number;
     private Date dateOfIssue;
     private Double totalToPay;
     private boolean payed;
@@ -27,7 +27,7 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(int id, String number, Date dateOfIssue, Double totalToPay, boolean payed, int beneficiary, int debtcollector) {
+    public Invoice(int id, int number, Date dateOfIssue, Double totalToPay, boolean payed, int beneficiary, int debtcollector) {
         this.id = id;
         this.number = number;
         this.dateOfIssue = dateOfIssue;
@@ -37,7 +37,7 @@ public class Invoice {
         this.debtcollector = debtcollector;
     }
 
-    public Invoice(int id, String number, String dateOfIssue, Double totalToPay, boolean payed, int beneficiary, int debtcollector) throws ParseException {
+    public Invoice(int id, int number, String dateOfIssue, Double totalToPay, boolean payed, int beneficiary, int debtcollector) throws ParseException {
         this.id = id;
         this.number = number;
         toDate(dateOfIssue);
@@ -63,11 +63,11 @@ public class Invoice {
         this.id = id;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 

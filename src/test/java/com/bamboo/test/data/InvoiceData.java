@@ -75,7 +75,7 @@ public final class InvoiceData {
 
     public boolean update() {
         boolean updated = false;
-        invoice.setNumber(Integer.toString(this.invoice.getId()));
+        invoice.setNumber(this.invoice.getId());
         try {
             updated = invoiceImpl.update(invoice);
             if (updated) {

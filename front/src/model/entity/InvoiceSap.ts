@@ -7,7 +7,7 @@ export default class InvoiceSap {
     constructor(
         public id?: number,
         public invoiceId?: number,
-        public number?: string,
+        public number?: number,
         public dateOfIssue?: string,
         public totalToPay: number = 0,
         public payed: boolean = false,

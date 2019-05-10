@@ -12,21 +12,21 @@ CREATE TABLE entity(
 );
 
 CREATE TABLE role(
-  id SERIAL NOT NULL,
+  id SERIAL UNIQUE NOT NULL,
   name CHARACTER VARYING (30) UNIQUE NOT NULL,
   CONSTRAINT pk_role PRIMARY KEY(id)
 );
 
 
 CREATE TABLE village(
-  id SERIAL NOT NULL,
+  id SERIAL UNIQUE NOT NULL,
   name CHARACTER VARYING (50) UNIQUE NOT NULL,
   CONSTRAINT pk_village PRIMARY KEY(id)
 );
 
 
 CREATE TABLE sap(
-  id SERIAL NOT NULL,
+  id SERIAL UNIQUE NOT NULL,
   name CHARACTER VARYING (50) NOT NULL,
   basevolume	REAL NOT NULL DEFAULT 0,
   baseprice	DOUBLE PRECISION  NOT NULL DEFAULT 0,
@@ -35,7 +35,7 @@ CREATE TABLE sap(
 );
 
 CREATE TABLE anotherservice(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   name	CHARACTER VARYING(50) NOT NULL,
   price	DOUBLE PRECISION NOT NULL,
   CONSTRAINT pk_anotherservice PRIMARY KEY(id)
@@ -43,7 +43,7 @@ CREATE TABLE anotherservice(
 
 
 CREATE TABLE status(
-  id SERIAL NOT NULL,
+  id SERIAL UNIQUE NOT NULL,
   name CHARACTER VARYING (40) UNIQUE NOT NULL,
   CONSTRAINT pk_status PRIMARY KEY(id)
 );
@@ -54,7 +54,7 @@ CREATE TABLE status(
 
 
 CREATE TABLE operator(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   roleid	INTEGER NOT NULL,
   username	CHARACTER VARYING	(30) UNIQUE NOT NULL,
   password	CHARACTER VARYING	(40) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE operator(
 
 
 CREATE TABLE audit(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   operatorid	INTEGER NOT NULL,
   executeddate	TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   tableaffected	CHARACTER VARYING	(25	) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE audit(
 
 
 CREATE TABLE measurer(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   sapid	INTEGER	NOT NULL,
   statusid	INTEGER DEFAULT 1	NOT NULL,
   number	CHARACTER VARYING	(10) UNIQUE NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE measurer(
 
 
 CREATE TABLE beneficiary(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   villageid	INTEGER	NOT NULL,
   dni	CHARACTER VARYING	(10) UNIQUE NOT NULL,
   lastname	CHARACTER VARYING	(30) NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE beneficiary(
 
 
 CREATE TABLE uptake(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   measurerid	INTEGER	NOT NULL,
   datetaked	DATE DEFAULT CURRENT_DATE	NOT NULL,
   lastvaluetaken	REAL	NOT NULL,
@@ -121,15 +121,16 @@ CREATE TABLE uptake(
 
 
 CREATE TABLE invoice(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   beneficiaryid	INTEGER	NOT NULL,
   debtcollectorid	INTEGER	NOT NULL,
-  number CHARACTER VARYING (10) NOT NULL,
+  number SERIAL UNIQUE NOT NULL,
   dateofissue	TIMESTAMP	DEFAULT	CURRENT_TIMESTAMP NOT NULL,
   totaltopay	DOUBLE PRECISION NOT NULL,
   payed	BOOLEAN	DEFAULT	FALSE NOT NULL,
   CONSTRAINT pk_invoice PRIMARY KEY(id)
 );
+ALTER sequence invoice_number_seq restart WITH 1000 ;
 
 
 /*******************************************************************
@@ -137,7 +138,7 @@ CREATE TABLE invoice(
 ********************************************************************/
 
 CREATE TABLE assigned(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   beneficiaryid	INTEGER NOT NULL,
   measurerid	INTEGER NOT NULL,
   debt DOUBLE PRECISION NOT NULL DEFAULT 0,
@@ -147,14 +148,14 @@ CREATE TABLE assigned(
 
 
 CREATE TABLE sapdetail(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   invoiceid	INTEGER NOT NULL,
   uptakeid	INTEGER NOT NULL
 );
 
 
 CREATE TABLE anotherservicedetail(
-  id	SERIAL NOT NULL,
+  id	SERIAL UNIQUE NOT NULL,
   invoiceid	INTEGER NOT NULL,
   anotherserviceid	INTEGER NOT NULL,
   price	DOUBLE PRECISION NOT NULL

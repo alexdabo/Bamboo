@@ -7,7 +7,7 @@ import java.util.List;
 public class InvoiceSapDto {
     private int id;
     private int invoiceId;
-    private String number;
+    private int number;
     private Date dateOfIssue;
     private Double totalToPay;
     private boolean payed;
@@ -18,7 +18,7 @@ public class InvoiceSapDto {
     public InvoiceSapDto() {
     }
 
-    public InvoiceSapDto(int id, int invoiceId, String number, Date dateOfIssue, Double totalToPay, boolean payed, BeneficiaryDto beneficiary, UserDto debtcollector, List<UptakeDto> detail) {
+    public InvoiceSapDto(int id, int invoiceId, int number, Date dateOfIssue, Double totalToPay, boolean payed, BeneficiaryDto beneficiary, UserDto debtcollector, List<UptakeDto> detail) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.number = number;
@@ -46,11 +46,11 @@ public class InvoiceSapDto {
         this.id = id;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
