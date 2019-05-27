@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest ../src/main/webapp",
+    "buildFront": "vue-cli-service build --dest ../src/main/webapp",
+    "build": "rm -rf ../target/*.war && vue-cli-service build --dest ../src/main/webapp && cd ../ && mvn package",
     "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {

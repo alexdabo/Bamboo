@@ -110,7 +110,7 @@ export default class InvoiceSapReport extends Page {
     ])
     const detailDefinition = {
       headerRows: 1,
-      widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*'],
+      widths: ['auto', '*', '*', '*', '*', '*', '*', '*', '*'],
       body: detail
     }
     const definition: DefinitionReport = new DefinitionReport(this.entity)

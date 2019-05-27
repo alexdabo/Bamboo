@@ -25,8 +25,8 @@ export default class AdminView extends Vue {
       title: 'Cuentas',
       children: [
         { title: 'Balance Diario', routerName: 'balance' },
-        { title: 'Factura SAP', routerName: 'invoiceSap' },
-        { title: 'Factura Otos Servicios', routerName: 'invoiceAnother' }
+        { title: 'Factura SAP', routerName: 'invoiceSap' }
+        // { title: 'Factura Otos Servicios', routerName: 'invoiceAnother' }
       ]
     },
     { icon: 'person', title: 'Usuarios', routerName: 'users' },

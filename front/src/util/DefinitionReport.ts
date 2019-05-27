@@ -85,7 +85,20 @@ export default class DefinitionReport {
         {
           style: 'infoLabel',
           margin: [0, 10],
-          layout: 'noBorders',
+          layout: {
+            hLineWidth (i: number, node: any) {
+              return (i === 0 || i === node.table.body.length) ? 1 : 1
+            },
+            vLineWidth (i: number, node: any) {
+              return (i === 0 || i === node.table.widths.length) ? 1 : 1
+            },
+            hLineColor (i: number, node: any) {
+              return (i === 0 || i === node.table.body.length) ? '#bdbdbd' : '#bdbdbd'
+            },
+            vLineColor (i: number, node: any) {
+              return (i === 0 || i === node.table.widths.length) ? '#bdbdbd' : '#bdbdbd'
+            }
+          },
           table: detail
         }
       ],
