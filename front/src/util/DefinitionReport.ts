@@ -22,8 +22,8 @@ export default class DefinitionReport {
             widths: ['*'],
             body: [
               [{
-                text: `Junta administradora del agua potable de ${this.entity.community}
-                            Provincia de ${this.entity.province} \t Cantón: ${this.entity.canton}
+                text: `JUNTA ADMINISTRADORA DEL AGUA POTABLE DE ${this.entity.community}
+                            PROVINCIA DE ${this.entity.province} \t CANTON: ${this.entity.canton}
                              ${this.title}`,
                 style: 'header'
               }]
@@ -62,14 +62,14 @@ export default class DefinitionReport {
       content: [
         {
           layout: 'noBorders',
-          margin: [-40, -40, -40, 0],
+          margin: [-20, -20, -20, 0],
           table: {
             headerRows: 1,
             widths: ['*'],
             body: [
               [{
-                text: `Junta administradora del agua potable de ${this.entity.community}
-                            Provincia de ${this.entity.province} \t Cantón: ${this.entity.canton}
+                text: `JUNTA ADMINISTRADORA DEL AGUA POTABLE DE ${this.entity.community}
+                            PROVINCIA DE ${this.entity.province} \t CANTON: ${this.entity.canton}
                              ${this.title}`,
                 style: 'header'
               }]
@@ -126,8 +126,7 @@ export default class DefinitionReport {
     return {
       header: {
         fontSize: 14,
-        color: 'white',
-        fillColor: '#00B9D1',
+        color: '#000000',
         alignment: 'center',
         bold: true,
         margin: 2
@@ -137,8 +136,8 @@ export default class DefinitionReport {
         color: '#666666'
       },
       footer: {
-        fontSize: 8,
-        color: '#666666',
+        fontSize: 10,
+        color: '#000000',
         alignment: 'center'
       },
       infoLabel: {
@@ -147,11 +146,10 @@ export default class DefinitionReport {
       },
       thead: {
         alignment: 'center',
-        color: 'white',
+        color: '#000000',
         bold: true,
         margin: [0, 5],
-        fontSize: 10,
-        fillColor: '#00B9D1'
+        fontSize: 10
       },
       tcell: {
         margin: [0, 5],
