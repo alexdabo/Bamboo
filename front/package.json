@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "buildFront": "vue-cli-service build --dest ../src/main/webapp",
-    "build": "rm -rf ../target/*.war && vue-cli-service build --dest ../src/main/webapp && cd ../ && mvn package",
+    "build": "rm -rf ../target/*.war && rm  -rf ../target/Bamboo* && vue-cli-service build --dest ../src/main/webapp && cd ../ && mvn package",
     "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
