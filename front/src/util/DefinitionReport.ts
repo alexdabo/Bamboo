@@ -78,13 +78,13 @@ export default class DefinitionReport {
         },
         {
           style: 'infoLabel',
-          margin: [0, 10],
+          margin: [0, 6],
           layout: 'noBorders',
           table: info
         },
         {
           style: 'infoLabel',
-          margin: [0, 10],
+          margin: [0, 6],
           layout: {
             hLineWidth (i: number, node: any) {
               return (i === 0 || i === node.table.body.length) ? 0.5 : 0.5
@@ -103,7 +103,7 @@ export default class DefinitionReport {
         }
       ],
       footer: {
-        margin: -5,
+        margin: [0, -20],
         style: 'footer',
         columns: [
           {
@@ -170,11 +170,11 @@ export default class DefinitionReport {
         alignment: 'center',
         color: '#000000',
         bold: true,
-        margin: [0, 5],
+        margin: [0, 2],
         fontSize: 10
       },
       tcell: {
-        margin: [0, 5],
+        margin: [0, 3],
         fontSize: 10
       }
     }
