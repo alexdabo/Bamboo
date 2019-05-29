@@ -25,7 +25,7 @@ export default class DefinitionReport {
                 text: `JUNTA ADMINISTRADORA DEL AGUA POTABLE DE ${this.entity.community}
                             PROVINCIA DE ${this.entity.province} \t CANTON: ${this.entity.canton}
                              ${this.title}`,
-                style: 'header'
+                style: 'docHeader'
               }]
             ]
           }
@@ -71,7 +71,7 @@ export default class DefinitionReport {
                 text: `JUNTA ADMINISTRADORA DEL AGUA POTABLE DE ${this.entity.community}
                             PROVINCIA DE ${this.entity.province} \t CANTON: ${this.entity.canton}
                              ${this.title}`,
-                style: 'header'
+                style: 'invoiceHeader'
               }]
             ]
           }
@@ -87,10 +87,10 @@ export default class DefinitionReport {
           margin: [0, 10],
           layout: {
             hLineWidth (i: number, node: any) {
-              return (i === 0 || i === node.table.body.length) ? 1 : 1
+              return (i === 0 || i === node.table.body.length) ? 0.5 : 0.5
             },
             vLineWidth (i: number, node: any) {
-              return (i === 0 || i === node.table.widths.length) ? 1 : 1
+              return (i === 0 || i === node.table.widths.length) ? 0.5 : 0.5
             },
             hLineColor (i: number, node: any) {
               return (i === 0 || i === node.table.body.length) ? '#bdbdbd' : '#bdbdbd'
@@ -103,6 +103,7 @@ export default class DefinitionReport {
         }
       ],
       footer: {
+        margin: -5,
         style: 'footer',
         columns: [
           {
@@ -137,9 +138,17 @@ export default class DefinitionReport {
 
   private getStyle (): any {
     return {
-      header: {
+      invoiceHeader: {
         fontSize: 14,
         color: '#000000',
+        alignment: 'center',
+        bold: true,
+        margin: 2
+      },
+      docHeader: {
+        fontSize: 14,
+        color: 'white',
+        fillColor: '#00B9D1',
         alignment: 'center',
         bold: true,
         margin: 2
