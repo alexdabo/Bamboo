@@ -90,7 +90,10 @@
           <td>{{ props.item.measurer.number }}</td>
           <td>{{ props.item.measurer.sap.name }}</td>
           <td>{{ props.item.measurer.installationDate }}</td>
-          <td class="text-xs-center">
+          <td class="text-xs-center" v-if="props.item.status==='disable'" >
+            <span class="red">Sin servicio</span>
+          </td>
+          <td v-else class="text-xs-center">
             <span
               v-if="props.item.measurer.status.id===1"
               class="success"

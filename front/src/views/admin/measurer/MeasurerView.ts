@@ -30,7 +30,7 @@ export default class MeasurerView extends Vue {
     { text: 'Número', value: 'measurer.number' },
     { text: 'Servicio', value: 'measurer.sap.name' },
     { text: 'Fecha de instalación', value: 'measurer.installationDate' },
-    { text: 'Estado', value: 'measurer.status.name' },
+    { text: 'Estado', value: 'measurer.status.name', align: 'center' },
     { text: 'Deuda', value: 'debt', align: 'center' },
     { text: 'Acciones', sortable: false, align: 'center' }
   ]

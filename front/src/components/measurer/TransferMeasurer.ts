@@ -114,6 +114,9 @@ export default class TransferMeasurer extends Page {
             Swal(swal)
               .then((willDelete) => {
                 if (willDelete) {
+                  for(let item of this.newAssigned.assigneds){
+                    item.id=undefined
+                  }
                   service.postTransfer(this.newAssigned)
                     .then((res: any) => {
                       console.log('res')
