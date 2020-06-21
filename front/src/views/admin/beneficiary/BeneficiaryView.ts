@@ -1,5 +1,6 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
+// @ts-ignore
 import sweetalert from 'sweetalert'
 import Beneficiary from '@/model/entity/Beneficiary'
 import BeneficiaryService from '@/model/service/BeneficiaryService'
@@ -94,7 +95,7 @@ export default class BeneficiaryComponent extends Page {
     }
 
     sweetalert(conf)
-      .then((willDelete) => {
+      .then((willDelete:any) => {
         if (willDelete) {
           beneficiaryService.delete(beneficiary).then((res: any) => {
             if (res.data.deleted === true) {

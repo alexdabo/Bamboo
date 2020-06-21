@@ -1,5 +1,6 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
+// @ts-ignore
 import sweetalert from 'sweetalert'
 import Village from '@/model/entity/Village'
 import VillageService from '@/model/service/VillageService'
@@ -76,7 +77,7 @@ export default class VillageView extends Page {
       dangerMode: true
     }
 
-    sweetalert(conf).then((willDelete) => {
+    sweetalert(conf).then((willDelete:any) => {
       if (willDelete) {
         villageService.delete(village)
           .then((res: any) => {

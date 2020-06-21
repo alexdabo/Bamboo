@@ -1,5 +1,6 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
+// @ts-ignore
 import sweetalert from 'sweetalert'
 import User from '@/model/entity/User'
 import UserService from '@/model/service/UserService'
@@ -90,7 +91,7 @@ export default class UserView extends Page {
     }
 
     sweetalert(conf)
-      .then((willDelete) => {
+      .then((willDelete: any) => {
         if (willDelete) {
           userService.delete(user).then((res: any) => {
             if (res.data.deleted === true) {

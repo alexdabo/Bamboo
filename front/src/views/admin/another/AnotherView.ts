@@ -1,5 +1,6 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
+// @ts-ignore
 import sweetalert from 'sweetalert'
 import Another from '@/model/entity/Another'
 import AnotherService from '@/model/service/AnotherService'
@@ -75,7 +76,7 @@ export default class AnotherView extends Page {
       dangerMode: true
     }
 
-    sweetalert(conf).then((willDelete) => {
+    sweetalert(conf).then((willDelete:any) => {
       if (willDelete) {
         anotherService.delete(another).then((res) => {
           if (res.data.deleted === true) {

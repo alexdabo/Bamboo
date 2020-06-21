@@ -63,7 +63,7 @@ def main(argv):
     for opt, arg in opts:
         if opt == '-h':
             print('Connection options:')
-            print('\t-H, --host=HOSTNAME      database server host or socket directory (default: {})'.format(host))
+            print('\t-H, --host=HOSTNAME      database server host (default: {})'.format(host))
             print('\t-p, --port=PORT          database server port (default: {})'.format(port))
             print('\t-u, --user=USERNAME      database user name (default: {})'.format(user))
             print('\t-d, --dbname=DBNAME      database name to connect to (default: {})'.format(dbname))

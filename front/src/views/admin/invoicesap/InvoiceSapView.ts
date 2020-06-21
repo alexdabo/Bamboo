@@ -1,7 +1,5 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
-import swal from 'sweetalert'
-import Assigned from '@/model/entity/Assigned'
 import Uptake from '@/model/entity/Uptake'
 import FindBeneficiary from '@/components/beneficiary/FindBeneficiary.vue'
 import InfoBeneficiary from '@/components/beneficiary/InfoBeneficiary.vue'

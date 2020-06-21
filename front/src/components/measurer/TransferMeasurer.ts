@@ -4,6 +4,7 @@ import Assigned from '@/model/entity/Assigned'
 import AssignedService from '@/model/service/AssignedService'
 import Beneficiary from '@/model/entity/Beneficiary'
 import { Prop, Watch, Emit } from 'vue-property-decorator'
+// @ts-ignore
 import Swal from 'sweetalert'
 import AssignedSimple from '@/model/entity/AssignedSimple'
 
@@ -69,7 +70,7 @@ export default class TransferMeasurer extends Page {
           }
 
           Swal(swal)
-            .then((willDelete) => {
+            .then((willDelete: any) => {
               if (willDelete) {
                 this.newAssigned.assigneds.push(element)
                 const index = this.currentAssigned.assigneds.indexOf(element)
@@ -112,10 +113,10 @@ export default class TransferMeasurer extends Page {
             }
 
             Swal(swal)
-              .then((willDelete) => {
+              .then((willDelete: any) => {
                 if (willDelete) {
-                  for(let item of this.newAssigned.assigneds){
-                    item.id=undefined
+                  for (let item of this.newAssigned.assigneds) {
+                    item.id = undefined
                   }
                   service.postTransfer(this.newAssigned)
                     .then((res: any) => {

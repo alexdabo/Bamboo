@@ -1,5 +1,6 @@
 import Page from '@/components/widget/page/Page'
 import Component from 'vue-class-component'
+// @ts-ignore
 import sweetalert from 'sweetalert'
 import Sap from '@/model/entity/Sap'
 import SapService from '@/model/service/SapService'
@@ -78,7 +79,7 @@ export default class SapView extends Page {
         dangerMode: true
       }
 
-      sweetalert(conf).then((willDelete) => {
+      sweetalert(conf).then((willDelete:any) => {
         if (willDelete) {
           sapService.delete(sap).then((res: any) => {
             if (res.data.deleted === true) {

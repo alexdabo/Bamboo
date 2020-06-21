@@ -3,79 +3,123 @@
 Bamboo es un sistema para la automatización de las tarifas de servicio de agua potable.
 
 
+## Dependencias
 
-## Descragar el código
+Este proyecto se divide en backend y frontend, por lo que debe tener los entornos para ambos módulos.
 
-Bamboo esta dividido en BackEnd y FrontEnd, por lo cual se los debe descargar y compilar por separado.
+Dependencias para el **backend**.
+* Java
+* Maven
+* Postgresql
+* python 
 
-* Descargar el código
-``` shell
-git clone https://github.com/alexanderda/bamboo.git
-```
+Dependencias para el **frontend** 
+* Node.js
+* npm
+* vue/cli
 
-* Descargar las dependencias para el frontend
-``` shell
-cd front
-```
-para poder compilar el frontend se debe tener instalado (nodejs, yarn)
-```shell 
-yarn  install
-```
-Una vez instaladas las dependencias compiladas a html css y js.
-``` shell
-yarn build
-```
-NOTA: se debe tener en cuenta la ruta del servidor, en caso de no ser la misma modificar el archivo "vue.config.js"
-
-```js
-module.exports = {
-    publicPath: process.env.NODE_ENV === 'production'
-      ? '/bamboo'
-      : '/'
-  }
-```
 ## Base de datos
+Bamboo usa postgresql como DBMS. Para montar la base de datos existen los respectivos scripts en el directorio **/sql**.
 
-1.- El sistema usa postgresql como SGBD para lo cual creamos una base de datos con el nombre "bamboo".
+Acceder al directorio de los scripts
+```
+cd directorio/sql
+```
 
+Dentro de este directorio hay un script desarrollado con python para automatizar la creación de la base de datos, para lo cual debe instalarse la biblioteca psycopg2.
+``` shell
+pip instalar psycopg2 
+```
+
+Una vez installado la biblioteca creamos la base de datos.
 ``` shell
 createdb -U postgres bamboo
 ```
 
-2.- En el directorio "sql" están los scripts para la implementación de la base de datos, estos deben ejecutarse en orden numérico, esto puede hacerse manualmente o con la ayuda de un script desarrollado con python.
-
-#### Con python
-
-Para utilizar el script, debe seguir los pasos que se muestran a continuación.
-
-* Instale la biblioteca para conectarse a la base de datos.
-
+Ya creada la base de datos procedemos a ejecutar el script.
 ``` shell
-pip instalar psycopg2
+python startDB.py
+```
+Nota: en caso de configurar la connexion a la base de datos.
+```
+python startDB.py -h
+
+Connection options:
+	-H, --host=HOSTNAME      database server host (default: localhost)
+	-p, --port=PORT          database server port (default: 5432)
+	-u, --user=USERNAME      database user name (default: postgres)
+	-d, --dbname=DBNAME      database name to connect to (default: bamboo)
+	-t, --test=TESTFILE      database test file
+
 ```
 
+Para el acceso a la base de datos del backend se lo debe configurar en el archivo *src/main/java/com/bamboo/connection/DBConnection.java*.
 
-* Ejecutar el script y rellenar todos los campos requeridos.
+```java
+    final String DRIVER = "org.postgresql.Driver";
+    final String URL = "jdbc:postgresql://localhost:5432/bamboo";
+    final String USER = "postgres";
+    final String PASSWORD = "postgres";
+```
+## Backend
 
+Acceder al directorio del proyecto.
+```
+cd directorio
+```
+Instalar las dependencias.
+```
+mvn dependency:resolve
+```
+
+## Frontend
+
+
+Acceder al directorio del frontend.
 ``` shell
-python sql/startDB.py
+cd directorio/front
+```
+Instalar las dependencias.
+```shell 
+yarn  install
 ```
 
-### Configuración de la ruta
+## Compilación
 
-El FrontEnd tiene el modo de historial en sus rutas, para las cuales se debe configurar el servidor, en este caso para Tomcat, el .war se debe implementar primero.
+Bamboo al estar separado por backend y frontend se los debe compilar por separado.
 
-Editamos o creamos el archivo "WEB-INF/web.xml" dentro del directorio "tomcat/webapps/bamboo"
 
-```shell
-nano tomcat/webapps/bamboo/WEB-INF/web.xml
+1. **Frontend**
+
+Acceder al frontend
+```shell 
+cd directorio/front
 ```
-y escribimos lo siguiente
-```xml
-<web-app>
-    <error-page>
-         <error-code>404</error-code>
-         <location>/index.html</location>
-     </error-page>
-</web-app>
+Compilar el frontend.
+```shell 
+yarn  build
 ```
+<span style="color:grey">NOTA: se debe compilar primero el frontend para que se agrege al servidor.</span>
+1. **Backend**
+
+Acceder al directorio de bamboo.
+Acceder al frontend
+```shell 
+cd directorio
+```
+
+Compilar el backend.
+```shell 
+mvn clean install
+```
+El backend genera un archivo con la extención *.war* en el directorio *target*.
+
+<span style="color:grey">NOTA: se debe tener la conexión a la base de datos abierta para la compilación.</span>
+
+
+## Despliege
+Para la implementación en tomcat 9, el usuario debe estar configurado en *tomcat9/config/tomcat-users.xml*.
+```xml 
+<user password="secret_password" username="user" roles="manager-script,admin, manager-gui" /
+```
+<span style="color:grey">NOTA: si la ruta es la raiz, el archivo *.war* no debe tener nombre, solo se debe llamar *.war*.</span>
