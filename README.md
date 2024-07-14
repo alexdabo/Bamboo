@@ -2,6 +2,16 @@
 
 Bamboo es un sistema para la automatización de las tarifas de servicio de agua potable.
 
+<div style="display: flex;">
+    <div style="flex: 50%;">
+       <img src="docs/main.png"/>
+    </div>
+    <div style="flex: 50%;">
+       <img src="docs/dashboard.png"/>
+    </div>
+</div>
+
+
 
 ## Dependencias
 
@@ -11,47 +21,33 @@ Dependencias para el **backend**.
 * Java
 * Maven
 * Postgresql
-* python 
 
 Dependencias para el **frontend** 
 * Node.js
 * npm
-* vue/cli
 
 ## Base de datos
 Bamboo usa postgresql como DBMS. Para montar la base de datos existen los respectivos scripts en el directorio **/sql**.
 
 Acceder al directorio de los scripts
 ```
-cd directorio/sql
+cd sql
 ```
 
-Dentro de este directorio hay un script desarrollado con python para automatizar la creación de la base de datos, para lo cual debe instalarse la biblioteca psycopg2.
-``` shell
-pip instalar psycopg2 
-```
-
-Una vez installado la biblioteca creamos la base de datos.
+Una vez accedido al directorio `sql` creamos la base de datos.
 ``` shell
 createdb -U postgres bamboo
 ```
 
-Ya creada la base de datos procedemos a ejecutar el script.
-``` shell
-python startDB.py
+Ahora que hemos establecido la base de datos, el siguiente paso es ejecutar los scripts de inicio junto con el usuario `admin` con la contraseña `admin`.
+```shell
+psql -U postgres -d bamboo -f 1.-Tables.sql -f 2.-Relations.sql -f 3.-Values.sql -f 4.-Triggers.sql -f 5.-Views.sql
 ```
-Nota: en caso de configurar la connexion a la base de datos.
+Si es necesario agregar datos ficticios, ejecutaremos la siguiente instrucción.
+```shell
+psql -U postgres -d bamboo -f TestValues.sql
 ```
-python startDB.py -h
 
-Connection options:
-	-H, --host=HOSTNAME      database server host (default: localhost)
-	-p, --port=PORT          database server port (default: 5432)
-	-u, --user=USERNAME      database user name (default: postgres)
-	-d, --dbname=DBNAME      database name to connect to (default: bamboo)
-	-t, --test=TESTFILE      database test file
-
-```
 
 Para el acceso a la base de datos del backend se lo debe configurar en el archivo *src/main/java/com/bamboo/connection/DBConnection.java*.
 
@@ -63,11 +59,7 @@ Para el acceso a la base de datos del backend se lo debe configurar en el archiv
 ```
 ## Backend
 
-Acceder al directorio del proyecto.
-```
-cd directorio
-```
-Instalar las dependencias.
+Entra al directorio del proyecto y ejecuta la instalación de las dependencias requeridas.
 ```
 mvn dependency:resolve
 ```
@@ -77,11 +69,11 @@ mvn dependency:resolve
 
 Acceder al directorio del frontend.
 ``` shell
-cd directorio/front
+cd front
 ```
 Instalar las dependencias.
 ```shell 
-yarn  install
+npm  install
 ```
 
 ## Compilación
@@ -93,7 +85,7 @@ Bamboo al estar separado por backend y frontend se los debe compilar por separad
 
 Acceder al frontend
 ```shell 
-cd directorio/front
+cd front
 ```
 Compilar el frontend.
 ```shell 
@@ -120,6 +112,8 @@ El backend genera un archivo con la extención *.war* en el directorio *target*.
 ## Despliege
 Para la implementación en tomcat 9, el usuario debe estar configurado en *tomcat9/config/tomcat-users.xml*.
 ```xml 
-<user password="secret_password" username="user" roles="manager-script,admin, manager-gui" /
+<user password="secret_password" username="user" roles="manager-script,admin, manager-gui" />
 ```
-<span style="color:grey">NOTA: si la ruta es la raiz, el archivo *.war* no debe tener nombre, solo se debe llamar *.war*.</span>
+
+[!NOTE]
+Si la ruta es la raiz, el archivo *.war* no debe tener nombre, solo se debe llamar *.war*.
